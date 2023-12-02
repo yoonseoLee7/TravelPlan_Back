@@ -1,0 +1,108 @@
+spring:
+  profiles:
+    active:
+      - local
+    group:
+      local:
+        - local
+        - common
+      dev:
+        - dev
+        - common
+---
+spring:
+  config:
+    activate:
+      on-profile: "common"
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  devtools:
+    livereload:
+      enabled: true
+  main:
+    banner-mode: "off"
+  messages: # 다국어 처리
+    basename: i18n/messages
+    encoding: UTF-8
+  mvc:
+    log-request-details: true # !prod
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+server:
+  shutdown: graceful
+  port: 18080
+  servlet:
+    context-path: /
+  error:
+    include-exception: false
+    whitelabel:
+      enabled: false
+
+logging:
+  level:
+    "[org.springframework.web]": INFO
+    "[org.springframework.security]": DEBUG
+    travel: DEBUG
+    tomcat: TRACE
+    "[org.springframework.core.LocalVariableTableParameterNameDiscoverer]": error
+
+mybatis: # 마이바티스 설정
+  mapper-locations: classpath:**/impl/*.xml
+  type-aliases-package: travel.**.dto, travel.plan.api.*.service.impl
+  configuration:
+    map-underscore-to-camel-case: true # 전통적인 데이터베이스 칼럼명 형태인 A_COLUMN을 CamelCase형태의 자바 프로퍼티명 형태인 aColumn으로 자동으로 매핑하도록 함
+    call-setters-on-nulls: true # 가져온 값이 null일때 setter나 맵의 put 메소드를 호출할지를 명시 Map.keySet() 이나 null값을 초기화
+    jdbc-type-for-null: NULL
+
+springdoc:
+  version: v1.0.0
+  packages-to-scan:
+    - travel
+  swagger-ui:
+    path: /api-docs
+    groups-order: desc
+    operations-sorter: alpha
+    disable-swagger-default-url: false
+    display-request-duration: true
+    use-root-path: true
+    persist-authorization: true
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  # paths-to-match:
+  #   - /v1/**
+  api-docs:
+    path: /api-docs
+    groups:
+      enabled: true
+  cache:
+    disabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - local
+        - dev
+  datasource:
+    # driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://54.180.120.43:3306/mysql?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
+    username: proj_app
+    password: shoechooBaiCh5D!
+    hikari:
+      connection-init-sql: SET TIME ZONE 'Asia/Seoul'
+      auto-commit: true
+      connection-timeout: 30000 # 30초
+      maximum-pool-size: 10 # 애플리케이션의 부하와 디비 서버의 용량에 따라 조절하세요.
+      minimum-idle: 1 # 대기 중인 최소 커넥션 수
+      idle-timeout: 600000 # 10분. 이 시간 동안 사용되지 않는 커넥션은 종료됩니다.
+      max-lifetime: 1800000 # 30분. 커넥션의 최대 생명 주기입니다.
+      connection-test-query: SELECT 1 # 커넥션의 유효성을 확인하는 쿼리
+      pool-name: pool-travel-dev
+logging:
+  file:
+    name: /var/log/travel-plan-application.log
