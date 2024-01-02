@@ -80,6 +80,12 @@ springdoc:
   cache:
     disabled: true
 
+app:
+  sk:
+    api-key: Ga0DcA2C7w1DIIZA9pvYB1jZI6kcy6Ed5wQ0vvbm
+  visitkorea:
+    api-key: SIUur%2BOiMwCpJ0MLF4G7ZPqn5MDLjsJs47dNh6Os3fBj%2F823gaocBiSkZjtGclEOazC1hSguty0g6DKzD6EQ4w%3D%3D
+
 ---
 spring:
   config:
