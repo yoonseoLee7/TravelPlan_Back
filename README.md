@@ -28,3 +28,7 @@
 ### 형상관리 branch 전략
 
 - git branch는 개발계 main으로 사용. 기능 구현시 기능 별 feature/{기능}\_{버전} 생성하여 개발하고, main에 merge한다.
+
+### swagger ui path (api list)
+
+- url : {{domain}}/api-docs
