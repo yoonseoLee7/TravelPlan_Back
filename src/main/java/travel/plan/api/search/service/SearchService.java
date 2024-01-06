@@ -5,19 +5,22 @@ import java.util.List;
 import travel.plan.api.search.dto.SearchDetailDTO;
 import travel.plan.api.search.dto.SearchLocationDTO;
 import travel.plan.api.search.dto.SearchPuzzleDTO;
+import travel.plan.api.search.vo.SearchAreaVO;
+import travel.plan.api.search.vo.SearchDetailVO;
+import travel.plan.api.search.vo.SearchLocationVO;
+import travel.plan.api.search.vo.SearchPuzzleVO;
 
 public interface SearchService {
 
     // 장소 통합 검색
-    public List<SearchPuzzleDTO> searchArea(String searchText) throws Exception;
+    public List<SearchAreaVO> searchArea(String searchText) throws Exception;
 
     // 실시간 장소 혼잡도
-    // TODO 리턴 타입 변경 필요
-    public void searchPuzzle(SearchPuzzleDTO searchPuzzleDTO) throws Exception;
+    public SearchPuzzleVO searchPuzzle(SearchPuzzleDTO searchPuzzleDTO) throws Exception;
 
     // 위치기반 관광정보
-    public List<SearchDetailDTO> searchLocation(SearchLocationDTO searchLocationDTO) throws Exception;
+    public List<SearchLocationVO> searchLocation(SearchLocationDTO searchLocationDTO) throws Exception;
 
     // 공통정보
-    public void searchDetail(SearchDetailDTO searchDetailDTO) throws Exception;
+    public SearchDetailVO searchDetail(SearchDetailDTO searchDetailDTO) throws Exception;
 }
