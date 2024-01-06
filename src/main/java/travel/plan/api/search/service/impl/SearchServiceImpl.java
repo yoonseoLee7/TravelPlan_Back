@@ -1,29 +1,56 @@
 package travel.plan.api.search.service.impl;
 
+import java.math.BigDecimal;
 import java.net.URI;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import travel.plan.api.search.dto.SearchDetailDTO;
 import travel.plan.api.search.dto.SearchLocationDTO;
 import travel.plan.api.search.dto.SearchPuzzleDTO;
 import travel.plan.api.search.service.SearchService;
+import travel.plan.api.search.vo.SearchAreaVO;
+import travel.plan.api.search.vo.SearchDetailVO;
+import travel.plan.api.search.vo.SearchLocationVO;
+import travel.plan.api.search.vo.SearchPuzzleVO;
 
 @Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
 
+    /*
+     * TODO Value 값 null 뜨는거 확인 필요
+     */
+    @Value("${app.sk.api-key}")
+    private String skKey;
+
+    @Value("${app.visitkorea.api-key}")
+    private String tourKey;
+
     // 장소통합검색
     @Override
-    public List<SearchPuzzleDTO> searchArea(String searchText) throws Exception {
+    public List<SearchAreaVO> searchArea(String searchText) throws Exception {
         String baseUrl = "https://apis.openapi.sk.com/tmap/pois?";
         String jsonString = WebClient.builder().baseUrl(baseUrl)
-            .defaultHeader("appKey", "cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt")
+            .defaultHeader("appKey",  "cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt")
             .build()
             .get()
             .uri(uriBuilder -> uriBuilder
@@ -31,15 +58,17 @@ public class SearchServiceImpl implements SearchService {
                 .build())
             .retrieve().bodyToFlux(String.class).blockLast();
 
-        System.out.println(jsonString);
+        ObjectMapper om = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+        JsonNode jsonNode = om.readTree(jsonString).get("searchPoiInfo").get("pois").get("poi");
         
-        List<SearchPuzzleDTO> result = new ArrayList<>();
-        return result;
+        List<SearchAreaVO> searchArea = om.readValue(jsonNode.toString(), new TypeReference<List<SearchAreaVO>>(){});
+        return searchArea;
     }
 
     // 장소혼잡도검색
     @Override
-    public void searchPuzzle(SearchPuzzleDTO searchPuzzleDTO) throws Exception {
+    public SearchPuzzleVO searchPuzzle(SearchPuzzleDTO searchPuzzleDTO) throws Exception {
         String baseUrl = "https://apis.openapi.sk.com/puzzle/place/congestion/rltm/pois/poiId=" + searchPuzzleDTO.getPoiId() + "?";
         String jsonString = WebClient.builder().baseUrl(baseUrl)
             .defaultHeader("appKey", "cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt")
@@ -53,14 +82,21 @@ public class SearchServiceImpl implements SearchService {
             .bodyToFlux(String.class)
             .blockLast();
 
-        System.out.println(jsonString);
+        ObjectMapper om = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
+        JsonNode jsonNode = om.readTree(jsonString).get("contents").get("rltm").get(0);
+
+        /*
+         * TODO congestin 받아올때 값이 지수로 표현되는 부분 수정
+         */
+        SearchPuzzleVO searchPuzzle = om.readValue(jsonNode.toString(), SearchPuzzleVO.class);
+        return searchPuzzle;
     }
 
     // 위치기반관광정보검색
     @Override
-    public List<SearchDetailDTO> searchLocation(SearchLocationDTO searchLocationDTO) throws Exception {
+    public List<SearchLocationVO> searchLocation(SearchLocationDTO searchLocationDTO) throws Exception {
         String baseUrl = "http://apis.data.go.kr/B551011/KorService1/locationBasedList1?";
-
         URI uri = UriComponentsBuilder.fromUriString(baseUrl)
             .queryParam("serviceKey", "yLQPmT7JIJF5Bd28tbZu1IhswhfeBfNXj%2BxyzHFtG3YxegDuvgDAfFouxMT9yAQUcU%2B7TGc2JhHEFQP7aQdX0A%3D%3D")
             .queryParam("MobileOS", searchLocationDTO.getMobileOS())
@@ -80,23 +116,27 @@ public class SearchServiceImpl implements SearchService {
             .bodyToMono(String.class)
             .block();
 
-        System.out.println(jsonString);
-        
-     
-        
-        List<SearchDetailDTO> result = new ArrayList<>();
-        return result;
+        ObjectMapper om = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
+        JsonNode jsonNode = om.readTree(jsonString).get("response").get("body").get("items").get("item");
+
+        List<SearchLocationVO> searchLocation = om.readValue(jsonNode.toString(), new TypeReference<List<SearchLocationVO>>(){});
+        return searchLocation;
     }
 
     // 공통정보검색
     @Override
-    public void searchDetail(SearchDetailDTO searchDetailDTO) throws Exception {
+    public SearchDetailVO searchDetail(SearchDetailDTO searchDetailDTO) throws Exception {
         String baseUrl = "http://apis.data.go.kr/B551011/KorService1/detailCommon1?";
         URI uri = UriComponentsBuilder.fromUriString(baseUrl)
             .queryParam("serviceKey", "yLQPmT7JIJF5Bd28tbZu1IhswhfeBfNXj%2BxyzHFtG3YxegDuvgDAfFouxMT9yAQUcU%2B7TGc2JhHEFQP7aQdX0A%3D%3D")
             .queryParam("MobileOS", searchDetailDTO.getMobileOS())
             .queryParam("MobileApp", searchDetailDTO.getMobileApp())
             .queryParam("contentId", searchDetailDTO.getContentId())
+            .queryParam("defaultYN", "Y")
+            .queryParam("firstImageYN", "Y")
+            .queryParam("addrinfoYN", "Y")
+            .queryParam("overviewYN", "Y")
             .queryParam("_type", "json")
             .build(true)
             .toUri();
@@ -109,7 +149,13 @@ public class SearchServiceImpl implements SearchService {
             .bodyToMono(String.class)
             .block();
 
-        System.out.println(jsonString);
+        ObjectMapper om = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
+        JsonNode jsonNode = om.readTree(jsonString).get("response").get("body").get("items").get("item").get(0);
+
+        System.out.println(jsonNode);
+        SearchDetailVO searchDetail = om.readValue(jsonNode.toString(), SearchDetailVO.class);
+        return searchDetail;
     }
 
     /* 
