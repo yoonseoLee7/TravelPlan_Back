@@ -9,21 +9,21 @@ public class SearchLocationDTO {
     
     // OS 종류(IOS, AND, WIN)
     @NotBlank
-    String MobileOS;
+    private String MobileOS;
 
     // 서비스명(어플명)
     @NotBlank
-    String MobileApp;
+    private String MobileApp;
 
     // GPS 경도
     @NotBlank
-    double mapX;
+    private double mapX;
 
     // GPS 위도
     @NotBlank
-    double mapY;
+    private double mapY;
 
     // 거리반경(단위: M)
     @NotBlank
-    int radius;
+    private int radius;
 }

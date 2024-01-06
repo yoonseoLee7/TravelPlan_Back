@@ -8,13 +8,13 @@ import lombok.Data;
 public class SearchDetailDTO {
     // OS 종류(IOS, AND, WIN)
     @NotBlank
-    String MobileOS;
+    private String MobileOS;
 
     // 서비스명(어플명)
     @NotBlank
-    String MobileApp;
+    private String MobileApp;
 
     // 콘텐츠 Id
     @NotBlank
-    int contentId;
+    private int contentId;
 }
