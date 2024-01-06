@@ -31,6 +31,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
 	implementation 'org.aspectj:aspectjrt:1.9.7'
     implementation 'org.aspectj:aspectjweaver:1.9.7'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux' // WebClient 사용을 위한 dependencies
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
