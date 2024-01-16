@@ -2,12 +2,15 @@ package travel.plan.data.dto;
 
 import java.time.LocalDateTime;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class UserDTO {
+
+    private int testId;
+    private String testNick,testPwd;
+
     //회원id auto_increment
     @NotBlank
     private int userId;

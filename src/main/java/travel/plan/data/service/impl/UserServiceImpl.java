@@ -2,25 +2,30 @@ package travel.plan.data.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import travel.plan.data.dto.UserDTO;
+import travel.plan.data.mapper.UserMapper;
 import travel.plan.data.service.UserService;
 
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService{
     
+    @Autowired
+    private UserMapper userMapper;
 
-    @Override
     public Map<String, Object> findById(UserDTO nick, HttpServletRequest request) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        if (nick.getUserNick().equals("춘득") && nick.getUserPwd().equals("1234")) {
+        if (nick.getTestNick().equals("이춘득") && nick.getTestPwd().equals("1111")) {
             result.put("RSLT_CD", "Success");
             result.put("RSLT_MSG", "Login Success");
             log.debug("Login Success ====== {}", nick);
@@ -32,6 +37,11 @@ public class UserServiceImpl implements UserService{
         log.error("Login Fail ====== {}", nick);
 
         return result;
+    }
+
+    @Override
+    public UserDTO getUserById(int testId) throws Exception{
+        return userMapper.getUserById(testId);
     }
 
     }
