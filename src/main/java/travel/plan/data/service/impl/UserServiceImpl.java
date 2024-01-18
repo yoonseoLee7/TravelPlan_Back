@@ -1,15 +1,13 @@
 package travel.plan.data.service.impl;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import travel.plan.data.dto.UserDTO;
 import travel.plan.data.mapper.UserMapper;
@@ -17,10 +15,11 @@ import travel.plan.data.service.UserService;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     
     @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     public Map<String, Object> findById(UserDTO nick, HttpServletRequest request) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
