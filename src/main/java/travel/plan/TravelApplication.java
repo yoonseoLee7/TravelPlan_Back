@@ -9,7 +9,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy
 @SpringBootApplication
 @ComponentScan(basePackages = { "travel.*" })
-@MapperScan(basePackages = {"**/impl/*.xml"})
 public class TravelApplication {
 
 	public static void main(String[] args) {
