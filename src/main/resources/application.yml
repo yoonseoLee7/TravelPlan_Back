@@ -49,7 +49,7 @@ logging:
     "[org.springframework.core.LocalVariableTableParameterNameDiscoverer]": error
 
 mybatis: # 마이바티스 설정
-  mapper-locations: classpath:**/impl/*.xml
+  mapper-locations: classpath:**/mapper/*.xml
   type-aliases-package: travel.**.dto, travel.plan.api.*.service.impl
   configuration:
     map-underscore-to-camel-case: true # 전통적인 데이터베이스 칼럼명 형태인 A_COLUMN을 CamelCase형태의 자바 프로퍼티명 형태인 aColumn으로 자동으로 매핑하도록 함
