@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import travel.common.ApiResult;
+import travel.exception.ApiStatus;
 import travel.plan.api.auth.dto.LoginParam;
 import travel.plan.api.auth.service.AuthService;
 
@@ -25,14 +27,11 @@ public class AuthServiceImpl implements AuthService {
             result.put("RSLT_CD", "Success");
             result.put("RSLT_MSG", "Login Success");
             log.debug("Login Success ====== {}", loginParam);
-            return result;
+
+            return ApiResult.getHashMap(ApiStatus.AP_SUCCESS);
         }
 
-        result.put("RSLT_CD", "Fail");
-        result.put("RSLT_MSG", "Authentication Fail");
-        log.error("Login Fail ====== {}", loginParam);
-
-        return result;
+        return ApiResult.getHashMap(ApiStatus.HTTP_UNAUTHORIZED);
     }
 
 }
