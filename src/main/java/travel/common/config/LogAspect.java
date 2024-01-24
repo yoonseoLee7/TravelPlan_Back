@@ -1,4 +1,4 @@
-package travel.cmn;
+package travel.common.config;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
