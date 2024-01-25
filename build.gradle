@@ -31,6 +31,8 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
 	implementation 'org.aspectj:aspectjrt:1.9.7'
     implementation 'org.aspectj:aspectjweaver:1.9.7'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux' // WebClient 사용을 위한 dependencies
+	implementation 'com.google.code.gson:gson:2.10.1' // 2021 이후 GSON이 성능 1위
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -41,4 +43,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
