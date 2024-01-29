@@ -10,4 +10,15 @@ public class MainController {
     public String mainView() {
         return "index";
     }
+
+    // 일단 임시로 넣어두고 명칭은 나중에 변경...
+    @RequestMapping("/modalLogin")
+    public String modalLogin() {
+        return "modalLogin";
+    }
+
+    @RequestMapping("/modalJoin")
+    public String modalJoin() {
+        return "modalJoin";
+    }
 }
