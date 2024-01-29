@@ -9,7 +9,7 @@ public class SearchPuzzleDTO {
     
     // 관심장소 Id
     @NotBlank
-    private int poiId;
+    private String poiId;
 
     // 중심점 위도
     private double noorLat;
