@@ -58,7 +58,14 @@ public class MainPageServiceImpl implements MainPageService {
     //관광지명 명칭 검색 했을 때 결과 리스트
     @Override
     public List<String> searchAreaByName(String searchText) throws Exception {
-        List<SearchAreaVO> searchArea = searchService.searchArea(searchText);
+
+        List<SearchAreaVO> searchArea = new ArrayList<SearchAreaVO>();
+        try {
+            searchArea = searchService.searchArea(searchText);
+        } catch (Exception e) {
+            log.error("tmap api request error", e);
+            throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
+        }
 
         List<String> names = new ArrayList<>();
         try {
