@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/index.css">
+    <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt"></script>
+    <script src="js/index.js"></script>
 </head>
-<body>
+<body onload="initTmap()">
     <header id="header">
         <div id="h_inner">
             <div id="title_box">
@@ -45,7 +47,10 @@
                     </ul>
                 </div>
             </div>
-            <div id="tmap_box"></div>
+            <div id="tmap_box">
+                <div id="map_div">
+                </div>
+            </div>
             <div id="comment_box">
                 <p class="p_comment">Search Result</p>
                 <div id="comment_list_box">
@@ -59,9 +64,7 @@
                         <li class="li_search">aaaaaaaa</li>
                     </ul>
                 </div>
-                <div id="comment_input_box">
-              
-                </div>
+                <div id="comment_input_box"></div>
             </div>
         </div>
         <!-- 추천 방문지 상자 -->
