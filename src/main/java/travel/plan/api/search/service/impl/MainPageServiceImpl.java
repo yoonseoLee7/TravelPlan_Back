@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -61,14 +62,18 @@ public class MainPageServiceImpl implements MainPageService {
 
         List<String> names = new ArrayList<>();
         try {
-            for(SearchAreaVO searchAreaVO : searchArea){
+            for (SearchAreaVO searchAreaVO : searchArea) {
                 names.add(searchAreaVO.getName());
             }
         } catch (ApiException e) {
             e.getMessage();
         }
-        
-      
+        log.debug("names ========= {}", names);
+
+        // cf. Convert to List<String>
+        List<String> names2 = searchArea.stream().map(e -> e.getName()).collect(Collectors.toList());
+        log.debug("names2 ========= {}", names2);
+
         return names;
 
     }
@@ -80,7 +85,8 @@ public class MainPageServiceImpl implements MainPageService {
 
         SearchPuzzleDTO searchPuzzleDTO = new SearchPuzzleDTO();
         try {
-            for(SearchAreaVO searchAreaVO : searchArea){
+            // FIXME: searchArea 리스트의 제일 마지막껄로 혼잡도 api를 쏘기 위해 for문 돌린거인가..?
+            for (SearchAreaVO searchAreaVO : searchArea) {
                 searchPuzzleDTO.setPoiId(searchAreaVO.getId());
                 searchPuzzleDTO.setNoorLat(searchAreaVO.getNoorLat());
                 searchPuzzleDTO.setNoorLon(searchAreaVO.getNoorLon());
@@ -88,12 +94,10 @@ public class MainPageServiceImpl implements MainPageService {
         } catch (ApiException e) {
             e.getMessage();
         }
-        SearchPuzzleVO searchPuzzleVO = searchService.searchPuzzle(searchPuzzleDTO);        
+        SearchPuzzleVO searchPuzzleVO = searchService.searchPuzzle(searchPuzzleDTO);
 
         return searchPuzzleVO;
-        
-    }
 
-    
+    }
 
 }
