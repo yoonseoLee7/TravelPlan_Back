@@ -8,7 +8,7 @@
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt"></script>
     <script src="js/index.js"></script>
 </head>
-<body onload="initTmap()">
+<body>
     <header id="header">
         <div id="h_inner">
             <div id="title_box">
@@ -20,7 +20,7 @@
             </div>
             <div id="search_box">
                 <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요">
-                <img class="img_search" src="images/search.png">
+                <img class="img_search" src="images/search.png" onclick="initTmap()">
             </div>
             <div id="util_box">
                 <a href="">로그인</a>
@@ -72,15 +72,9 @@
             <h2>추천 방문지</h2>
         </div>
         <div id="c_inner_suggestion">
-            <div class="place_image_box"></div>
-            <div class="place_image_box"></div>
-            <div class="place_image_box"></div>
-            <div class="place_image_box"></div>
-            <div class="place_image_box"></div>
-            <div class="place_image_box"></div>
-            <div class="place_image_box"></div>
-            <div class="place_image_box"></div>
-            <div class="place_image_box"></div>
+            <div class="place_image_box" th:each="place : ${suggest}">
+                <img th:class="place_image" th:src="@{${place.firstimage}}" onerror="this.src='images/sample.jpg'">
+            </div>
         </div>
     </div>
     <!-- 우린 footer가 필요 없음 -->

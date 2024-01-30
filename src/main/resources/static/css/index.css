@@ -54,3 +54,7 @@ body {display: block; margin-top: 30px;}
 #container #c_inner_suggestion {width: inherit; display: flex; height: auto; flex-wrap: wrap; justify-content: space-between;}
 
 .place_image_box {width: 23%; height: 200px; margin: 20px 10px 10px 10px; border: 1px solid greenyellow;}
+.place_image {
+    width: 100%;
+    height: inherit;
+}

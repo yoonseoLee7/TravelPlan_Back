@@ -153,7 +153,6 @@ public class SearchServiceImpl implements SearchService {
         .configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
         JsonNode jsonNode = om.readTree(jsonString).get("response").get("body").get("items").get("item").get(0);
 
-        System.out.println(jsonNode);
         SearchDetailVO searchDetail = om.readValue(jsonNode.toString(), SearchDetailVO.class);
         return searchDetail;
     }
