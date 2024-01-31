@@ -1,5 +1,6 @@
 package travel.plan.view.controller;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ import travel.plan.api.search.vo.SearchDetailVO;
 import travel.plan.api.search.vo.SearchLocationVO;
 
 @Slf4j
-@RestController
+@Controller
 public class MainController {
 
     @Autowired
@@ -71,7 +72,7 @@ public class MainController {
     @GetMapping("/searchList")
     @ResponseBody
     public List<String> searchList(@RequestParam String searchText) throws Exception{
-       
+        
         List<SearchAreaVO> searchArea = new ArrayList<SearchAreaVO>();
         
         try {

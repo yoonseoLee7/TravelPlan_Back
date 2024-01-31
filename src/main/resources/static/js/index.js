@@ -32,6 +32,7 @@ function initSuggestPlace2() {
     })
 }
 
+
 //EnterEvent
 function handleKeyDown(event){
     if(event.key === "Enter"){
@@ -43,10 +44,11 @@ function handleKeyDown(event){
 function searchList(){
     var searchText = $('#searchText').val();
 
-    $ajax({
+    // cf. js에서 {searchText:searchText} 와 같이 property명칭이 동일한 경우 {searchText} 로만 써도 됨. (단축속성)
+    $.ajax({
         url: '/searchList',
         type: 'GET',
-        data: {searchText: searchText},
+        data: { searchText },
         success: function(response){
             searchResults(response);
         },
@@ -62,12 +64,14 @@ function searchResults(results){
 
     if(results.length === 0){
         resultDiv.html('검색 결과가 없습니다.');
-    }else{
-        var ul = $('<ul></ul>');
-        results.array.forEach(function(result) {
-            var li = $('<li></li>').text(result);
-            ul.append(li);
-        });
-        resultDiv.append(ul);
+        return;
     }
+    
+    var ul = $('<ul></ul>');
+    results?.forEach(function(result) { // cf. 옵셔널체이닝
+        var li = $('<li></li>').text(result);
+        ul.append(li);
+    });
+    resultDiv.append(ul);
+    
 }
