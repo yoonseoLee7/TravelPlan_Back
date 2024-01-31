@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/index.css">
-    <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt"></script>
-    <script src="js/index.js"></script>
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-
+    <div th:replace="~{fragments/header.html :: fragment-header}" />
+    <script th:src="@{/js/index.js}"></script>
 </head>
+
 <body>
     <header id="header">
         <div id="h_inner">
@@ -38,7 +36,7 @@
         <div id="c_inner_map">
             <div id="search_result_box">
                 <p class="p_search">Search Result</p>
-                <div id="result_list_box" th:text="">
+                <div id="result_list_box">
                     <!-- <ul>
                         <li class="li_search">aaaaaaaa</li>
                         <li class="li_search">aaaaaaaa</li>
