@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/index.css">
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt"></script>
     <script src="js/index.js"></script>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
 </head>
 <body>
     <header id="header">
@@ -19,8 +21,9 @@
                 <p class="p_title_current_time">2024-04-28 14:56:04</p>
             </div>
             <div id="search_box">
-                <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요">
-                <img class="img_search" src="images/search.png" onclick="initTmap()">
+                <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요" id="searchText" onkeydown="handleKeyDown(event)">
+                <img class="img_search" src="images/search.png" onclick="sendList()">
+                <!-- <img class="img_search" src="images/search.png" onclick="initTmap()"> -->
             </div>
             <div id="util_box">
                 <a href="">로그인</a>
@@ -35,8 +38,8 @@
         <div id="c_inner_map">
             <div id="search_result_box">
                 <p class="p_search">Search Result</p>
-                <div id="result_list_box">
-                    <ul>
+                <div id="result_list_box" th:text="">
+                    <!-- <ul>
                         <li class="li_search">aaaaaaaa</li>
                         <li class="li_search">aaaaaaaa</li>
                         <li class="li_search">aaaaaaaa</li>
@@ -44,7 +47,7 @@
                         <li class="li_search">aaaaaaaa</li>
                         <li class="li_search">aaaaaaaa</li>
                         <li class="li_search">aaaaaaaa</li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
             <div id="tmap_box">
