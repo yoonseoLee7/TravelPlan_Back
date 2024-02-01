@@ -1,42 +1,20 @@
 package travel.plan.api.search.service.impl;
 
-import java.math.BigDecimal;
-import java.net.URI;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.netty.util.concurrent.GlobalEventExecutor;
-import travel.common.ApiResult;
 import travel.exception.ApiException;
 import travel.exception.ApiStatus;
-import travel.plan.api.search.dto.SearchDetailDTO;
-import travel.plan.api.search.dto.SearchLocationDTO;
 import travel.plan.api.search.dto.SearchPuzzleDTO;
 import travel.plan.api.search.service.MainPageService;
 import travel.plan.api.search.service.SearchService;
 import travel.plan.api.search.vo.SearchAreaVO;
-import travel.plan.api.search.vo.SearchDetailVO;
-import travel.plan.api.search.vo.SearchLocationVO;
 import travel.plan.api.search.vo.SearchPuzzleVO;
 
 @Slf4j
