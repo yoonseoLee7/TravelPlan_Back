@@ -97,8 +97,9 @@ function searchResults(results){
     }
     
     var ul = $('<ul></ul>');
-    results?.forEach(function(result) { // cf. 옵셔널체이닝
-        var li = $('<li></li>').text(result);
+    results?.forEach(function (result) { // cf. 옵셔널체이닝
+        var li = $('<li></li>').text(result.name);
+
         ul.append(li);
     });
     resultDiv.append(ul);

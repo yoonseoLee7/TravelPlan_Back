@@ -63,11 +63,10 @@ public class MainController {
         return model;
     }
 
-    //검색 후 리스트
+    //검색어 관련 리스트
     @GetMapping("/searchList")
     @ResponseBody
-    public List<String> searchList(@RequestParam String searchText) throws Exception {
-
+    public List<SearchAreaVO> searchList(@RequestParam String searchText) throws Exception {
         List<SearchAreaVO> searchArea = new ArrayList<SearchAreaVO>();
 
         try {
@@ -77,13 +76,9 @@ public class MainController {
             throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
         }
 
-        List<String> names = new ArrayList<>();
-        for (SearchAreaVO searchAreaVO : searchArea) {
-            names.add(searchAreaVO.getName());
-        }
-
-        return names;
+        return searchArea;
     }
+
 
     // @RequestMapping(value = "/searchList", method=RequestMethod.GET)
     // public ModelAndView searchList(@RequestParam String searchText, ModelAndView model) throws Exception{
