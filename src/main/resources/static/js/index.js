@@ -1,16 +1,45 @@
 function initTmap(){
     var map = new Tmapv2.Map("map_div",  
     {
-        center: new Tmapv2.LatLng(37.566481622437934,126.98502302169841), // 지도 초기 좌표
+        center: new Tmapv2.LatLng(37.5110739, 127.09815059), // 지도 초기 좌표(잠실 롯데월드)
         width: "inherit", 
         height: "inherit",
         zoom: 15
     });
-    initSuggestPlace2();
 }
 
-// 메인화면 진입 시 첫 장소 근처에 위치한 관광명소의 추천 리스트 제공
 function initSuggestPlace() {
+    $.ajax({
+        url: '/suggestInit',
+        type: 'GET',
+        success: function(response){
+            // 해당 데이터를 추천방문지에 뿌려줌
+            showSuggestPlace(response);
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
+}
+
+function showSuggestPlace(results) {
+    var resultDiv = $('#c_inner_suggestion');
+    resultDiv.empty();
+
+    if(results.length === 0){
+        return;
+    }
+
+    results?.forEach(function(result) {
+        let img = '<img class="place_image_box" src="' + result.firstimage + '"/>';
+        resultDiv.append(img);
+    });
+}
+
+
+
+// 메인화면 진입 시 첫 장소 근처에 위치한 관광명소의 추천 리스트 제공
+function initSuggestPlace3() {
     var searchText = "잠실롯데월드";
     location.href='/suggest?searchText=' + searchText;
 }
@@ -74,4 +103,13 @@ function searchResults(results){
     });
     resultDiv.append(ul);
     
+}
+
+window.onload = function() {
+    // 1. 지도에 잠실롯데월드 위치정보 띄우기
+    // 2. 잠실롯데월드 주변 추천방문지 리스트 가져오기
+    // 3. 추천 방문지 리스트 뿌려주기
+    // 4. 보여주는 추천 방문지 리스트를 8개로 제한하기
+    initTmap();
+    initSuggestPlace();
 }
