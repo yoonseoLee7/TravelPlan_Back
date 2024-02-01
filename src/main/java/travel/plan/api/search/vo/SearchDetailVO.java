@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SearchDetailVO {
     // 콘텐츠 타입 Id
-    private int contenttypeid;
+    private String cont_type_id;
 
     // 홈페이지 주소
     private String homepage;
