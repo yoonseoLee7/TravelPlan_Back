@@ -1,0 +1,56 @@
+@charset "utf-8";
+* {margin: 0; padding: 0;}
+/* border-collapse: collapse; */
+body {display: block; margin-top: 30px;}
+
+/* 헤더 영역 */
+#header {position: static; display: flex; margin: 0px 30px;}
+#header #h_inner {width: 100%; height: 100px; display: flex;}
+#header #h_inner #title_box {flex-grow: 2; height: 100px; max-width: 22%; border: 1px solid blueviolet;}
+#header #h_inner #title_box #title {display: flex; padding-left: 15px;}
+
+.h1_title {font-size: 36px;}
+.p_title_current_time {font-size: 24px; padding-left: 15px;}
+.img_title {width: 50px; height: 50px; border: 1px solid green;}
+
+#header #h_inner #search_box {
+    position: relative;
+    flex-grow: 5; height: 100px; max-width: 56%; border: 1px solid black;}
+.search_bar {
+    position: absolute;
+    width: 80%;
+    font-size: 36px;
+    padding: 14px 0px 14px 55px;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+.img_search {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+#header #h_inner #util_box {align-items: center; display: flex; justify-content: end; flex-grow: 2; height: inherit; max-width: 22%; border: 1px solid black;}
+.imgThumb {width: 50px; height: 50px; border-radius: 70%;}
+
+/* 메인(가운데 영역) */
+#container {position: static; margin: 0px 30px; min-height: 100%; border: 1px solid black;}
+#container #c_inner_map {width: inherit; display: flex; height: 500px; border: 1px solid black;}
+#container #c_inner_map #search_result_box {flex-grow: 1; height: inherit; max-width: 17%;}
+#container #c_inner_map #tmap_box {flex-grow: 3; height: inherit; max-width: 50%; border: 1px solid black;}
+#container #c_inner_map #comment_box {flex-grow: 2; height: inherit; max-width: 33%; border: 1px solid black;}
+
+#search_result_box .p_search {height: 50px; border: 1px solid red;}
+#comment_box .p_comment {height: 50px; border: 1px solid red;}
+
+#container #search_result_box #result_list_box {width: inherit; height: 450px; overflow: scroll; overflow-x: hidden;}
+
+.li_search {height: 50px; margin: 10px; font-size: 30px; padding: 13px 10px; border: 1px solid green;}
+
+#container #comment_box #comment_list_box {width: inherit; height: 400px; overflow: scroll; overflow-x: hidden; border: 1px solid green;}
+#container #comment_box #comment_input_box {width: inherit; height: 50px; border: 1px solid green;}
+#container #c_inner_suggestion {width: inherit; display: flex; height: auto; flex-wrap: wrap; justify-content: space-between;}
+
+.place_image_box {width: 23%; height: 200px; margin: 20px 10px 10px 10px; border: 1px solid greenyellow;}
