@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 import travel.exception.ApiException;
 import travel.exception.ApiStatus;
@@ -34,8 +35,10 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping(value = "/suggest", method = RequestMethod.GET)
-    public ModelAndView suggest(@RequestParam String searchText, ModelAndView model) throws Exception {
+    // 첫 메인화면 진입 시 잠실롯데월드 추천방문지 호출용
+    @GetMapping("/suggestInit")
+    @ResponseBody
+    public List<SearchDetailVO> suggest() throws Exception{
         //37.5110739, noorLon=127.09815059
         SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
         searchLocationDTO.setMobileApp("DEMO");
@@ -44,23 +47,36 @@ public class MainController {
         searchLocationDTO.setMapY(37.5110739);
         searchLocationDTO.setRadius(500);
 
-        List<SearchLocationVO> locationList = searchService.searchLocation(searchLocationDTO);
+        return locationToDetail(searchLocationDTO);
+    }
 
+    // 검색 리스트 아이템 선택 시 추천방문지 호출용
+    @GetMapping("/suggest")
+    @ResponseBody
+    public List<SearchDetailVO> suggest(@RequestBody SearchAreaVO vo) throws Exception{
+        SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
+        searchLocationDTO.setMobileApp("DEMO");
+        searchLocationDTO.setMobileOS("WIN");
+        searchLocationDTO.setMapX(vo.getNoorLon());
+        searchLocationDTO.setMapY(vo.getNoorLat());
+        searchLocationDTO.setRadius(500);
+
+        return locationToDetail(searchLocationDTO);
+    }
+
+    private List<SearchDetailVO> locationToDetail(SearchLocationDTO searchLocationDTO) throws Exception {
+        List<SearchLocationVO> locationList = searchService.searchLocation(searchLocationDTO);
+    
         List<SearchDetailVO> detailList = new ArrayList<SearchDetailVO>();
         SearchDetailDTO detailDTO = new SearchDetailDTO();
-        for (int i = 0; i < locationList.size(); i++) {
+        for(int i = 0; i < locationList.size(); i++) {
             detailDTO.setContentId(locationList.get(i).getContentid());
             detailDTO.setMobileApp("DEMO");
             detailDTO.setMobileOS("WIN");
             detailList.add(searchService.searchDetail(detailDTO));
         }
-
-        for (int i = 0; i < detailList.size(); i++) {
-            System.out.println(detailList.get(i).getFirstimage());
-        }
-        model.addObject("suggest", detailList);
-        model.setViewName("index");
-        return model;
+        
+        return detailList; 
     }
 
     //검색어 관련 리스트
@@ -104,5 +120,15 @@ public class MainController {
     @RequestMapping("/modalJoin")
     public String modalJoin() {
         return "modalJoin";
+    }
+
+    @RequestMapping("/modalComment")
+    public String modalComment() {
+        return "modalComment";
+    }
+
+    @RequestMapping("/detail")
+    public String detail() {
+        return "detail";
     }
 }
