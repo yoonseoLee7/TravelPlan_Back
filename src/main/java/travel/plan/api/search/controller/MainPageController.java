@@ -7,23 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import travel.plan.api.search.dto.SearchPuzzleDTO;
 import travel.plan.api.search.service.MainPageService;
 import travel.plan.api.search.vo.SearchPuzzleVO;
-
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping(value = "/api/search")
 public class MainPageController {
- 
+
     @Autowired
     MainPageService mainPageService;
 
     //검색어 리스트
     @GetMapping("/searchAreaByName")
-    public List<String> searchAreaByName(String searchText) throws Exception{
+    public List<String> searchAreaByName(String searchText) throws Exception {
         return mainPageService.searchAreaByName(searchText);
     }
 
@@ -32,6 +28,5 @@ public class MainPageController {
     public SearchPuzzleVO searchPuzzleById(String searchText) throws Exception {
         return mainPageService.searchPuzzleById(searchText);
     }
-    
 
 }
