@@ -7,6 +7,9 @@ public class SearchDetailVO {
     // 콘텐츠 타입 Id
     private String cont_type_id;
 
+    //관광지 id(locationVO랑 비교해서 콘텐츠 타입id 가져오기)
+    private int cont_id;
+
     // 홈페이지 주소
     private String homepage;
 
