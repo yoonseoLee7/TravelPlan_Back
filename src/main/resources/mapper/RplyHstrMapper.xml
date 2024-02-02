@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
     <insert id="saveComment" parameterType="RplyHstrDTO">
-        insert into rply_hstr values(
+        insert into RPLY_HSTR values(
             #{rply_id},
             #{rply_ctt},
             #{del_yn},
@@ -16,6 +16,6 @@
     </insert>
 
     <select id="getComment" resultType="RplyHstrDTO">
-        select * from rply_hstr where cont_type_id = #{cont_type_id} order by created_at desc limit 5
+        select * from RPLY_HSTR where cont_type_id = #{cont_type_id} order by created_at desc limit 5
     </select>
 </mapper>

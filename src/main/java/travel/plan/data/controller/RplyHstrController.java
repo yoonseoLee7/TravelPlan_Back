@@ -32,8 +32,8 @@ public class RplyHstrController {
     
     //댓글창에 최신 5개 정렬
     @GetMapping("/getCommet")
-    public List<RplyHstrDTO> getComment(@PathVariable String contTypeId) {
-        return rplyHstrService.getComments(contTypeId);
+    public List<RplyHstrDTO> getComment(@PathVariable String cont_type_id) {
+        return rplyHstrService.getComments(cont_type_id);
     }
     
 }
