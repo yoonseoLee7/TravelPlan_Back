@@ -29,17 +29,40 @@ function initSuggestPlace() {
     });
 }
 
+function suggestPlace(vo) {
+    let value = $(vo).attr('value');
+    // {"id":"5845839","name":"경복궁 한옥마을점 주차장","noorLat":37.39052415,"noorLon":126.63841805}
+
+    $.ajax({
+        url: '/suggest',
+        type: 'GET',
+        data: JSON.parse(value),
+        success: function(response){
+            // 해당 데이터를 추천방문지에 뿌려줌
+            showSuggestPlace(response);
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
+}
+
 function showSuggestPlace(results) {
     var resultDiv = $('#c_inner_suggestion');
     resultDiv.empty();
 
     if(results.length === 0) return;
 
-    results?.forEach(function(result) {
+    var resultCount = 0;
+    for(let result of results) {
+        console.log(result);
         let defaultImage = "images/sample.jpg"
         let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage()" onerror="this.src=\'' + defaultImage + '\'"/>';
+        resultCount++;
         resultDiv.append(img);
-    });
+
+        if(resultCount >= 8) break; // 최대 갯수 8개로 제한
+    }
 }
 
 // 메인화면 진입 시 첫 장소 근처에 위치한 관광명소의 추천 리스트 제공
@@ -61,20 +84,7 @@ function showSuggestPlace(results) {
 // }
 
 
-function suggestPlace(vo) {
-    $.ajax({
-        url: '/suggest',
-        type: 'GET',
-        data: {vo},
-        success: function(response){
-            // 해당 데이터를 추천방문지에 뿌려줌
-            showSuggestPlace(response);
-        },
-        error: function(error){
-            console.error('Error:',error);
-        }
-    });
-}
+
 
 // 추천방문지 리스트에서 선택 후 상세페이지 이동
 function showDetailPage() {
@@ -118,12 +128,12 @@ function searchResults(results){
         return;
     }
     
-    var ul = $('<ul></ul>');
+    var ul = $('<div></div>');
     results?.forEach(function (result) { // cf. 옵셔널체이닝
-        var li = $('<li></li>').text(result.name);
-
+        let json = JSON.stringify(result);
+        let li = `<div onclick="suggestPlace(this);" value='${json}'>${result.name}</div>`;
         ul.append(li);
     });
+
     resultDiv.append(ul);
-    
 }
