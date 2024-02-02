@@ -51,9 +51,9 @@ public class RplyHstrServiceImpl implements RplyHstrService{
             SearchLocationVO locationVO = new SearchLocationVO();
             SearchDetailVO searchDetailVO = searchService.searchDetail(new SearchDetailDTO());
             //contid = contid 일때 저장
-            if(locationVO.getContentid() == searchDetailVO.getCont_id()){
+            if(locationVO.getContentid() == searchDetailVO.getContentid()){
 
-            rplyHstrDTO.setCont_type_id(searchDetailVO.getCont_type_id());
+            rplyHstrDTO.setCont_type_id(searchDetailVO.getContenttypeid());
 
             rplyHstrMapper.saveComment(rplyHstrDTO);
             }

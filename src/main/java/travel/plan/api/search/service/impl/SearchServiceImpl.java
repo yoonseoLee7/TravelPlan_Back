@@ -132,6 +132,7 @@ public class SearchServiceImpl implements SearchService {
                 .queryParam("firstImageYN", "Y")
                 .queryParam("addrinfoYN", "Y")
                 .queryParam("overviewYN", "Y")
+                .queryParam("mapinfoYN", "Y")
                 .queryParam("_type", "json")
                 .build(true)
                 .toUri();
