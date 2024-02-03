@@ -21,7 +21,6 @@
             <div id="search_box">
                 <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요" id="searchText" autofocus onkeydown="handleKeyDown(event)">
                 <img class="img_search" src="images/search.png" onclick="sendList()">
-                <!-- <img class="img_search" src="images/search.png" onclick="initTmap()"> -->
             </div>
             <div id="util_box">
                 <a href="">로그인</a>
@@ -36,21 +35,17 @@
         <div id="c_inner_map">
             <div id="search_result_box">
                 <p class="p_search">Search Result</p>
-                <div id="result_list_box">
-                    <!-- <ul>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                    </ul> -->
-                </div>
+                <div id="result_list_box"></div>
             </div>
             <div id="tmap_box">
-                <div id="map_div">
-                </div>
+                <div id="map_div"></div>
+                <div style='position :relative; bottom:155px; left:10px; width:95px;height:140px;text-align:center; background:#ffffff ;border: 1px solid #808080;border-radius: 3px;font-size:12px'>
+                    장소혼잡도 단계
+                    <div class="congestion_box" style='background:#9cf7bd;'>여유</div>
+                    <div class="congestion_box" style='background:#73b7ff;'>보통</div>
+                    <div class="congestion_box" style='background:#d9a8ed;'>혼잡</div>
+                    <div class="congestion_box" style='background:#ff96b4;'>매우 혼잡</div>
+                </div>  
             </div>
             <div id="comment_box">
                 <p class="p_comment">Search Result</p>
@@ -70,12 +65,10 @@
         </div>
         <!-- 추천 방문지 상자 -->
         <div>
-            <h2>추천 방문지</h2>
-        </div>
-        <div id="c_inner_suggestion">
-            <!-- <div class="place_image_box" th:each="place : ${suggest}">
-                <img th:class="place_image" th:src="@{${place.firstimage}}" onerror="this.src='images/sample.jpg'">
-            </div> -->
+            <div>
+                <h2>추천 방문지</h2>
+            </div>
+            <div id="c_inner_suggestion"></div>
         </div>
     </div>
     <!-- 우린 footer가 필요 없음 -->

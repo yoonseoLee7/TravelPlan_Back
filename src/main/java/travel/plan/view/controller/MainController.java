@@ -16,6 +16,7 @@ import travel.exception.ApiException;
 import travel.exception.ApiStatus;
 import travel.plan.api.search.dto.SearchDetailDTO;
 import travel.plan.api.search.dto.SearchLocationDTO;
+import travel.plan.api.search.dto.SearchPuzzleDTO;
 import travel.plan.api.search.service.SearchService;
 import travel.plan.api.search.vo.SearchAreaVO;
 import travel.plan.api.search.vo.SearchDetailVO;
@@ -37,7 +38,7 @@ public class MainController {
     @GetMapping("/suggestInit")
     @ResponseBody
     public List<SearchDetailVO> suggest() throws Exception{
-        //37.5110739, noorLon=127.09815059
+        //37.5110739, 127.09815059
         SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
         searchLocationDTO.setMobileApp("DEMO");
         searchLocationDTO.setMobileOS("WIN");
@@ -52,7 +53,6 @@ public class MainController {
     @GetMapping("/suggest")
     @ResponseBody
     public List<SearchDetailVO> suggest(@RequestBody SearchAreaVO vo) throws Exception{
-        System.out.println(vo);
         SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
         searchLocationDTO.setMobileApp("DEMO");
         searchLocationDTO.setMobileOS("WIN");
@@ -139,6 +139,17 @@ public class MainController {
         return searchArea;
     }
 
+    @GetMapping("/congestionInit")
+    @ResponseBody
+    public int congestion() throws Exception {
+        SearchPuzzleDTO dto = new SearchPuzzleDTO();
+        dto.setPoiId("187961");
+        dto.setNoorLat(37.5110739);
+        dto.setNoorLon(127.09815059);
+
+        var level = searchService.searchPuzzle(dto).getCongestionLevel();
+        return level;
+    }
 
     // @RequestMapping(value = "/searchList", method=RequestMethod.GET)
     // public ModelAndView searchList(@RequestParam String searchText, ModelAndView model) throws Exception{
