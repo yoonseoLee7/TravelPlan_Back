@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +52,7 @@ public class MainController {
     @GetMapping("/suggest")
     @ResponseBody
     public List<SearchDetailVO> suggest(@RequestBody SearchAreaVO vo) throws Exception{
+        System.out.println(vo);
         SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
         searchLocationDTO.setMobileApp("DEMO");
         searchLocationDTO.setMobileOS("WIN");
@@ -61,7 +60,11 @@ public class MainController {
         searchLocationDTO.setMapY(vo.getNoorLat());
         searchLocationDTO.setRadius(500);
 
-        return locationToDetail(searchLocationDTO);
+        List<SearchDetailVO> detailList = locationToDetail(searchLocationDTO);
+
+        getDistance(vo, detailList);
+
+        return detailList;
     }
 
     private List<SearchDetailVO> locationToDetail(SearchLocationDTO searchLocationDTO) throws Exception {
@@ -75,8 +78,31 @@ public class MainController {
             detailDTO.setMobileOS("WIN");
             detailList.add(searchService.searchDetail(detailDTO));
         }
-        
+
         return detailList; 
+    }
+
+    // 두 좌표 사이의 거리 값 측정
+    public void getDistance(SearchAreaVO vo, List<SearchDetailVO> detailList) {
+        List<Double> distance = new ArrayList<>();
+        for(var detail: detailList) {
+            var result = getDistanceOne(vo.getNoorLat(), vo.getNoorLon(), detail.getMapy(), detail.getMapx());
+            distance.add(result);
+        }
+        // System.out.println(distance);
+    }
+
+    public double getDistanceOne(double latFirst, double lngFirst, double latSecond, double lngSecond) {
+        double radius = 6371;
+        double dLat = Math.toRadians(latSecond - latFirst);
+        double dLng = Math.toRadians(lngSecond = lngFirst);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(latFirst)) * Math.cos(Math.toRadians(latSecond))
+            * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = radius * c * 1000;
+        System.out.println("dddddd:" + d);
+        return d;
     }
 
     //검색어 관련 리스트
