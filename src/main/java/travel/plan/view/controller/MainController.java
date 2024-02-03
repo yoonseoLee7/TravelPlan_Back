@@ -61,15 +61,21 @@ public class MainController {
         searchLocationDTO.setRadius(500);
 
         List<SearchDetailVO> detailList = locationToDetail(searchLocationDTO);
-
-        getDistance(vo, detailList);
-
-        return detailList;
+        List<SearchDetailVO> sortList = new ArrayList<>();
+        
+        int[] rank = getDistance(vo, detailList);
+        for(int i = 0; i < detailList.size(); i++) {
+            for(int j = 0; j < rank.length; j++) {
+                if (i == rank[j] - 1) {
+                    sortList.add(detailList.get(j));
+                }
+            }
+        }
+        return sortList;
     }
 
     private List<SearchDetailVO> locationToDetail(SearchLocationDTO searchLocationDTO) throws Exception {
         List<SearchLocationVO> locationList = searchService.searchLocation(searchLocationDTO);
-    
         List<SearchDetailVO> detailList = new ArrayList<SearchDetailVO>();
         SearchDetailDTO detailDTO = new SearchDetailDTO();
         for(int i = 0; i < locationList.size(); i++) {
@@ -83,13 +89,25 @@ public class MainController {
     }
 
     // 두 좌표 사이의 거리 값 측정
-    public void getDistance(SearchAreaVO vo, List<SearchDetailVO> detailList) {
+    public int[] getDistance(SearchAreaVO vo, List<SearchDetailVO> detailList) {
         List<Double> distance = new ArrayList<>();
         for(var detail: detailList) {
             var result = getDistanceOne(vo.getNoorLat(), vo.getNoorLon(), detail.getMapy(), detail.getMapx());
             distance.add(result);
         }
-        // System.out.println(distance);
+
+        // 가져온 좌표들의 가까운 순위대로 표시
+        int[] ranks = new int[distance.size()];
+        for(int i = 0; i < distance.size(); i++) {
+            int rank = distance.size();
+            for(int j = 0; j < distance.size(); j++) {
+                if(distance.get(i) < distance.get(j)) {
+                    rank--;
+                }
+                ranks[i] = rank;
+            }
+        }
+        return ranks;
     }
 
     public double getDistanceOne(double latFirst, double lngFirst, double latSecond, double lngSecond) {
