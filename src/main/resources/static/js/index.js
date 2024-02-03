@@ -10,9 +10,10 @@ window.onload = function() {
 // 잠실롯데월드의 위도, 경도
 let firstLat = 37.5110739;
 let firstLng = 127.09815059;
+var map, marker, rect;
 
 function initTmap(){
-    var map = new Tmapv2.Map("map_div",  
+    map = new Tmapv2.Map("map_div",  
     {
         center: new Tmapv2.LatLng(firstLat, firstLng), // 지도 초기 좌표(잠실 롯데월드)
         width: "inherit", 
@@ -20,7 +21,7 @@ function initTmap(){
         zoom: 15
     });
 
-    var marker = new Tmapv2.Marker({
+    marker = new Tmapv2.Marker({
 		position: new Tmapv2.LatLng(firstLat, firstLng),
 		map: map
 	});
@@ -29,9 +30,46 @@ function initTmap(){
         url: '/congestionInit',
         type: 'GET',
         success: function(response){
-            var rect = new Tmapv2.Rectangle({
+            rect = new Tmapv2.Rectangle({
                 bounds: new Tmapv2.LatLngBounds(new Tmapv2.LatLng(Number(firstLat)+ 0.0014957,Number(firstLng)-0.0018867),
                  new Tmapv2.LatLng(Number(firstLat)-0.0014957,Number(firstLng) +0.0018867)),// 사각형 영역 좌표
+                strokeColor: "#000000",	//테두리 색상
+                strokeWeight:2.5,
+                strokeOpacity :1,
+                fillColor: congestionLevelColor(response).color, // 사각형 내부 색상
+                fillOpacity :0.5, 
+                map: map
+            });
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
+}
+
+// TODO init 요소들과 합쳐서 하나의 function으로 만들 수 있는지 생각
+function showTmap(result) {
+    let value =JSON.parse($(result).attr('value'));
+    let lat = value.noorLat;
+    let lng = value.noorLon;
+    // {"id":"5845839","name":"경복궁 한옥마을점 주차장","noorLat":37.39052415,"noorLon":126.63841805}
+    
+    var WGS84GEO = new Tmapv2.LatLng(lat, lng);
+    var lonlat = Tmapv2.Projection.convertWGS84GEOToEPSG3857(WGS84GEO);
+    var epsg3857 = new Tmapv2.Point(lonlat.x, lonlat.y);
+	var wgs84 = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(epsg3857);
+    map.setCenter(wgs84); // 지도의 위치 변경
+    marker.setPosition(WGS84GEO); // 마커의 위치 변경
+    rect.setMap(null); // 사각형 삭제
+
+    $.ajax({
+        url: '/congestion',
+        type: 'GET',
+        data: value,
+        success: function(response){
+            rect = new Tmapv2.Rectangle({
+                bounds: new Tmapv2.LatLngBounds(new Tmapv2.LatLng(Number(lat)+ 0.0014957,Number(lng)-0.0018867),
+                 new Tmapv2.LatLng(Number(lat)-0.0014957,Number(lng) +0.0018867)),// 사각형 영역 좌표
                 strokeColor: "#000000",	//테두리 색상
                 strokeWeight:2.5,
                 strokeOpacity :1,
@@ -112,11 +150,19 @@ function searchResults(results){
     var ul = $('<div></div>');
     results?.forEach(function (result) { // cf. 옵셔널체이닝
         let json = JSON.stringify(result);
-        let li = `<div onclick="suggestPlace(this);" value='${json}'>${result.name}</div>`;
+        let li = `<div onclick="placeItem(this);" value='${json}'>${result.name}</div>`;
         ul.append(li);
     });
 
     resultDiv.append(ul);
+}
+
+// 검색 리스트 아이템 클릭 시 이벤트
+function placeItem(result) {
+    // 추천방문지
+    suggestPlace(result);
+    // 지도 혼잡도
+    showTmap(result);
 }
 
 // -----------------------------------------------------------------------------------------------------

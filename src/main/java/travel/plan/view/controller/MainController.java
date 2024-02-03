@@ -119,7 +119,6 @@ public class MainController {
             * Math.sin(dLng / 2) * Math.sin(dLng / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = radius * c * 1000;
-        System.out.println("dddddd:" + d);
         return d;
     }
 
@@ -146,6 +145,18 @@ public class MainController {
         dto.setPoiId("187961");
         dto.setNoorLat(37.5110739);
         dto.setNoorLon(127.09815059);
+
+        var level = searchService.searchPuzzle(dto).getCongestionLevel();
+        return level;
+    }
+
+    @GetMapping("/congestion")
+    @ResponseBody
+    public int congestion(SearchAreaVO vo) throws Exception {
+        SearchPuzzleDTO dto = new SearchPuzzleDTO();
+        dto.setPoiId(vo.getId());
+        dto.setNoorLat(vo.getNoorLat());
+        dto.setNoorLon(vo.getNoorLon());
 
         var level = searchService.searchPuzzle(dto).getCongestionLevel();
         return level;
