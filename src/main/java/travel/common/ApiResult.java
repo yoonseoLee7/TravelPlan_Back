@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import lombok.extern.slf4j.Slf4j;
 import travel.exception.ApiStatus;
 
@@ -42,6 +43,15 @@ public class ApiResult {
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("code", apiStatus.getCode());
         resultMap.put("message", message);
+        return convert(resultMap);
+    }
+
+    public static HashMap<String, Object> getHashMap(ApiStatus apiStatus, int body) {
+        log.debug("ApiResult > getHashMap code {} bodyMap {}", apiStatus.getCode(), body);
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("code", apiStatus.getCode());
+        resultMap.put("message", apiStatus.getMessage());
+        resultMap.put("body", body);
         return convert(resultMap);
     }
 

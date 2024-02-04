@@ -36,7 +36,7 @@ function initTmap(){
                 strokeColor: "#000000",	//테두리 색상
                 strokeWeight:2.5,
                 strokeOpacity :1,
-                fillColor: congestionLevelColor(response).color, // 사각형 내부 색상
+                fillColor: congestionLevelColor(response.body).color, // 사각형 내부 색상
                 fillOpacity :0.5, 
                 map: map
             });
@@ -73,7 +73,7 @@ function showTmap(result) {
                 strokeColor: "#000000",	//테두리 색상
                 strokeWeight:2.5,
                 strokeOpacity :1,
-                fillColor: congestionLevelColor(response).color, // 사각형 내부 색상
+                fillColor: congestionLevelColor(response.body).color, // 사각형 내부 색상
                 fillOpacity :0.5, 
                 map: map
             });
@@ -175,7 +175,7 @@ function initSuggestPlace() {
         type: 'GET',
         success: function(response){
             // 해당 데이터를 추천방문지에 뿌려줌
-            showSuggestPlace(response);
+            showSuggestPlace(response.body);
         },
         error: function(error){
             console.error('Error:',error);
@@ -193,7 +193,7 @@ function suggestPlace(vo) {
         data: JSON.parse(value),
         success: function(response){
             // 해당 데이터를 추천방문지에 뿌려줌
-            showSuggestPlace(response);
+            showSuggestPlace(response.body);
         },
         error: function(error){
             console.error('Error:',error);
@@ -241,3 +241,7 @@ function showDetailPage() {
 //         // 오류 처리
 //     })
 // }
+
+// -----------------------------------------------------------------------------------------------------
+// 실시간 시간 표시
+setInterval()

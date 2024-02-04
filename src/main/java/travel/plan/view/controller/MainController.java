@@ -2,6 +2,7 @@ package travel.plan.view.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
+import travel.common.ApiResult;
 import travel.exception.ApiException;
 import travel.exception.ApiStatus;
 import travel.plan.api.search.dto.SearchDetailDTO;
@@ -37,7 +39,7 @@ public class MainController {
     // 첫 메인화면 진입 시 잠실롯데월드 추천방문지 호출용
     @GetMapping("/suggestInit")
     @ResponseBody
-    public List<SearchDetailVO> suggest() throws Exception{
+    public Map<String, Object> suggest() throws Exception{
         //37.5110739, 127.09815059
         SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
         searchLocationDTO.setMobileApp("DEMO");
@@ -46,13 +48,13 @@ public class MainController {
         searchLocationDTO.setMapY(37.5110739);
         searchLocationDTO.setRadius(500);
 
-        return locationToDetail(searchLocationDTO);
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, locationToDetail(searchLocationDTO));
     }
 
     // 검색 리스트 아이템 선택 시 추천방문지 호출용
     @GetMapping("/suggest")
     @ResponseBody
-    public List<SearchDetailVO> suggest(@RequestBody SearchAreaVO vo) throws Exception{
+    public Map<String, Object> suggest(@RequestBody SearchAreaVO vo) throws Exception{
         SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
         searchLocationDTO.setMobileApp("DEMO");
         searchLocationDTO.setMobileOS("WIN");
@@ -71,7 +73,7 @@ public class MainController {
                 }
             }
         }
-        return sortList;
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, sortList);
     }
 
     private List<SearchDetailVO> locationToDetail(SearchLocationDTO searchLocationDTO) throws Exception {
@@ -85,7 +87,7 @@ public class MainController {
             detailList.add(searchService.searchDetail(detailDTO));
         }
 
-        return detailList; 
+        return detailList;
     }
 
     // 두 좌표 사이의 거리 값 측정
@@ -140,26 +142,26 @@ public class MainController {
 
     @GetMapping("/congestionInit")
     @ResponseBody
-    public int congestion() throws Exception {
+    public Map<String, Object> congestion() throws Exception {
         SearchPuzzleDTO dto = new SearchPuzzleDTO();
         dto.setPoiId("187961");
         dto.setNoorLat(37.5110739);
         dto.setNoorLon(127.09815059);
 
         var level = searchService.searchPuzzle(dto).getCongestionLevel();
-        return level;
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, level);
     }
 
     @GetMapping("/congestion")
     @ResponseBody
-    public int congestion(SearchAreaVO vo) throws Exception {
+    public Map<String, Object> congestion(SearchAreaVO vo) throws Exception {
         SearchPuzzleDTO dto = new SearchPuzzleDTO();
         dto.setPoiId(vo.getId());
         dto.setNoorLat(vo.getNoorLat());
         dto.setNoorLon(vo.getNoorLon());
 
         var level = searchService.searchPuzzle(dto).getCongestionLevel();
-        return level;
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, level);
     }
 
     // @RequestMapping(value = "/searchList", method=RequestMethod.GET)
