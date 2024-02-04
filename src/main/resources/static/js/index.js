@@ -269,3 +269,20 @@ function plusZero(time) {
         return time;
     }
 }
+
+// -----------------------------------------------------------------------------------------------------
+// 로그인|회원가입 모달창
+
+function showModal() {
+    var modal = $('.modal');
+    if(modal.is(':visible') == false) {
+        modal.show();
+    }
+}
+
+function closeModal(result) {
+    var modal = $('.modal');
+    if(result.target.classList.contains("modal") && modal.is(':visible') == true) {
+        modal.hide();
+    }
+}
