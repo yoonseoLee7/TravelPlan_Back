@@ -163,40 +163,4 @@ public class MainController {
         var level = searchService.searchPuzzle(dto).getCongestionLevel();
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, level);
     }
-
-    // @RequestMapping(value = "/searchList", method=RequestMethod.GET)
-    // public ModelAndView searchList(@RequestParam String searchText, ModelAndView model) throws Exception{
-    //     List<SearchAreaVO> searchArea = new ArrayList<SearchAreaVO>();
-    //     searchArea = searchService.searchArea(searchText);
-
-    //     List<String> names = new ArrayList<>();
-
-    //     for (SearchAreaVO searchAreaVO : searchArea) {
-    //             names.add(searchAreaVO.getName());
-    //         }
-    //     model.addObject("searchList", names);
-    //     model.setViewName("index");
-    //     return model;
-    // }
-
-    // 일단 임시로 넣어두고 명칭은 나중에 변경...
-    @RequestMapping("/modalLogin")
-    public String modalLogin() {
-        return "modalLogin";
-    }
-
-    @RequestMapping("/modalJoin")
-    public String modalJoin() {
-        return "modalJoin";
-    }
-
-    @RequestMapping("/modalComment")
-    public String modalComment() {
-        return "modalComment";
-    }
-
-    @RequestMapping("/detail")
-    public String detail() {
-        return "detail";
-    }
 }
