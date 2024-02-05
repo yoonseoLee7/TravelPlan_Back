@@ -75,10 +75,10 @@
     <div class="modal" onclick="closeModal(event)">
         <div class="modal_main">
             <div class="modal_tab">
-                <div class="tab_selected">로그인</div>
-                <div class="tab_unselected">회원가입</div>
+                <div id="tab_login" class="tab_selected" onclick="checkTabStatus(this)">로그인</div>
+                <div id="tab_join" class="tab_unselected" onclick="checkTabStatus(this)">회원가입</div>
             </div>
-            <div class="modal_body">
+            <div class="modal_body" id="login">
                 <div id="title">
                     <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
                     <h1 class="h1_title">대국민 눈치게임</h1>
@@ -87,6 +87,21 @@
                 <input type="password" id="password" name="password" placeholder="비밀번호">
                 <div>
                     <button class="modal_button" type="submit">로그인</button>
+                </div>
+            </div>
+            <div class="modal_body" id="join" style="display: none;">
+                <div id="title">
+                    <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
+                    <h1 class="h1_title">대국민 눈치게임</h1>
+                </div>
+                <input type="text" id="username" name="username" placeholder="닉네임">
+                <input type="password" id="password" name="password" placeholder="비밀번호">
+                <div>
+                    <button class="modal_button" type="submit">회원가입</button>
+                </div>
+                <div>
+                    <p>닉네임과 비밀번호를 꼭 기억해주세요!</p>
+                    <p>잊어버리실 경우 찾을 수 없습니다.</p>
                 </div>
             </div>
         </div>

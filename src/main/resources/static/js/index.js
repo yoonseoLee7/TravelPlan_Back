@@ -4,7 +4,7 @@
 // 화면이 처음 보여졌을 때 실행되어야 할 기능들
 window.onload = function() {
     initTmap();
-    initSuggestPlace();
+    //initSuggestPlace();
 }
 
 // 잠실롯데월드의 위도, 경도
@@ -277,6 +277,12 @@ function showModal() {
     var modal = $('.modal');
     if(modal.is(':visible') == false) {
         modal.show();
+
+        $('#tab_join').attr("class", "tab_unselected");
+        $('#tab_login').attr("class", "tab_selected");
+
+        $('#join').hide();
+        $('#login').show();
     }
 }
 
@@ -284,5 +290,28 @@ function closeModal(result) {
     var modal = $('.modal');
     if(result.target.classList.contains("modal") && modal.is(':visible') == true) {
         modal.hide();
+    }
+}
+
+// 탭을 선택할 시 선택한 탭으로 모달이 보이도록 변경
+function checkTabStatus(result) {
+    var tab = $(result).attr("id");
+    var classType = $(result).attr("class");
+
+    // tab_login tab_join
+    // tab_selected tab_unselected
+    // 탭이 선택되어 있지 않은 경우
+    if(tab == "tab_join" && classType == "tab_unselected") {
+        $('#tab_join').attr("class", "tab_selected");
+        $('#tab_login').attr("class", "tab_unselected");
+
+        $('#join').show();
+        $('#login').hide();
+    } else if(tab == "tab_login" && classType == "tab_unselected") {
+        $('#tab_join').attr("class", "tab_unselected");
+        $('#tab_login').attr("class", "tab_selected");
+
+        $('#join').hide();
+        $('#login').show();
     }
 }
