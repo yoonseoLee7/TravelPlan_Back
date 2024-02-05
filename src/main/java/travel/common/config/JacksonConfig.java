@@ -13,7 +13,8 @@ public class JacksonConfig {
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
 
         objectMapper.registerModule(new JavaTimeModule());
 

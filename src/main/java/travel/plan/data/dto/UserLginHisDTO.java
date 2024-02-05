@@ -9,12 +9,12 @@ import lombok.Data;
 public class UserLginHisDTO {
     //로그인이력id,회원id
     @NotBlank
-    private int userLginHisId,userId;
+    private int user_lgin_his_id,user_id;
 
     //로그인일시,로그아웃일시
     @NotBlank
-    private LocalDateTime loginDtm,lgoutDtm;
+    private LocalDateTime login_dtm,lgout_dtm;
 
     //유저에이전트
-    private String userAgent;
+    private String user_agent;
 }

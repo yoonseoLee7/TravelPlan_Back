@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <link rel="stylesheet" href="css/modalLogin.css">
     <header id="header">
         <div id="h_inner">
             <div id="title_box">
@@ -21,12 +22,11 @@
             <div id="search_box">
                 <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요" id="searchText" autofocus onkeydown="handleKeyDown(event)">
                 <img class="img_search" src="images/search.png" onclick="sendList()">
-                <!-- <img class="img_search" src="images/search.png" onclick="initTmap()"> -->
             </div>
             <div id="util_box">
-                <a href="">로그인</a>
+                <p onclick="showModal()">로그인</p>
                 <p> | </p>
-                <a href="">회원가입</a>
+                <p onclick="showModal()">회원가입</p>
                 <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" width="100" height="100">
             </div>
         </div>
@@ -36,21 +36,17 @@
         <div id="c_inner_map">
             <div id="search_result_box">
                 <p class="p_search">Search Result</p>
-                <div id="result_list_box">
-                    <!-- <ul>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                        <li class="li_search">aaaaaaaa</li>
-                    </ul> -->
-                </div>
+                <div id="result_list_box"></div>
             </div>
             <div id="tmap_box">
-                <div id="map_div">
-                </div>
+                <div id="map_div"></div>
+                <div style='position :relative; bottom:155px; left:10px; width:95px;height:140px;text-align:center; background:#ffffff ;border: 1px solid #808080;border-radius: 3px;font-size:12px'>
+                    장소혼잡도 단계
+                    <div class="congestion_box" style='background:#9cf7bd;'>여유</div>
+                    <div class="congestion_box" style='background:#73b7ff;'>보통</div>
+                    <div class="congestion_box" style='background:#d9a8ed;'>혼잡</div>
+                    <div class="congestion_box" style='background:#ff96b4;'>매우 혼잡</div>
+                </div>  
             </div>
             <div id="comment_box">
                 <p class="p_comment">Search Result</p>
@@ -70,12 +66,44 @@
         </div>
         <!-- 추천 방문지 상자 -->
         <div>
-            <h2>추천 방문지</h2>
+            <div>
+                <h2>추천 방문지</h2>
+            </div>
+            <div id="c_inner_suggestion"></div>
         </div>
-        <div id="c_inner_suggestion">
-            <!-- <div class="place_image_box" th:each="place : ${suggest}">
-                <img th:class="place_image" th:src="@{${place.firstimage}}" onerror="this.src='images/sample.jpg'">
-            </div> -->
+    </div>
+    <div class="modal" onclick="closeModal(event)">
+        <div class="modal_main">
+            <div class="modal_tab">
+                <div id="tab_login" class="tab_selected" onclick="checkTabStatus(this)">로그인</div>
+                <div id="tab_join" class="tab_unselected" onclick="checkTabStatus(this)">회원가입</div>
+            </div>
+            <div class="modal_body" id="login">
+                <div id="title">
+                    <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
+                    <h1 class="h1_title">대국민 눈치게임</h1>
+                </div>
+                <input type="text" id="username" name="username" placeholder="닉네임">
+                <input type="password" id="password" name="password" placeholder="비밀번호">
+                <div>
+                    <button class="modal_button" type="submit">로그인</button>
+                </div>
+            </div>
+            <div class="modal_body" id="join" style="display: none;">
+                <div id="title">
+                    <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
+                    <h1 class="h1_title">대국민 눈치게임</h1>
+                </div>
+                <input type="text" id="username" name="username" placeholder="닉네임">
+                <input type="password" id="password" name="password" placeholder="비밀번호">
+                <div>
+                    <button class="modal_button" type="submit">회원가입</button>
+                </div>
+                <div>
+                    <p>닉네임과 비밀번호를 꼭 기억해주세요!</p>
+                    <p>잊어버리실 경우 찾을 수 없습니다.</p>
+                </div>
+            </div>
         </div>
     </div>
     <!-- 우린 footer가 필요 없음 -->

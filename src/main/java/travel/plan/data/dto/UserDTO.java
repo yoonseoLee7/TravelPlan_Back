@@ -8,39 +8,36 @@ import lombok.Data;
 @Data
 public class UserDTO {
 
-    private int testId;
-    private String testNick,testPwd;
-
     //회원id auto_increment
     @NotBlank
-    private int userId;
+    private int user_id;
     
     //회원닉네임
     @NotBlank
-    private String userNick;
+    private String user_nick;
 
     //회원비밀번호
     @NotBlank
-    private String userPwd;
+    private String user_pwd;
 
     //등록일시
     @NotBlank
-    private LocalDateTime regDtm;
+    private LocalDateTime reg_dtm;
 
     //등록회원id
     @NotBlank
-    private int regrId;
+    private int regr_id;
 
     //탈퇴일시
-    private LocalDateTime trmnDtm;
+    private LocalDateTime trmn_dtm;
 
     //탈퇴여부
-    private String trmnYN;
+    private String trmn_yn;
 
     //수정일시
-    private LocalDateTime corcDtm;
+    private LocalDateTime corc_dtm;
 
     //수정id
-    private int corrId;
+    private int corr_id;
 
 }

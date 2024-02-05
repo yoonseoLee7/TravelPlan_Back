@@ -9,19 +9,19 @@ import lombok.Data;
 public class RplyHstrDTO {
     //댓글id,등록회원id
     @NotBlank
-    private int rplyId,regrId;
+    private int rply_id,regr_id;
     
     //수정id,상위댓글id
-    private int corrId,upprRplyId;
+    private int corr_id,uppr_rply_id;
 
     //관광지코드번호,댓글내용,삭제여부
     @NotBlank
-    private String contTypeId,rplyCtt,delYN;
+    private String cont_type_id,rply_ctt,del_yn;
 
     //등록일시
     @NotBlank
-    private LocalDateTime regDtm;
+    private LocalDateTime reg_dtm;
     
     //수정일시
-    private LocalDateTime corcDtm;
+    private LocalDateTime corc_dtm;
 }

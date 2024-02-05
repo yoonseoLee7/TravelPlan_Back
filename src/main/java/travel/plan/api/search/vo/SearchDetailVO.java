@@ -5,7 +5,10 @@ import lombok.Data;
 @Data
 public class SearchDetailVO {
     // 콘텐츠 타입 Id
-    private int contenttypeid;
+    private String contenttypeid;
+
+    //관광지 id(locationVO랑 비교해서 콘텐츠 타입id 가져오기)
+    private int contentid;
 
     // 홈페이지 주소
     private String homepage;
@@ -27,4 +30,8 @@ public class SearchDetailVO {
 
     // 개요
     private String overview;
+
+    private Double mapx;
+
+    private Double mapy;
 }

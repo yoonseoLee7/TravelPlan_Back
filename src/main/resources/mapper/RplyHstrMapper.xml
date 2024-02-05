@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
+    <insert id="saveComment" parameterType="RplyHstrDTO">
+        insert into RPLY_HSTR values(
+            #{rply_id},
+            #{rply_ctt},
+            #{del_yn},
+            #{reg_dtm},
+            #{regr_id},
+            #{corc_dtm},
+            #{corr_id},
+            #{uppr_rply_id},
+            #{cont_type_id}
+        )
+    </insert>
+
+    <select id="getComments" resultType="RplyHstrDTO">
+        select * from RPLY_HSTR where cont_type_id = #{cont_type_id} order by created_at desc limit 5
+    </select>
+</mapper>
