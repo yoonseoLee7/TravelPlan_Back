@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -167,12 +166,5 @@ public class MainController {
 
         var level = searchService.searchPuzzle(dto).getCongestionLevel();
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, level);
-    }
-
-
-    @RequestMapping(value = "/sendUserInfo", method = RequestMethod.POST)
-    public String sendLoginInfo(@RequestParam Map<String, Object> map) throws Exception {
-        userService.userJoin(map);
-        return "/index";
     }
 }

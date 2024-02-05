@@ -18,5 +18,6 @@ public interface UserMapper {
     //test 전체조회
     public List<UserDTO> selectAll();
 
+    public int checkId(Map<String, Object> map);
     public int userJoin(Map<String, Object> map);
 }

@@ -13,5 +13,6 @@ public interface UserService {
 
     public List<UserDTO> selectAll();
 
-    public int userJoin(Map<String, Object> map);
+    public Map<String, Object> checkId(Map<String, Object> map); // 아이디 중복 체크
+    public Map<String, Object> userJoin(Map<String, Object> map); // 사용자 회원가입
 }

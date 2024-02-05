@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import travel.common.ApiResult;
+import travel.exception.ApiStatus;
 import travel.plan.data.dto.UserDTO;
 import travel.plan.data.mapper.UserMapper;
 import travel.plan.data.service.UserService;
@@ -50,23 +52,29 @@ public class UserServiceImpl implements UserService{
         return list;
     }
 
-    // 회원가입 테스트
     @Override
-    public int userJoin(Map<String, Object> map) {
-        System.out.println(map);
+    public Map<String, Object> checkId(Map<String, Object> map) {
+        int result = userMapper.checkId(map);
+        if(result == 0) {
+            return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, result);
+        } else {
+            // 중복 아이디가 있음
+            return ApiResult.getHashMap(ApiStatus.AP_FAIL, "이미 사용중인 닉네임 입니다");
+        }
+    }
+
+    @Override
+    public Map<String, Object> userJoin(Map<String, Object> map) {
         LocalDateTime localDateTime = LocalDateTime.now();
         Timestamp timestamp = Timestamp.valueOf(localDateTime);
         map.put("reg", timestamp);
-        
-        int result = userMapper.userJoin(map);
-        System.out.println("result:::::" + result);
-        if(result == 1) {
-            // 정상처리
-            // return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, 1);
-        } else {
-            // 비정상처리
 
+        int result = userMapper.userJoin(map);
+        System.out.println("result::::::::::::::" + result);
+        if(result == 1) {
+            return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, result);
+        } else {
+            return ApiResult.getHashMap(ApiStatus.AP_FAIL, "회원가입에 실패했습니다");
         }
-        return 1;
     }
 }

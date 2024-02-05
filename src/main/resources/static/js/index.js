@@ -317,16 +317,40 @@ function checkTabStatus(result) {
 }
 
 function sendUserInfo() {
-    var data = {};
-    data["username"] = $('#join_username').val();
-    data["password"] = $('#join_password').val();
     $.ajax({
-        url: '/sendUserInfo',
+        url: '/api/main/sendUserInfo',
         type: 'POST',
-        data: JSON.stringify(data),
+        data: {username:$('#join_username').val(),
+            password:$('#join_password').val()},
         success: function(response){
-            // 해당 데이터를 추천방문지에 뿌려줌
-            showSuggestPlace(response.body);
+            if(response.code == "Fail") {
+                console.log(response.message);
+            }
+            if(response.code == "Success") {
+                console.log("회원가입 성공");
+            }
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
+}
+
+// 아이디 중복 여부 체크
+function checkId() {
+    $.ajax({
+        url: '/api/main/checkId',
+        type: 'POST',
+        data: {username:$('#join_username').val(),
+            password:$('#join_password').val()},
+        success: function(response){
+            if(response.code == "Fail") {
+                // TODO 중복 닉네임 메시지 띄우기
+                console.log(response.message);
+            }
+            if(response.code == "Success") {
+                sendUserInfo();
+            }
         },
         error: function(error){
             console.error('Error:',error);
