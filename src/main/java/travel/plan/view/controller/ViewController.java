@@ -10,16 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class ViewController {
     
     // 일단 임시로 넣어두고 명칭은 나중에 변경...
-    @RequestMapping("/modalLogin")
-    public String modalLogin() {
-        return "modalLogin";
-    }
-
-    @RequestMapping("/modalJoin")
-    public String modalJoin() {
-        return "modalJoin";
-    }
-
     @RequestMapping("/modalComment")
     public String modalComment() {
         return "modalComment";
