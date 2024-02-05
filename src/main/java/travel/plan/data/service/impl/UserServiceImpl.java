@@ -1,18 +1,13 @@
 package travel.plan.data.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-
-import ch.qos.logback.core.util.COWArrayList;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import travel.plan.data.dto.UserDTO;
 import travel.plan.data.mapper.UserMapper;
@@ -55,4 +50,23 @@ public class UserServiceImpl implements UserService{
         return list;
     }
 
+    // 회원가입 테스트
+    @Override
+    public int userJoin(Map<String, Object> map) {
+        System.out.println(map);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(localDateTime);
+        map.put("reg", timestamp);
+        
+        int result = userMapper.userJoin(map);
+        System.out.println("result:::::" + result);
+        if(result == 1) {
+            // 정상처리
+            // return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, 1);
+        } else {
+            // 비정상처리
+
+        }
+        return 1;
     }
+}

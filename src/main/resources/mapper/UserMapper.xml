@@ -8,4 +8,9 @@
     <select id="selectAll" resultType="UserDTO">
         select * from test
     </select>
+
+    <insert id="userJoin" keyProperty="USER_ID" parameterType="hashMap">
+        insert into user(USER_NICK, USER_PWD, REG_DTM, REGR_ID)
+         values(#{username}, #{password}, #{reg}, #{username})
+    </insert>
 </mapper>

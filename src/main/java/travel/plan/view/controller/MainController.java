@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,6 +24,7 @@ import travel.plan.api.search.service.SearchService;
 import travel.plan.api.search.vo.SearchAreaVO;
 import travel.plan.api.search.vo.SearchDetailVO;
 import travel.plan.api.search.vo.SearchLocationVO;
+import travel.plan.data.service.UserService;
 
 @Slf4j
 @Controller
@@ -30,6 +32,9 @@ public class MainController {
 
     @Autowired
     SearchService searchService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping("/")
     public String mainView() {
@@ -162,5 +167,12 @@ public class MainController {
 
         var level = searchService.searchPuzzle(dto).getCongestionLevel();
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, level);
+    }
+
+
+    @RequestMapping(value = "/sendUserInfo", method = RequestMethod.POST)
+    public String sendLoginInfo(@RequestParam Map<String, Object> map) throws Exception {
+        userService.userJoin(map);
+        return "/index";
     }
 }

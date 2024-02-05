@@ -3,7 +3,7 @@
 
 // 화면이 처음 보여졌을 때 실행되어야 할 기능들
 window.onload = function() {
-    initTmap();
+    // initTmap();
     //initSuggestPlace();
 }
 
@@ -314,4 +314,22 @@ function checkTabStatus(result) {
         $('#join').hide();
         $('#login').show();
     }
+}
+
+function sendUserInfo() {
+    var data = {};
+    data["username"] = $('#join_username').val();
+    data["password"] = $('#join_password').val();
+    $.ajax({
+        url: '/sendUserInfo',
+        type: 'POST',
+        data: JSON.stringify(data),
+        success: function(response){
+            // 해당 데이터를 추천방문지에 뿌려줌
+            showSuggestPlace(response.body);
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
 }
