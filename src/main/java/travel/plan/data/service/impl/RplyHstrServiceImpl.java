@@ -42,9 +42,9 @@ public class RplyHstrServiceImpl implements RplyHstrService{
 
     //댓글테이블에 저장
     @Override
-    public Map<String,Object> saveComment(Map<String,Object> map){
+    public Map<String,Object> saveComment(RplyHstrDTO rplyHstrDTO){
         
-            int result = rplyHstrMapper.saveComment(map); 
+            int result = rplyHstrMapper.saveComment(rplyHstrDTO); 
             log.info("댓글db저장",result);
             
             if(result == 1){
@@ -56,7 +56,7 @@ public class RplyHstrServiceImpl implements RplyHstrService{
 
     //댓글 최신화 최대5개 정렬 가져오기
     @Override
-    public Map<String,Object> getComments(String contTypeId) throws Exception{
+    public Map<String,Object> getComments(String contTypeId){
         
         List<RplyHstrDTO> comments = rplyHstrMapper.getComments(contTypeId);
 

@@ -132,7 +132,7 @@ function searchList(){
 
     // cf. js에서 {searchText:searchText} 와 같이 property명칭이 동일한 경우 {searchText} 로만 써도 됨. (단축속성)
     $.ajax({
-        url: '/searchList',
+        url: '/api/main/searchList',
         type: 'GET',
         data: { searchText },
         success: function(response){
@@ -152,9 +152,9 @@ function searchResults(results){
         resultDiv.html('검색 결과가 없습니다.');
         return;
     }
-    
+    console.log(results);
     var ul = $('<div></div>');
-    results?.forEach(function (result) { // cf. 옵셔널체이닝
+    results.body?.forEach(function (result) { // cf. 옵셔널체이닝
         let json = JSON.stringify(result);
         let li = `<div onclick="placeItem(this);" value='${json}'>${result.name}</div>`;
         ul.append(li);

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
-    <insert id="saveComment" resultType="Integer" parameterType="hashMap">
-        insert into RPLY_HSTR values(
+    <insert id="saveComment" parameterType="hashMap">
+        <selectKey resultType="int" keyProperty="rplyId" order="AFTER">
+        SELECT LAST_INSERT_ID()
+         </selectKey>
+        insert into RPLY_HSTR(RPLY_ID,RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,CONT_TYPE_ID) values(
             #{rplyId},
             #{rplyCtt},
             #{delYn},

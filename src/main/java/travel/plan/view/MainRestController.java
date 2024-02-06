@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import travel.plan.api.search.service.SearchService;
 import travel.plan.api.search.vo.SearchAreaVO;
+import travel.plan.data.dto.RplyHstrDTO;
 import travel.plan.data.service.RplyHstrService;
 import travel.plan.data.service.UserService;
 
@@ -71,8 +72,8 @@ public class MainRestController {
 
     //댓글테이블 정보저장
     @PostMapping("/saveComment")
-    public Map<String, Object> saveComment(@RequestBody Map<String,Object> map) throws Exception{
-        return rplyHstrService.saveComment(map);
+    public Map<String, Object> saveComment(@RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
+        return rplyHstrService.saveComment(rplyHstrDTO);
     }
 
     //검색어 관련 리스트
