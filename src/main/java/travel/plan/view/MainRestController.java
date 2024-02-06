@@ -57,6 +57,11 @@ public class MainRestController {
     public Map<String, Object> sendLoginInfo(@RequestParam Map<String, Object> map) throws Exception {
         return userService.userJoin(map);
     }
+
+    @GetMapping("/loginCheck")
+    public Map<String, Object> loginCheck(@RequestParam Map<String, Object> map) throws Exception {
+        return userService.loginCheck(map);
+    }
     
     //댓글창에 최신 5개 정렬
     @GetMapping("/getCommets")

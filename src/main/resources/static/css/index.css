@@ -138,3 +138,7 @@ input {
     color: white;
     padding: 14px 0px 14px 0px;
 }
+
+.error_message {
+    color: red;
+}

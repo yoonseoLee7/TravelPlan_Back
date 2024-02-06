@@ -2,10 +2,10 @@
 // 지도 관련
 
 // 화면이 처음 보여졌을 때 실행되어야 할 기능들
-window.onload = function() {
+$(window).on('load', function () {
     initTmap();
     initSuggestPlace();
-}
+});
 
 var map, marker, rect;
 
@@ -444,6 +444,7 @@ function sendUserInfo() {
             }
             if(response.code == "Success") {
                 console.log("회원가입 성공");
+                $('.modal').hide();
             }
         },
         error: function(error){
@@ -461,11 +462,33 @@ function checkId() {
             password:$('#join_password').val()},
         success: function(response){
             if(response.code == "Fail") {
-                // TODO 중복 닉네임 메시지 띄우기
-                console.log(response.message);
+                $('.error_message_join').text(response.message);
+                $('#join_username').css('border', "2px solid #ff0000");
             }
             if(response.code == "Success") {
                 sendUserInfo();
+            }
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
+}
+
+function loginCheck() {
+    $.ajax({
+        url: '/api/main/loginCheck',
+        type: 'GET',
+        data: {username:$('#login_username').val(),
+            password:$('#login_password').val()},
+        success: function(response){
+            if(response.code == "Fail") {
+                $('.error_message_login').text(response.message);
+                $('#login_username').css('border', "2px solid #ff0000");
+                $('#login_password').css('border', "2px solid #ff0000");
+            }
+            if(response.code == "Success") {
+                console.log("사용자 확인 성공");
             }
         },
         error: function(error){

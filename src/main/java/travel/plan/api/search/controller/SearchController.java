@@ -26,10 +26,6 @@ import travel.plan.api.search.vo.SearchPuzzleVO;
 @RequestMapping(value = "/api/search")
 public class SearchController {
     
-    /*
-     * TODO Autowired 사용 시 왜 에러가 나는지 확인
-     * Field searchService in travel.plan.api.search.SearchController required a bean of type 'travel.plan.api.search.service.SearchService' that could not be found.
-     */
     @Autowired
     SearchService searchService;
 
@@ -39,7 +35,6 @@ public class SearchController {
         return searchService.searchArea(searchText);
     }
 
-    // TODO 추후에 리턴 타입 수정, vo 객체가 필요한지 확인
     @Operation(summary = "장소혼잡도검색", description = "TODO")
     @RequestMapping(value = "/searchPuzzle", method = RequestMethod.GET)
     public SearchPuzzleVO searchPuzzle(SearchPuzzleDTO searchPuzzle) throws Exception {
@@ -52,7 +47,6 @@ public class SearchController {
         return searchService.searchLocation(searchLocation);
     }
 
-    // TODO 추후에 리턴 타입 수정, vo 객체가 필요한지 확인
     @Operation(summary = "공통정보검색", description = "TODO")
     @RequestMapping(value = "/searchDetail", method = RequestMethod.GET)
     public SearchDetailVO searchDetail(SearchDetailDTO searchDetailDTO) throws Exception {
