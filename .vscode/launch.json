@@ -11,9 +11,18 @@
             "mainClass": "travel.plan.TravelApplication",
             "projectName": "trvbe",
             "args": "--debug --spring.profiles.active=local ",
-            "vmArgs": " -Dspring.profiles.active=local ",
-            // "envFile": "${workspaceFolder}/.env.local"
+            "vmArgs": " -Dspring.profiles.active=local "
         },
+        {
+            "type": "java",
+            "name": "Spring Boot-TravelApplication<TravelPlan_Back>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "travel.plan.TravelApplication",
+            "projectName": "TravelPlan_Back",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
     ]
       
 }
