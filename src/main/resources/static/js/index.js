@@ -165,6 +165,70 @@ function placeItem(result) {
     showTmap(result);
 }
 
+//--------------------------------------댓글영역
+
+//댓글 목록
+function displayComments(comments){
+    var commentSection = $('#comment_list_box');
+    commentSection.empty();
+
+    //최신 5개 상단 고정
+    for(var i=0; i<Math.min(5, comments.length); i++){
+        commentSection.append("<div>"+comments[i].rplyCtt+"</div>");
+    }
+
+    //나머지 순서대로 표시
+    for (var i = 5; i < comments.length; i++) {
+        commentSection.append("<div>" + comments[i].rplyCtt + "</div>");
+    }
+}
+
+//댓글 작성
+function submitComment(){
+    var commentContent = $('#commentContent').val();
+    if(commentContent.trim() === ""){
+        alert("댓글 내용을 입력해주세요.");
+        return;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/saveComment",
+        contentType: "application/json",
+        data: JSON.stringify({
+            rplyCtt: commentContent,
+            contTypeId: contTypeId,
+            regrId: userId
+        }),
+        success: function (response) {
+            loadComments();
+        },
+        error: function (error) {
+            console.error("댓글 작성에 실패했습니다.",error);
+        }
+    });
+}
+
+// 댓글 목록 불러오기
+function loadComments() {
+    $.ajax({
+        type: "GET",
+        url: "/getComments",
+        data: { contTypeId },
+        success: function (response) {
+            displayComments(response.data);
+        },
+        error: function (error) {
+            console.error("댓글 목록을 불러오는데 실패했습니다.",error);
+        }
+    });
+}
+
+// 로드 시 댓글 목록 자동으로 불러오기
+$(document).ready(function(){
+    loadComments();
+});
+
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
 
