@@ -3,16 +3,17 @@
 
 // 화면이 처음 보여졌을 때 실행되어야 할 기능들
 window.onload = function() {
-    // initTmap();
-    //initSuggestPlace();
+    initTmap();
+    initSuggestPlace();
 }
 
-// 잠실롯데월드의 위도, 경도
-let firstLat = 37.5110739;
-let firstLng = 127.09815059;
 var map, marker, rect;
 
 function initTmap(){
+    // 잠실롯데월드의 위도, 경도
+    let firstLat = 37.5110739;
+    let firstLng = 127.09815059;
+    
     map = new Tmapv2.Map("map_div",  
     {
         center: new Tmapv2.LatLng(firstLat, firstLng), // 지도 초기 좌표(잠실 롯데월드)
@@ -25,10 +26,16 @@ function initTmap(){
 		position: new Tmapv2.LatLng(firstLat, firstLng),
 		map: map
 	});
-
+    
     $.ajax({
-        url: '/congestionInit',
+        url: '/api/main/congestion',
         type: 'GET',
+        data: {
+            id: "187961",
+            name: "롯데월드 잠실점",
+            noorLat: 37.5110739,
+            noorLon: 127.09815059
+        },
         success: function(response){
             rect = new Tmapv2.Rectangle({
                 bounds: new Tmapv2.LatLngBounds(new Tmapv2.LatLng(Number(firstLat)+ 0.0014957,Number(firstLng)-0.0018867),
@@ -52,7 +59,6 @@ function showTmap(result) {
     let value =JSON.parse($(result).attr('value'));
     let lat = value.noorLat;
     let lng = value.noorLon;
-    // {"id":"5845839","name":"경복궁 한옥마을점 주차장","noorLat":37.39052415,"noorLon":126.63841805}
     
     var WGS84GEO = new Tmapv2.LatLng(lat, lng);
     var lonlat = Tmapv2.Projection.convertWGS84GEOToEPSG3857(WGS84GEO);
@@ -63,7 +69,7 @@ function showTmap(result) {
     rect.setMap(null); // 사각형 삭제
 
     $.ajax({
-        url: '/congestion',
+        url: '/api/main/congestion',
         type: 'GET',
         data: value,
         success: function(response){
@@ -262,9 +268,19 @@ function displayComments(result){
 
 // 메인화면 진입 시 첫 장소 근처에 위치한 관광명소의 추천 리스트 제공
 function initSuggestPlace() {
+    // 잠실롯데월드의 위도, 경도
+    let firstLat = 37.5110739;
+    let firstLng = 127.09815059;
+
     $.ajax({
-        url: '/suggestInit',
+        url: '/api/main/suggest',
         type: 'GET',
+        data: {
+            id: "187961",
+            name: "롯데월드 잠실점",
+            noorLat: firstLat,
+            noorLon: firstLng
+        },
         success: function(response){
             // 해당 데이터를 추천방문지에 뿌려줌
             showSuggestPlace(response.body);
@@ -280,9 +296,14 @@ function suggestPlace(vo) {
     // {"id":"5845839","name":"경복궁 한옥마을점 주차장","noorLat":37.39052415,"noorLon":126.63841805}
 
     $.ajax({
-        url: '/suggest',
+        url: '/api/main/suggest',
         type: 'GET',
-        data: JSON.parse(value),
+        data: {
+            id: value.id,
+            name: value.name,
+            noorLat: value.noorLat,
+            noorLon: value.noorLon
+        },
         success: function(response){
             // 해당 데이터를 추천방문지에 뿌려줌
             showSuggestPlace(response.body);
