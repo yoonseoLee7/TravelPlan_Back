@@ -1,12 +1,13 @@
 package travel.plan.view;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,9 +20,7 @@ import travel.plan.api.search.dto.SearchLocationDTO;
 import travel.plan.api.search.service.SearchService;
 import travel.plan.api.search.vo.SearchDetailVO;
 import travel.plan.api.search.vo.SearchLocationVO;
-
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import travel.plan.data.service.UserService;
 
 
 @Slf4j
@@ -32,6 +31,9 @@ public class MainRestController {
     
     @Autowired
     SearchService searchService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/suggest", method=RequestMethod.GET)
     public Map<String, Object> requestMethodName(@RequestParam String searchText) throws Exception {
@@ -60,4 +62,13 @@ public class MainRestController {
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, detailList);
     }
     
+    @RequestMapping(value = "/checkId", method = RequestMethod.POST)
+    public Map<String, Object> checkId(@RequestParam Map<String, Object> map) throws Exception {
+        return userService.checkId(map);
+    }
+
+    @RequestMapping(value = "/sendUserInfo", method = RequestMethod.POST)
+    public Map<String, Object> sendLoginInfo(@RequestParam Map<String, Object> map) throws Exception {
+        return userService.userJoin(map);
+    }
 }

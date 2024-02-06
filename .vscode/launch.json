@@ -9,7 +9,7 @@
             "name": "Spring Boot-TravelApplication",
             "request": "launch",
             "mainClass": "travel.plan.TravelApplication",
-            "projectName": "trvbe",
+            "projectName": "TravelPlan_Back",
             "args": "--debug --spring.profiles.active=local ",
             "vmArgs": " -Dspring.profiles.active=local "
         },

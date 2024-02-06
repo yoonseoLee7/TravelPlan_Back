@@ -3,10 +3,6 @@ package travel.plan.data.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
-import org.springframework.ui.Model;
-
-import jakarta.servlet.http.HttpServletRequest;
 import travel.plan.data.dto.UserDTO;
 
 public interface UserService {
@@ -17,4 +13,6 @@ public interface UserService {
 
     public List<UserDTO> selectAll();
 
+    public Map<String, Object> checkId(Map<String, Object> map); // 아이디 중복 체크
+    public Map<String, Object> userJoin(Map<String, Object> map); // 사용자 회원가입
 }

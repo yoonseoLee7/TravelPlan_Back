@@ -27,6 +27,7 @@ import travel.plan.api.search.vo.SearchDetailVO;
 import travel.plan.api.search.vo.SearchLocationVO;
 import travel.plan.data.dto.RplyHstrDTO;
 import travel.plan.data.service.RplyHstrService;
+import travel.plan.data.service.UserService;
 
 @Slf4j
 @Controller
@@ -36,6 +37,9 @@ public class MainController {
     SearchService searchService;
     @Autowired
     RplyHstrService rplyHstrService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping("/")
     public String mainView() {

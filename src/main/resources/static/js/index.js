@@ -3,7 +3,7 @@
 
 // 화면이 처음 보여졌을 때 실행되어야 할 기능들
 window.onload = function() {
-    initTmap();
+    // initTmap();
     //initSuggestPlace();
 }
 
@@ -314,4 +314,46 @@ function checkTabStatus(result) {
         $('#join').hide();
         $('#login').show();
     }
+}
+
+function sendUserInfo() {
+    $.ajax({
+        url: '/api/main/sendUserInfo',
+        type: 'POST',
+        data: {username:$('#join_username').val(),
+            password:$('#join_password').val()},
+        success: function(response){
+            if(response.code == "Fail") {
+                console.log(response.message);
+            }
+            if(response.code == "Success") {
+                console.log("회원가입 성공");
+            }
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
+}
+
+// 아이디 중복 여부 체크
+function checkId() {
+    $.ajax({
+        url: '/api/main/checkId',
+        type: 'POST',
+        data: {username:$('#join_username').val(),
+            password:$('#join_password').val()},
+        success: function(response){
+            if(response.code == "Fail") {
+                // TODO 중복 닉네임 메시지 띄우기
+                console.log(response.message);
+            }
+            if(response.code == "Success") {
+                sendUserInfo();
+            }
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
 }
