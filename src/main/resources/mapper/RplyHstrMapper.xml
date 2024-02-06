@@ -3,19 +3,20 @@
 <mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
     <insert id="saveComment" parameterType="RplyHstrDTO">
         insert into RPLY_HSTR values(
-            #{rply_id},
-            #{rply_ctt},
-            #{del_yn},
-            #{reg_dtm},
-            #{regr_id},
-            #{corc_dtm},
-            #{corr_id},
-            #{uppr_rply_id},
-            #{cont_type_id}
+            #{rplyId},
+            #{rplyCtt},
+            #{delYn},
+            #{regDtm},
+            #{regrId},
+            #{corcDtm},
+            #{corrId},
+            #{upprRplyId},
+            #{contTypeId}
         )
     </insert>
 
     <select id="getComments" resultType="RplyHstrDTO">
-        select * from RPLY_HSTR where cont_type_id = #{cont_type_id} order by created_at desc limit 5
+        select * from RPLY_HSTR where cont_type_id = #{contTypeId} and del_yn = 'N'
+        order by reg_dtm desc limit 5
     </select>
 </mapper>

@@ -10,34 +10,34 @@ public class UserDTO {
 
     //회원id auto_increment
     @NotBlank
-    private int user_id;
+    private int userId;
     
     //회원닉네임
     @NotBlank
-    private String user_nick;
+    private String userNick;
 
     //회원비밀번호
     @NotBlank
-    private String user_pwd;
+    private String userPwd;
 
     //등록일시
     @NotBlank
-    private LocalDateTime reg_dtm;
+    private LocalDateTime regDtm;
 
     //등록회원id
     @NotBlank
-    private int regr_id;
+    private int regrId;
 
     //탈퇴일시
-    private LocalDateTime trmn_dtm;
+    private LocalDateTime trmnDtm;
 
     //탈퇴여부
-    private String trmn_yn;
+    private String trmnYn;
 
     //수정일시
-    private LocalDateTime corc_dtm;
+    private LocalDateTime corcDtm;
 
     //수정id
-    private int corr_id;
+    private int corrId;
 
 }

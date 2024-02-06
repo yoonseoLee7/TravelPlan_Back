@@ -53,7 +53,7 @@ public class RplyHstrServiceImpl implements RplyHstrService{
             //contid = contid 일때 저장
             if(locationVO.getContentid() == searchDetailVO.getContentid()){
 
-            rplyHstrDTO.setCont_type_id(searchDetailVO.getContenttypeid());
+            rplyHstrDTO.setContTypeId(searchDetailVO.getContenttypeid());
 
             rplyHstrMapper.saveComment(rplyHstrDTO);
             }
