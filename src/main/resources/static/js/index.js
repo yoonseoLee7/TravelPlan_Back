@@ -193,6 +193,7 @@ function displayComments(result){
             noorLon: lng
         },
         success: function(response){
+            submitComment(response.body);
             loadComments(response.body);
         },
         error: function(error){
@@ -201,25 +202,33 @@ function displayComments(result){
     });
 }
 
-//댓글 작성
-function submitComment(){
+//댓글 작성 & 저장
+function submitComment(result){
+    var contTypeId = result.contTypeId;
+
+    var currentTime = new Date();
+    var formattedTime = currentTime.toISOString().slice(0,19).replace('T',' ');
+
     var commentContent = $('#commentContent').val();
     if(commentContent.trim() === ""){
         alert("댓글 내용을 입력해주세요.");
         return;
     }
+    //러그인 안도있다면 로그이 ㄴ후 이용하세요
 
     $.ajax({
         type: "POST",
-        url: "/saveComment",
-        contentType: "application/json",
-        data: JSON.stringify({
+        url: "/api/main/saveComment",
+        data: {
+            //userid
             rplyCtt: commentContent,
-            contTypeId: contTypeId,
-            regrId: userId
-        }),
+            contTypeId,
+            delYn: 'N',
+            regDtm: formattedTime
+            //regrId: userId 로그인 시 유저아이디
+        },
         success: function (response) {
-            loadComments();
+            loadComments(response.body);
         },
         error: function (error) {
             console.error("댓글 작성에 실패했습니다.",error);
@@ -227,44 +236,44 @@ function submitComment(){
     });
 }
 
-// // 댓글 loading
-// function loadComments(result) {
-//     var contTypeId = result.conttypeid;
-//     $.ajax({
-//         type: "GET",
-//         url: "/api/main/getComments",
-//         data: {contTypeId},
-//         success: function (comments) {
-//             //최신5개 고정, 최신순 정렬
-//             comments.sort((a,b) => b.regDtm.localeCompare(a.regDtm));
-//             let topComments = comments.slice(0,5);
-//             //최신 댓글 5 화면에 띄우기
-//             displayTopComments(topComments);
-//         },
-//         error: function (error) {
-//             console.error("댓글 로딩 오류",error);
-//         }
-//     });
-// }
+// 댓글 loading
+function loadComments(result) {
+    var contTypeId = result.contTypeId;
+    $.ajax({
+        type: "GET",
+        url: "/api/main/getComments",
+        data: {contTypeId},
+        success: function (comments) {
+            //최신5개 고정, 최신순 정렬
+            comments.sort((a,b) => b.regDtm.localeCompare(a.regDtm));
+            let topComments = comments.slice(0,5);
+            //최신 댓글 5 화면에 띄우기
+            displayTopComments(topComments);
+        },
+        error: function (error) {
+            console.error("댓글 로딩 오류",error);
+        }
+    });
+}
 
-// function displayTopComments(comments){
-//     let commentListBox = $('#comment_list_box');
-//     commentListBox.empty();
+function displayTopComments(comments){
+    let commentListBox = $('#comment_list_box');
+    commentListBox.empty();
 
-//     if(comments.length > 0){
-//         comments.forEach(comment => {
-//             let commentHTML = generateCommentHTML(comment);
-//             commentListBox.append(commentHTML);
-//         });
-//     }else {
-//         commentListBox.append('<li>댓글이 없습니다.</li');
-//     }
-// }
+    if(comments.length > 0){
+        comments.forEach(comment => {
+            let commentHTML = generateCommentHTML(comment);
+            commentListBox.append(commentHTML);
+        });
+    }else {
+        commentListBox.append('<li>댓글이 없습니다.</li');
+    }
+}
 
 
-// function generateCommentHTML(comment){
-//     return '<li class="li_search">'+comment.text+'</li>';
-// }
+function generateCommentHTML(comment){
+    return '<li class="li_search">'+comment.text+'</li>';
+}
 
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
