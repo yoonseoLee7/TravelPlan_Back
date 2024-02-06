@@ -20,4 +20,5 @@ public interface UserMapper {
 
     public int checkId(Map<String, Object> map);
     public int userJoin(Map<String, Object> map);
+    public int loginCheck(Map<String, Object> map);
 }

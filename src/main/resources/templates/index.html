@@ -14,7 +14,7 @@
             <div id="title_box">
                 <div id="title">
                     <h1 class="h1_title">대국민 눈치게임</h1>
-                    <img class="img_title" src="images/sample.jpg" >
+                    <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
                 </div>
                 <p class="p_title_current_time">2024-04-28 14:56:04</p>
             </div>
@@ -82,9 +82,8 @@
                 </div>
                 <input type="text" id="login_username" name="username" placeholder="닉네임">
                 <input type="password" id="login_password" name="password" placeholder="비밀번호">
-                <div>
-                    <button class="modal_button" type="submit">로그인</button>
-                </div>
+                <div class="error_message_login error_message"></div>
+                <button class="modal_button" type="submit" onclick="loginCheck()">로그인</button>
             </div>
             <div class="modal_body" id="join" style="display: none;">
                 <div id="title">
@@ -93,9 +92,10 @@
                 </div>
                 <input type="text" id="join_username" name="username" placeholder="닉네임">
                 <input type="password" id="join_password" name="password" placeholder="비밀번호">
-                <!-- <button class="modal_button" type="submit" onclick="sendUserInfo()">회원가입</button> -->
+                <div class="error_message_join error_message"></div>
                 <button class="modal_button" type="submit" onclick="checkId()">회원가입</button>
                 <div>
+                    <p>😥</p>
                     <p>닉네임과 비밀번호를 꼭 기억해주세요!</p>
                     <p>잊어버리실 경우 찾을 수 없습니다.</p>
                 </div>
