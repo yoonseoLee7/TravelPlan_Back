@@ -1,6 +1,5 @@
 package travel.plan.data.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,13 +8,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import travel.common.ApiResult;
-import travel.exception.ApiException;
 import travel.exception.ApiStatus;
-import travel.plan.api.search.dto.SearchDetailDTO;
-import travel.plan.api.search.dto.SearchLocationDTO;
 import travel.plan.api.search.service.SearchService;
-import travel.plan.api.search.vo.SearchDetailVO;
-import travel.plan.api.search.vo.SearchLocationVO;
 import travel.plan.data.dto.RplyHstrDTO;
 import travel.plan.data.mapper.RplyHstrMapper;
 import travel.plan.data.service.RplyHstrService;
@@ -29,44 +23,38 @@ public class RplyHstrServiceImpl implements RplyHstrService{
     @Autowired
     SearchService searchService;
 
-    //locatioAPI에서 값가져와서 vo에 저장
+    // //locatioAPI에서 값가져와서 vo에 저장
+    // @Override
+    // public List<SearchLocationVO> locationByContId(SearchLocationDTO searchLocationDTO) throws Exception {
+
+    //     List<SearchLocationVO> searchLocation = new ArrayList<SearchLocationVO>();
+    //     try {
+    //         searchLocation = searchService.searchLocation(searchLocationDTO);
+    //     } catch (Exception e) {
+    //         log.error("tmap api request error", e);
+    //         throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
+    //     }
+
+    //     return searchLocation;
+
+    // }
+
+
+    //댓글테이블에 저장
     @Override
-    public List<SearchLocationVO> locationByContId(SearchLocationDTO searchLocationDTO) throws Exception {
-
-        List<SearchLocationVO> searchLocation = new ArrayList<SearchLocationVO>();
-        try {
-            searchLocation = searchService.searchLocation(searchLocationDTO);
-        } catch (Exception e) {
-            log.error("tmap api request error", e);
-            throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
-        }
-
-        return searchLocation;
-
-    }
-
-
-    //conttypeid가져와서 댓글테이블에 저장
-    @Override
-    public void saveComment(RplyHstrDTO rplyHstrDTO){
-        try {
-            SearchLocationVO locationVO = new SearchLocationVO();
-            SearchDetailVO searchDetailVO = searchService.searchDetail(new SearchDetailDTO());
-            //contid = contid 일때 저장
-            if(locationVO.getContentid() == searchDetailVO.getContentid()){
-
-            rplyHstrDTO.setContTypeId(searchDetailVO.getContenttypeid());
-
-            rplyHstrMapper.saveComment(rplyHstrDTO);
-            }
-        } catch (Exception e) {
-            log.error("=============DBsave error==============",e);
-        }
-
+    public Map<String,Object> saveComment(Map<String,Object> map){
         
+            int result = rplyHstrMapper.saveComment(map); 
+            log.info("댓글db저장",result);
+            
+            if(result == 1){
+                return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,result);            
+            }else{
+                return ApiResult.getHashMap(ApiStatus.AP_FAIL, "댓글 저장 실패했습니다.");
+            }        
     }
 
-    
+    //댓글 최신화 최대5개 정렬 가져오기
     @Override
     public Map<String,Object> getComments(String contTypeId) throws Exception{
         

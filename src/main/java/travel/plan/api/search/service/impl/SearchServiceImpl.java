@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import travel.common.ApiResult;
+import travel.exception.ApiException;
 import travel.exception.ApiStatus;
 import travel.plan.api.search.dto.SearchDetailDTO;
 import travel.plan.api.search.dto.SearchLocationDTO;
@@ -239,6 +240,21 @@ public class SearchServiceImpl implements SearchService {
         }
 
         return detailList;
+    }
+
+    @Override
+    public Map<String, Object> searchList(String searchText) throws Exception {
+        List<SearchAreaVO> searchArea = new ArrayList<SearchAreaVO>();
+
+        try {
+            searchArea = searchArea(searchText);
+            return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,searchArea);
+        } catch (Exception e) {
+            log.error("api request error", e);
+            throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
+        }
+
+
     }
     
     /* 
