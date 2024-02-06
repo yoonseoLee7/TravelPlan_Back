@@ -5,15 +5,19 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import travel.plan.api.search.service.SearchService;
 import travel.plan.api.search.vo.SearchAreaVO;
+import travel.plan.data.dto.RplyHstrDTO;
+import travel.plan.data.service.RplyHstrService;
 import travel.plan.data.service.UserService;
 
 
@@ -28,6 +32,9 @@ public class MainRestController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RplyHstrService rplyHstrService;
 
     // 지도에 검색지 표시
     @GetMapping("/congestion")
@@ -49,5 +56,17 @@ public class MainRestController {
     @PostMapping("/sendUserInfo")
     public Map<String, Object> sendLoginInfo(@RequestParam Map<String, Object> map) throws Exception {
         return userService.userJoin(map);
+    }
+    
+    //댓글창에 최신 5개 정렬
+    @GetMapping("/getCommets")
+    public Map<String,Object> getComments(@PathVariable String contTypeId) throws Exception{
+        return rplyHstrService.getComments(contTypeId);
+    }
+
+    //댓글테이블 정보저장
+    @PostMapping("/saveComment")
+    public void saveComment(@RequestBody RplyHstrDTO rplyHstrDTO){
+        rplyHstrService.saveComment(rplyHstrDTO);
     }
 }

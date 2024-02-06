@@ -1,6 +1,7 @@
 package travel.plan.data.service;
 
 import java.util.List;
+import java.util.Map;
 
 import travel.plan.api.search.dto.SearchLocationDTO;
 import travel.plan.api.search.vo.SearchLocationVO;
@@ -12,6 +13,6 @@ public interface RplyHstrService {
 
     public void saveComment(RplyHstrDTO rplyHstrDTO);
 
-    public List<RplyHstrDTO> getComments(String contTypeId);
+    public Map<String,Object> getComments(String contTypeId) throws Exception;
 
 }

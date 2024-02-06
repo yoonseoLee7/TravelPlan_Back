@@ -2,11 +2,13 @@ package travel.plan.data.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import travel.common.ApiResult;
 import travel.exception.ApiException;
 import travel.exception.ApiStatus;
 import travel.plan.api.search.dto.SearchDetailDTO;
@@ -58,7 +60,6 @@ public class RplyHstrServiceImpl implements RplyHstrService{
             rplyHstrMapper.saveComment(rplyHstrDTO);
             }
         } catch (Exception e) {
-            e.getMessage();
             log.error("=============DBsave error==============",e);
         }
 
@@ -67,8 +68,10 @@ public class RplyHstrServiceImpl implements RplyHstrService{
 
     
     @Override
-    public List<RplyHstrDTO> getComments(String cont_type_id){
+    public Map<String,Object> getComments(String contTypeId) throws Exception{
         
-        return rplyHstrMapper.getComments(cont_type_id);
+        List<RplyHstrDTO> comments = rplyHstrMapper.getComments(contTypeId);
+
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,comments);
     }
 }
