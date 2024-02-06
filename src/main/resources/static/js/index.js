@@ -186,82 +186,85 @@ function displayComments(result){
     $('#commentList').text(name);
 
     $.ajax({
-        url:'/suggest',
+        url:'/api/main/suggest',
         type:'GET',
-        contentType:'application/json',
-        data:JSON.stringify({
+        data:{
             noorLat: lat,
             noorLon: lng
-        }),
+        },
         success: function(response){
-            let contTypeId = response.contTypeId;
-            loadComments(contTypeId);
+            loadComments(response.body);
         },
         error: function(error){
             console.error('conttypeid 추출 error',error);
         }
     });
-    // var commentSection = $('#comment_list_box');
-
-    // //최신 5개 상단 고정
-    // for(var i=0; i<Math.min(5, comments.length); i++){
-    //     commentSection.append("<div>"+comments[i].rplyCtt+"</div>");
-    // }
-
-    // //나머지 순서대로 표시
-    // for (var i = 5; i < comments.length; i++) {
-    //     commentSection.append("<div>" + comments[i].rplyCtt + "</div>");
-    // }
 }
 
-// //댓글 작성
-// function submitComment(){
-//     var commentContent = $('#commentContent').val();
-//     if(commentContent.trim() === ""){
-//         alert("댓글 내용을 입력해주세요.");
-//         return;
-//     }
+//댓글 작성
+function submitComment(){
+    var commentContent = $('#commentContent').val();
+    if(commentContent.trim() === ""){
+        alert("댓글 내용을 입력해주세요.");
+        return;
+    }
 
-//     $.ajax({
-//         type: "POST",
-//         url: "/saveComment",
-//         contentType: "application/json",
-//         data: JSON.stringify({
-//             rplyCtt: commentContent,
-//             contTypeId: contTypeId,
-//             regrId: userId
-//         }),
-//         success: function (response) {
-//             loadComments();
-//         },
-//         error: function (error) {
-//             console.error("댓글 작성에 실패했습니다.",error);
-//         }
-//     });
-// }
+    $.ajax({
+        type: "POST",
+        url: "/saveComment",
+        contentType: "application/json",
+        data: JSON.stringify({
+            rplyCtt: commentContent,
+            contTypeId: contTypeId,
+            regrId: userId
+        }),
+        success: function (response) {
+            loadComments();
+        },
+        error: function (error) {
+            console.error("댓글 작성에 실패했습니다.",error);
+        }
+    });
+}
 
-// // 댓글 목록 불러오기
-// function loadComments() {
+// // 댓글 loading
+// function loadComments(result) {
+//     var contTypeId = result.conttypeid;
 //     $.ajax({
 //         type: "GET",
-//         url: "/getComments",
-//         data: { contTypeId },
-//         success: function (response) {
-//             displayComments(response.data);
+//         url: "/api/main/getComments",
+//         data: {contTypeId},
+//         success: function (comments) {
+//             //최신5개 고정, 최신순 정렬
+//             comments.sort((a,b) => b.regDtm.localeCompare(a.regDtm));
+//             let topComments = comments.slice(0,5);
+//             //최신 댓글 5 화면에 띄우기
+//             displayTopComments(topComments);
 //         },
 //         error: function (error) {
-//             console.error("댓글 목록을 불러오는데 실패했습니다.",error);
+//             console.error("댓글 로딩 오류",error);
 //         }
 //     });
 // }
 
-// // 로드 시 댓글 목록 자동으로 불러오기
-// $(document).ready(function(){
-//     loadComments('롯데월드 id');
+// function displayTopComments(comments){
+//     let commentListBox = $('#comment_list_box');
+//     commentListBox.empty();
 
-//     $('#')
-// });
+//     if(comments.length > 0){
+//         comments.forEach(comment => {
+//             let commentHTML = generateCommentHTML(comment);
+//             commentListBox.append(commentHTML);
+//         });
+//     }else {
+//         commentListBox.append('<li>댓글이 없습니다.</li');
+//     }
+// }
 
+
+// function generateCommentHTML(comment){
+//     return '<li class="li_search">'+comment.text+'</li>';
+// }
 
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
