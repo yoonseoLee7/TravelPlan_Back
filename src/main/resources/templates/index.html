@@ -20,7 +20,7 @@
             </div>
             <div id="search_box">
                 <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요" id="searchText" autofocus onkeydown="handleKeyDown(event)">
-                <img class="img_search" src="images/search.png" onclick="sendList()">
+                <img class="img_search" src="images/search.png">
             </div>
             <div id="util_box">
                 <p onclick="showModal()">로그인</p>
@@ -51,13 +51,13 @@
             <div id="comment_box">
                 <p class="p_comment" id="commentList">Search Result</p>
                 <div id="comment_list_box">
-                    <ul>
+                    <ul id="comment_list">
                     </ul>
                 </div>
                 <div id="comment_input_box">
                     <img th:src="${로그인프로필이미지}">
-                    <textarea placeholder="댓글을 입력해 주세요" id="commentContent"></textarea>
-                    <button type="button" onclick="submitCommnet()">전송이미지</button>
+                    <input type="text" placeholder="댓글을 입력해 주세요" id="commentContent"/>
+                    <button type="button" id="submitBtn" onclick="submitComment(result)">전송이미지</button>
                 </div>
             </div>
         </div>

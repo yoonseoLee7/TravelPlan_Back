@@ -175,6 +175,47 @@ function placeItem(result) {
 }
 
 //--------------------------------------댓글영역
+//초기화면 기본값 정보
+var defaultSpot = {
+    name: "롯데월드 잠실점",
+    noorLat: 37.5110739,
+    noorLon: 127.09815059
+};
+$(document).ready(function(){
+    //댓글전송클릭했을때
+    $('#submitBtn').click(function(){
+        submitComment(result);
+    });
+    //댓글쓰고 그냥 엔터쳤을때
+    $('#commentContent').keypress(function(event) {
+        if (event.which === 13) {
+            submitComment(result);
+        }
+    });
+    
+    initSpotComments(defaultSpot.noorLat,defaultSpot.noorLon);
+})
+
+//초기화 댓글 conttypeid 가져오기
+function initSpotComments(lat,lng) {
+    $('#commentList').text(defaultSpot.name);
+    $.ajax({
+        url:'/api/main/suggest',
+        type:'GET',
+        data:{
+            noorLat: lat,
+            noorLon: lng
+        },
+        success: function(response) {
+            console.log("초기화면 정보 가져오기 성공");
+            loadComments(response.body);
+            
+        },
+        error: function(error) {
+            console.error("초기화면 정보 가져오기 실패:", error);
+        }
+    });
+}
 
 //conttypeid 가져오기
 function displayComments(result){
@@ -193,8 +234,9 @@ function displayComments(result){
             noorLon: lng
         },
         success: function(response){
-            submitComment(response.body);
+            console.log("conttypeid 보내기성공",response);
             loadComments(response.body);
+            submitComment(response.body);
         },
         error: function(error){
             console.error('conttypeid 추출 error',error);
@@ -202,36 +244,31 @@ function displayComments(result){
     });
 }
 
-//댓글 작성 & 저장
+//선택한 관광지에 댓글 작성 & 저장
 function submitComment(result){
-    var contTypeId = result.contTypeId;
-
     var currentTime = new Date();
     var formattedTime = currentTime.toISOString().slice(0,19).replace('T',' ');
-
     var commentContent = $('#commentContent').val();
-    if(commentContent.trim() === ""){
-        alert("댓글 내용을 입력해주세요.");
-        return;
-    }
-    //러그인 안도있다면 로그이 ㄴ후 이용하세요
+
+    //유효성검사
+    
+    //로그인 후 이용하세요
 
     $.ajax({
         type: "POST",
         url: "/api/main/saveComment",
         data: {
-            //userid
             rplyCtt: commentContent,
-            contTypeId,
-            delYn: 'N',
+            contTypeId: result.contTypeId,
             regDtm: formattedTime
-            //regrId: userId 로그인 시 유저아이디
+            //regrId: 로그인 시 유저아이디가져오는함수;
         },
         success: function (response) {
+            console.log("댓글저장성공",response);
             loadComments(response.body);
         },
         error: function (error) {
-            console.error("댓글 작성에 실패했습니다.",error);
+            console.error("댓글 저장에 실패했습니다.",error);
         }
     });
 }
@@ -244,10 +281,13 @@ function loadComments(result) {
         url: "/api/main/getComments",
         data: {contTypeId},
         success: function (comments) {
-            //최신5개 고정, 최신순 정렬
-            comments.sort((a,b) => b.regDtm.localeCompare(a.regDtm));
+            //최신 5개 댓글대댓글
             let topComments = comments.slice(0,5);
-            //최신 댓글 5 화면에 띄우기
+            //최신순정렬
+            topComments.sort((a,b) => new Date(b.regDtm) - new Date(a.regDtm));
+            
+            console.log("댓글 로딩 성공",topComments);
+            //update
             displayTopComments(topComments);
         },
         error: function (error) {

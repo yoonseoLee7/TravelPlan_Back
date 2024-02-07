@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
-    <insert id="saveComment" parameterType="hashMap">
+    <insert id="saveComment" parameterType="RplyHstrDTO">
         <selectKey resultType="int" keyProperty="rplyId" order="AFTER">
         SELECT LAST_INSERT_ID()
          </selectKey>
@@ -18,7 +18,7 @@
         )
     </insert>
 
-    <select id="getComments" resultType="RplyHstrDTO" parameterType="String">
+    <select id="getComments" resultType="hashMap" parameterType="String">
         select * from RPLY_HSTR where cont_type_id = #{contTypeId} and del_yn = 'N'
         order by reg_dtm desc limit 5
     </select>
