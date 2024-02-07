@@ -35,21 +35,30 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     ObjectMapper objectMapper;
 
-    /*
-     * TODO Value 값 null 뜨는거 확인 필요
-     */
     @Value("${app.sk.api-key}")
     private String skKey;
 
     @Value("${app.visitkorea.api-key}")
     private String tourKey;
 
+    @Value("${app.sk.url-area}")
+    private String urlArea;
+
+    @Value("${app.sk.url-puzzle}")
+    private String urlPuzzle;
+
+    @Value("${app.visitkorea.url-location}")
+    private String urlLocation;
+
+    @Value("${app.visitkorea.url-detail}")
+    private String urlDetail;
+
     // 장소통합검색
     @Override
     public List<SearchAreaVO> searchArea(String searchText) throws Exception {
-        String baseUrl = "https://apis.openapi.sk.com/tmap/pois?";
+        String baseUrl = String.format("%s?", urlArea);
         String jsonString = WebClient.builder().baseUrl(baseUrl)
-                .defaultHeader("appKey", "cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt")
+                .defaultHeader("appKey", skKey)
                 .build()
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -68,10 +77,9 @@ public class SearchServiceImpl implements SearchService {
     // 장소혼잡도검색
     @Override
     public SearchPuzzleVO searchPuzzle(SearchPuzzleDTO searchPuzzleDTO) throws Exception {
-        String baseUrl = "https://apis.openapi.sk.com/puzzle/place/congestion/rltm/pois/poiId="
-                + searchPuzzleDTO.getPoiId() + "?";
+        String baseUrl = String.format("%s=%s?", urlPuzzle, searchPuzzleDTO.getPoiId());
         String jsonString = WebClient.builder().baseUrl(baseUrl)
-                .defaultHeader("appKey", "cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt")
+                .defaultHeader("appKey", skKey)
                 .build()
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -94,10 +102,9 @@ public class SearchServiceImpl implements SearchService {
     // 위치기반관광정보검색
     @Override
     public List<SearchLocationVO> searchLocation(SearchLocationDTO searchLocationDTO) throws Exception {
-        String baseUrl = "http://apis.data.go.kr/B551011/KorService1/locationBasedList1?";
+        String baseUrl = String.format("%s?", urlLocation);
         URI uri = UriComponentsBuilder.fromUriString(baseUrl)
-                .queryParam("serviceKey",
-                        "yLQPmT7JIJF5Bd28tbZu1IhswhfeBfNXj%2BxyzHFtG3YxegDuvgDAfFouxMT9yAQUcU%2B7TGc2JhHEFQP7aQdX0A%3D%3D")
+                .queryParam("serviceKey", tourKey)
                 .queryParam("MobileOS", searchLocationDTO.getMobileOS())
                 .queryParam("MobileApp", searchLocationDTO.getMobileApp())
                 .queryParam("mapX", searchLocationDTO.getMapX())
@@ -126,10 +133,9 @@ public class SearchServiceImpl implements SearchService {
     // 공통정보검색
     @Override
     public SearchDetailVO searchDetail(SearchDetailDTO searchDetailDTO) throws Exception {
-        String baseUrl = "http://apis.data.go.kr/B551011/KorService1/detailCommon1?";
+        String baseUrl = String.format("%s?", urlDetail);
         URI uri = UriComponentsBuilder.fromUriString(baseUrl)
-                .queryParam("serviceKey",
-                        "yLQPmT7JIJF5Bd28tbZu1IhswhfeBfNXj%2BxyzHFtG3YxegDuvgDAfFouxMT9yAQUcU%2B7TGc2JhHEFQP7aQdX0A%3D%3D")
+                .queryParam("serviceKey", tourKey)
                 .queryParam("MobileOS", searchDetailDTO.getMobileOS())
                 .queryParam("MobileApp", searchDetailDTO.getMobileApp())
                 .queryParam("contentId", searchDetailDTO.getContentId())
@@ -160,7 +166,6 @@ public class SearchServiceImpl implements SearchService {
     // 지도 위치 및 혼잡도 표시
     @Override
     public Map<String, Object> congestion(SearchAreaVO vo) throws Exception {
-        System.out.println("aaaaaaa" + vo);
         SearchPuzzleDTO dto = new SearchPuzzleDTO();
         dto.setPoiId(vo.getId());
         dto.setNoorLat(vo.getNoorLat());
@@ -253,8 +258,6 @@ public class SearchServiceImpl implements SearchService {
             log.error("api request error", e);
             throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
         }
-
-
     }
     
     /* 
