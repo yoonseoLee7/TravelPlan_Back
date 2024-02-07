@@ -443,7 +443,7 @@ function checkTabStatus(result) {
 
 function sendUserInfo() {
     $.ajax({
-        url: '/api/main/sendUserInfo',
+        url: '/api-docs/sendUserInfo',
         type: 'POST',
         data: {username:$('#join_username').val(),
             password:$('#join_password').val()},
@@ -465,7 +465,7 @@ function sendUserInfo() {
 // 아이디 중복 여부 체크
 function checkId() {
     $.ajax({
-        url: '/api/main/checkId',
+        url: '/api-docs/checkId',
         type: 'POST',
         data: {username:$('#join_username').val(),
             password:$('#join_password').val()},
@@ -486,7 +486,7 @@ function checkId() {
 
 function loginCheck() {
     $.ajax({
-        url: '/api/main/loginCheck',
+        url: '/api-docs/loginCheck',
         type: 'GET',
         data: {username:$('#login_username').val(),
             password:$('#login_password').val()},

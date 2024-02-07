@@ -49,21 +49,6 @@ public class MainRestController {
         return searchService.suggest(vo);
     }
 
-    @PostMapping("/checkId")
-    public Map<String, Object> checkId(@RequestParam Map<String, Object> map) throws Exception {
-        return userService.checkId(map);
-    }
-
-    @PostMapping("/sendUserInfo")
-    public Map<String, Object> sendLoginInfo(@RequestParam Map<String, Object> map) throws Exception {
-        return userService.userJoin(map);
-    }
-
-    @GetMapping("/loginCheck")
-    public Map<String, Object> loginCheck(@RequestParam Map<String, Object> map) throws Exception {
-        return userService.loginCheck(map);
-    }
-    
     //댓글창에 최신 5개 정렬
     @GetMapping("/getCommets")
     public Map<String,Object> getComments(@PathVariable String contTypeId) throws Exception{
@@ -80,10 +65,6 @@ public class MainRestController {
     @GetMapping("/searchList")
     @ResponseBody
     public Map<String,Object> searchList(@RequestParam String searchText) throws Exception {
-        
-
         return searchService.searchList(searchText);
     }
-
-
 }
