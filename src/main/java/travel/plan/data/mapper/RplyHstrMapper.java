@@ -8,7 +8,7 @@ import travel.plan.data.dto.RplyHstrDTO;
 
 @Mapper
 public interface RplyHstrMapper {
-    public int saveComment(RplyHstrDTO rplyHstrDTO);
+    public void saveComment(RplyHstrDTO rplyHstrDTO);
 
     public List<RplyHstrDTO> getComments(String contTypeId);
 }

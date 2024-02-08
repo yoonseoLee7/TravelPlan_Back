@@ -259,6 +259,29 @@ public class SearchServiceImpl implements SearchService {
             throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
         }
     }
+
+    // @Override
+    // public Map<String, Object> selectContTypeid(SearchAreaVO searchAreaVO) throws Exception {
+    //     SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
+    //     searchLocationDTO.setMobileApp("DEMO");
+    //     searchLocationDTO.setMobileOS("WIN");
+    //     searchLocationDTO.setMapX(searchAreaVO.getNoorLon());
+    //     searchLocationDTO.setMapY(searchAreaVO.getNoorLat());
+    //     searchLocationDTO.setRadius(500);
+
+    //     SearchDetailVO searchDetailVO = searchDetail(null);
+    //     // SearchLocationVO searchLocationVO = new SearchLocationVO();
+
+    //     // SearchDetailDTO searchDetailDTO = new SearchDetailDTO();
+    //     // searchDetailDTO.setMobileApp("DEMO");
+    //     // searchDetailDTO.setMobileOS("WIN");
+    //     // searchDetailDTO.setContentId(searchLocationVO.getContentid()); 
+
+        
+
+    //     return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, searchDetailVO); 
+
+    // }
     
     /* 
     URLConnection을 사용하여 데이터 가져오기

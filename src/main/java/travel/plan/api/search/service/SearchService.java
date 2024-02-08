@@ -32,5 +32,8 @@ public interface SearchService {
     public Map<String, Object> suggest(SearchAreaVO vo) throws Exception;
 
     //검색 리스트 출력
-    public Map<String,Object> searchList(String searchText) throws Exception;
+    public Map<String, Object> searchList(String searchText) throws Exception;
+
+    //댓글 저장 출력위한 conttypeid 호출용
+    // public Map<String, Object> selectContTypeid(SearchAreaVO searchAreaVO) throws Exception;
 }

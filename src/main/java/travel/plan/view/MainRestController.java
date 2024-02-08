@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,10 +48,10 @@ public class MainRestController {
         return searchService.suggest(vo);
     }
 
-    //댓글창에 최신 5개 정렬
+    //댓글창에 최신 5개 정렬하여 로딩
     @GetMapping("/getCommets")
-    public Map<String,Object> getComments(@PathVariable String contTypeId) throws Exception{
-        return rplyHstrService.getComments(contTypeId);
+    public Map<String,Object> getComments(@RequestParam String poiId) throws Exception{
+        return rplyHstrService.getComments(poiId);
     }
 
     //댓글테이블 정보저장

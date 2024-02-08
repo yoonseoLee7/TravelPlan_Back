@@ -16,7 +16,7 @@ public class RplyHstrDTO {
 
     //관광지코드번호,댓글내용,삭제여부
     @NotBlank
-    private String contTypeId,rplyCtt,delYn;
+    private String rplyCtt,delYn;
 
     //등록일시
     @NotBlank
@@ -24,4 +24,7 @@ public class RplyHstrDTO {
     
     //수정일시
     private LocalDateTime corcDtm;
+
+    //관광지코드번호,장소통합번호
+    private String contTypeId,poiId;
 }

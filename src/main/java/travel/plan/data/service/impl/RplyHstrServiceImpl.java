@@ -1,5 +1,6 @@
 package travel.plan.data.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,25 +41,23 @@ public class RplyHstrServiceImpl implements RplyHstrService{
     // }
 
 
-    //댓글테이블에 저장
+    //mainpage poiid로 댓글테이블에 저장
     @Override
     public Map<String,Object> saveComment(RplyHstrDTO rplyHstrDTO){
+        rplyHstrMapper.saveComment(rplyHstrDTO);
+
+        Map<String, Object> apiResult = new HashMap<>();
+        apiResult.put("status", "success");
+        apiResult.put("message", "mainpage reply 저장 성공");
         
-            int result = rplyHstrMapper.saveComment(rplyHstrDTO); 
-            log.info("댓글db저장",result);
-            
-            if(result == 1){
-                return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,result);            
-            }else{
-                return ApiResult.getHashMap(ApiStatus.AP_FAIL, "댓글 저장 실패했습니다.");
-            }        
+        return apiResult;  
     }
 
     //댓글 최신화 최대5개 정렬 가져오기
     @Override
-    public Map<String,Object> getComments(String contTypeId){
+    public Map<String,Object> getComments(String poiId){
         
-        List<RplyHstrDTO> comments = rplyHstrMapper.getComments(contTypeId);
+        List<RplyHstrDTO> comments = rplyHstrMapper.getComments(poiId);
 
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,comments);
     }

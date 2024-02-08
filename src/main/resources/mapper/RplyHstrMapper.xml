@@ -2,11 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
     <insert id="saveComment" parameterType="RplyHstrDTO">
-        <selectKey resultType="int" keyProperty="rplyId" order="AFTER">
-        SELECT LAST_INSERT_ID()
-         </selectKey>
-        insert into RPLY_HSTR(RPLY_ID,RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,CONT_TYPE_ID) values(
-            #{rplyId},
+        insert into RPLY_HSTR(RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,CONT_TYPE_ID,POI_ID) values(
             #{rplyCtt},
             #{delYn},
             #{regDtm},
@@ -14,12 +10,13 @@
             #{corcDtm},
             #{corrId},
             #{upprRplyId},
-            #{contTypeId}
+            #{contTypeId},
+            #{poiId}
         )
     </insert>
 
-    <select id="getComments" resultType="hashMap" parameterType="String">
-        select * from RPLY_HSTR where cont_type_id = #{contTypeId} and del_yn = 'N'
-        order by reg_dtm desc limit 5
+    <select id="getComments" resultType="RplyHstrDTO" parameterType="String">
+        select * from RPLY_HSTR where POI_ID = #{poiId} and DEL_YN = 'N'
+        order by REG_DTM desc limit 5
     </select>
 </mapper>
