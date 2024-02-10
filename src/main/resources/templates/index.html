@@ -23,7 +23,7 @@
                 <img class="img_search" src="images/search.png">
             </div>
             <div id="util_box">
-                <div id="login_box" th:value="${userId}" th:style="${userId == '' ? 'display: none;' : ''}">
+                <div id="login_box" th:style="${userId == '' ? 'display: none;' : ''}">
                     <p onclick="showModal()">로그인</p>
                     <p> | </p>
                     <p onclick="showModal()">회원가입</p>
@@ -38,9 +38,7 @@
         <!-- 지도영역 상자 -->
         <div id="c_inner_map">
             <div id="search_result_box">
-                <div class="p_search">
-                    Search Result
-                </div>
+                <div class="p_search">Search Result</div>
                 <div id="result_list_box"></div>
             </div>
             <div id="tmap_box">
@@ -57,8 +55,7 @@
             <div id="comment_box">
                 <p class="p_comment" id="commentList">Search Result</p>
                 <div id="comment_list_box">
-                    <ul id="comment_list">
-                    </ul>
+                    <ul id="comment_list"></ul>
                 </div>
                 <div id="comment_input_box">
                     <img th:src="${로그인프로필이미지}">
@@ -70,7 +67,7 @@
         <!-- 추천 방문지 상자 -->
         <div>
             <div>
-                <h2 style="padding-left: 10px;">추천 방문지🚩</h2>
+                <h2 style="padding: 30px 0px 0px 10px;">추천 방문지🚩</h2>
             </div>
             <div id="c_inner_suggestion"></div>
         </div>
