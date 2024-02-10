@@ -34,7 +34,7 @@ body {display: block; margin-top: 30px;}
 
 #header #h_inner #util_box {align-items: center; display: flex; justify-content: end; flex-grow: 2; height: inherit; max-width: 22%;}
 #header #h_inner #util_box #login_box {align-items: center; display: flex; width: 100%; height: inherit;}
-.imgThumb {width: 50px; height: 50px; border-radius: 70%;}
+.imgThumb {width: 50px; height: 50px; background-size: 50px; border-radius: 70%; object-fit: cover;}
 
 /* 메인(가운데 영역) */
 #container {position: static; margin: 0px 30px; min-height: 100%;}
@@ -43,8 +43,8 @@ body {display: block; margin-top: 30px;}
 #container #c_inner_map #tmap_box {flex-grow: 3; height: inherit; max-width: 50%;}
 #container #c_inner_map #comment_box {flex-grow: 2; height: inherit; max-width: 33%;}
 
-#search_result_box .p_search {height: 50px; border: 1px solid red;}
-#comment_box .p_comment {height: 50px; border: 1px solid red;}
+#search_result_box .p_search {height: 50px; line-height: 46px; padding-left: 10px; background-color: rgb(238, 226, 226);}
+#comment_box .p_comment {height: 50px; line-height: 46px; padding-left: 10px; font-size: 24px; font-weight: bold;}
 
 #container #search_result_box #result_list_box {width: inherit; height: 450px; overflow: scroll; overflow-x: hidden;}
 

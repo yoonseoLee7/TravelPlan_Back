@@ -28,7 +28,9 @@
                     <p> | </p>
                     <p onclick="showModal()">회원가입</p>
                 </div>
-                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" width="100" height="100">
+                <!-- <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160"> -->
+                <!-- <img class="imgThumb" src="https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg"> -->
+                <img class="imgThumb" src="https://image.utoimage.com/preview/cp872722/2020/10/202010005928_500.jpg" th:onclick="showMyPage([[${userId}]]);">
             </div>
         </div>
     </header>
@@ -36,7 +38,9 @@
         <!-- 지도영역 상자 -->
         <div id="c_inner_map">
             <div id="search_result_box">
-                <p class="p_search">Search Result</p>
+                <div class="p_search">
+                    Search Result
+                </div>
                 <div id="result_list_box"></div>
             </div>
             <div id="tmap_box">
@@ -66,7 +70,7 @@
         <!-- 추천 방문지 상자 -->
         <div>
             <div>
-                <h2>추천 방문지</h2>
+                <h2 style="padding-left: 10px;">추천 방문지🚩</h2>
             </div>
             <div id="c_inner_suggestion"></div>
         </div>
