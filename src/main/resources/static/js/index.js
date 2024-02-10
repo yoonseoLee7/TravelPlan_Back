@@ -5,16 +5,7 @@
 $(window).on('load', function () {
     initTmap();
     initSuggestPlace();
-    initLoginCheck();
 });
-
-function initLoginCheck() {
-    if($('#login_box').val() == null) {
-        $('#login_box').show();
-    } else {
-        $('#login_box').hide();
-    }
-}
 
 var map, marker, rect;
 
@@ -555,12 +546,8 @@ function loginCheck() {
                 $('#login_password').css('border', "2px solid #ff0000");
             }
             if(response.code == "Success") {
-                console.log("사용자 확인 성공");
                 $('.modal').hide();
                 $('#login_box').hide();
-
-                // return document.referrer;
-                // return "index";
             }
         },
         error: function(error){
