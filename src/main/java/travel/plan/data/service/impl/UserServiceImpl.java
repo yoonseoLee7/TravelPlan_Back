@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import travel.common.ApiResult;
 import travel.exception.ApiStatus;
@@ -49,10 +51,13 @@ public class UserServiceImpl implements UserService{
 
     // 로그인 시도한 정보와 동일한 사용자 정보가 있는지 확인
     @Override
-    public Map<String, Object> loginCheck(Map<String, Object> map) {
+    public Map<String, Object> loginCheck(Map<String, Object> map, HttpServletRequest request) {
         int result = userMapper.loginCheck(map);
         if(result >= 1) {
             // 해당 계정이 존재함, 로그인 성공
+            HttpSession session = request.getSession(true); // 세션이 있으면 삭제 후 새로 생성
+            session.setAttribute("userId", map.get("username"));
+
             return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, result);
         } else {
             // 해당 계정이 없음, 로그인 실패

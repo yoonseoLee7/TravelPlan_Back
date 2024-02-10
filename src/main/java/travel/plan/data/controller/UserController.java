@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import travel.plan.data.service.UserService;
 
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/loginCheck")
-    public Map<String, Object> loginCheck(@RequestParam Map<String, Object> map) throws Exception {
-        return userService.loginCheck(map);
+    public Map<String, Object> loginCheck(@RequestParam Map<String, Object> map, HttpServletRequest request) throws Exception {
+        return userService.loginCheck(map, request);
     }
 }
