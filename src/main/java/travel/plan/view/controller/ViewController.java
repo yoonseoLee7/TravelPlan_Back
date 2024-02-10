@@ -19,4 +19,9 @@ public class ViewController {
     public String detail() {
         return "detail";
     }
+
+    @RequestMapping("/myPage")
+    public String myPage() {
+        return "myPage";
+    }
 }
