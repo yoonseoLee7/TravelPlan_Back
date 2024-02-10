@@ -36,25 +36,11 @@ function initTmap(){
             noorLat: 37.5110739,
             noorLon: 127.09815059
         },
-        success: function(response){
-            rect = new Tmapv2.Rectangle({
-                bounds: new Tmapv2.LatLngBounds(new Tmapv2.LatLng(Number(firstLat)+ 0.0014957,Number(firstLng)-0.0018867),
-                 new Tmapv2.LatLng(Number(firstLat)-0.0014957,Number(firstLng) +0.0018867)),// 사각형 영역 좌표
-                strokeColor: "#000000",	//테두리 색상
-                strokeWeight:2.5,
-                strokeOpacity :1,
-                fillColor: congestionLevelColor(response.body).color, // 사각형 내부 색상
-                fillOpacity :0.5, 
-                map: map
-            });
-        },
-        error: function(error){
-            console.error('Error:',error);
-        }
+        success: function(response){createRect(firstLat, firstLng, response.body);},
+        error: function(error){console.error('Error:',error);}
     });
 }
 
-// TODO init 요소들과 합쳐서 하나의 function으로 만들 수 있는지 생각
 function showTmap(result) {
     let value =JSON.parse($(result).attr('value'));
     let lat = value.noorLat;
@@ -72,48 +58,43 @@ function showTmap(result) {
         url: '/api/main/congestion',
         type: 'GET',
         data: value,
-        success: function(response){
-            rect = new Tmapv2.Rectangle({
-                bounds: new Tmapv2.LatLngBounds(new Tmapv2.LatLng(Number(lat)+ 0.0014957,Number(lng)-0.0018867),
-                 new Tmapv2.LatLng(Number(lat)-0.0014957,Number(lng) +0.0018867)),// 사각형 영역 좌표
-                strokeColor: "#000000",	//테두리 색상
-                strokeWeight:2.5,
-                strokeOpacity :1,
-                fillColor: congestionLevelColor(response.body).color, // 사각형 내부 색상
-                fillOpacity :0.5, 
-                map: map
-            });
-        },
-        error: function(error){
-            console.error('Error:',error);
-        }
+        success: function(response){createRect(lat, lng, response.body);},
+        error: function(error){console.error('Error:',error);}
+    });
+}
+
+function createRect(lat, lng, level) {
+    rect = new Tmapv2.Rectangle({
+        bounds: new Tmapv2.LatLngBounds(new Tmapv2.LatLng(Number(lat)+ 0.0014957,Number(lng)-0.0018867),
+         new Tmapv2.LatLng(Number(lat)-0.0014957,Number(lng) +0.0018867)),// 사각형 영역 좌표
+        strokeColor: "#000000",	//테두리 색상
+        strokeWeight:2.5,
+        strokeOpacity :1,
+        fillColor: congestionLevelColor(level).color, // 사각형 내부 색상
+        fillOpacity :0.5, 
+        map: map
     });
 }
 
 //혼잡도별 색상, 혼잡도 표시 함수
 function congestionLevelColor(congestionLevel){
-    var congest = ""
     var color = ""
     
     switch(congestionLevel){
      case 1:
-         congest ="여유";
-         color = '#9cf7bd';
-         break;
+        color = '#9cf7bd';
+        break;
      case 2:
-         congest ="보통";
-           color ='#73b7ff';
-         break;
+        color ='#73b7ff';
+        break;
      case 3:
-         congest ="혼잡";
-           color ='#d9a8ed';
-         break;
+        color ='#d9a8ed';
+        break;
      case 4:
-         congest ="매우 혼잡";
-           color ='#ff96b4';
-         break;
+        color ='#ff96b4';
+        break;
      }
-    return {"color":color,"congest":congest}
+    return {"color":color}
 }
 
 // -----------------------------------------------------------------------------------------------------
@@ -121,9 +102,7 @@ function congestionLevelColor(congestionLevel){
 
 //EnterEvent
 function handleKeyDown(event){
-    if(event.key === "Enter"){
-        searchList();
-    }
+    if(event.key === "Enter"){searchList();}
 }
 
 //검색어 리스트
@@ -153,10 +132,14 @@ function searchResults(results){
         return;
     }
     console.log(results);
-    var ul = $('<div></div>');
+    // var ul = $('<div></div>');
+    var ul = $('<ul></ul>');
     results.body?.forEach(function (result) { // cf. 옵셔널체이닝
         let json = JSON.stringify(result);
-        let li = `<div onclick="placeItem(this);" value='${json}'>${result.name}</div>`;
+        // let li = `<div class="search_items" onclick="placeItem(this);" value='${json}'>${result.name}</div>`;
+        let li = `<li class="search_items" onclick="placeItem(this);" value='${json}'>
+        <img src="images/location.png"/>${result.name}</li>`;
+        
         ul.append(li);
     });
 
@@ -346,9 +329,7 @@ function initSuggestPlace() {
             // 해당 데이터를 추천방문지에 뿌려줌
             showSuggestPlace(response.body);
         },
-        error: function(error){
-            console.error('Error:',error);
-        }
+        error: function(error){console.error('Error:',error);}
     });
 }
 
@@ -369,9 +350,7 @@ function suggestPlace(vo) {
             // 해당 데이터를 추천방문지에 뿌려줌
             showSuggestPlace(response.body);
         },
-        error: function(error){
-            console.error('Error:',error);
-        }
+        error: function(error){console.error('Error:',error);}
     });
 }
 
@@ -472,8 +451,6 @@ function checkTabStatus(result) {
     var tab = $(result).attr("id");
     var classType = $(result).attr("class");
 
-    // tab_login tab_join
-    // tab_selected tab_unselected
     // 탭이 선택되어 있지 않은 경우
     if(tab == "tab_join" && classType == "tab_unselected") {
         $('#tab_join').attr("class", "tab_selected");
@@ -554,4 +531,12 @@ function loginCheck() {
             console.error('Error:',error);
         }
     });
+}
+
+function showMyPage(result) {
+    console.log(result);
+    if(result != '' && result != null) {
+        // 로그인 한 상태인 경우
+        location.href = "/myPage";
+    }
 }
