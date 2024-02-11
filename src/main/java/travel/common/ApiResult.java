@@ -55,6 +55,15 @@ public class ApiResult {
         return convert(resultMap);
     }
 
+    public static HashMap<String, Object> getHashMap(ApiStatus apiStatus, Object body) {
+        log.debug("ApiResult > getHashMap code {} bodyMap {}", apiStatus.getCode(), body);
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("code", apiStatus.getCode());
+        resultMap.put("message", apiStatus.getMessage());
+        resultMap.put("body", body);
+        return convert(resultMap);
+    }
+
     public static HashMap<String, Object> getHashMap(ApiStatus apiStatus, List<?> bodyMap) {
         log.debug("ApiResult > getHashMap code {} bodyMap {}", apiStatus.getCode(), bodyMap);
         HashMap<String, Object> resultMap = new HashMap<String, Object>();

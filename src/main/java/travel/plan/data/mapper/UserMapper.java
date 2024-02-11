@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import travel.plan.data.dto.UserDTO;
+import travel.plan.data.dto.UserVO;
 
 @Mapper
 public interface UserMapper {
@@ -21,4 +22,5 @@ public interface UserMapper {
     public int checkId(Map<String, Object> map);
     public int userJoin(Map<String, Object> map);
     public int loginCheck(Map<String, Object> map);
+    public UserVO getUserInfo(Map<String, Object> map);
 }

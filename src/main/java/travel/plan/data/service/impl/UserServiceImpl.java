@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import travel.common.ApiResult;
 import travel.exception.ApiStatus;
+import travel.plan.data.dto.UserVO;
 import travel.plan.data.mapper.UserMapper;
 import travel.plan.data.service.UserService;
 
@@ -63,5 +64,12 @@ public class UserServiceImpl implements UserService{
             // 해당 계정이 없음, 로그인 실패
             return ApiResult.getHashMap(ApiStatus.AP_FAIL, "*닉네임 또는 비밀번호가 올바르지 않습니다");
         }
+    }
+
+    // 사용자 닉네임을 통한 사용자 정보 조회
+    @Override
+    public Map<String, Object> getUserInfo(Map<String, Object> map) {
+        UserVO dto = userMapper.getUserInfo(map);
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, dto);
     }
 }

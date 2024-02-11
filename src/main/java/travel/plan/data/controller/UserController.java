@@ -39,4 +39,9 @@ public class UserController {
     public Map<String, Object> loginCheck(@RequestParam Map<String, Object> map, HttpServletRequest request) throws Exception {
         return userService.loginCheck(map, request);
     }
+
+    @GetMapping("/getUserInfo")
+    public Map<String, Object> changeProfile(@RequestParam Map<String, Object> map) throws Exception {
+        return userService.getUserInfo(map);
+    }
 }
