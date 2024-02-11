@@ -5,6 +5,7 @@
 $(window).on('load', function () {
     initTmap();
     initSuggestPlace();
+    changeProfile();
 });
 
 var map, marker, rect;
@@ -525,6 +526,8 @@ function loginCheck() {
             if(response.code == "Success") {
                 $('.modal').hide();
                 $('#login_box').hide();
+                $('.imgThumb').attr('value', $('#login_username').val());
+                changeProfile();
             }
         },
         error: function(error){
@@ -538,5 +541,26 @@ function showMyPage(result) {
     if(result != '' && result != null) {
         // 로그인 한 상태인 경우
         location.href = "/myPage";
+    }
+}
+
+function changeProfile() {
+    let userId = $('.imgThumb').attr('value');
+    if(userId != undefined && userId != null && userId != '') {
+        $.ajax({
+            url: '/api-docs/getUserInfo',
+            type: 'GET',
+            data: {username: userId},
+            success: function(response){
+                let result = response.body;
+                let img = result.userImg;
+                if(img != null && img != '' && img != undefined) {
+                    $('.imgThumb').attr("src", img);
+                }
+            },
+            error: function(error){
+                console.error('Error:',error);
+            }
+        });
     }
 }

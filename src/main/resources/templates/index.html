@@ -23,14 +23,12 @@
                 <img class="img_search" src="images/search.png">
             </div>
             <div id="util_box">
-                <div id="login_box" th:style="${userId == '' ? 'display: none;' : ''}">
+                <div id="login_box" th:style="${userId == null ? 'display: flex;' : 'display: none;'}">
                     <p onclick="showModal()">로그인</p>
                     <p> | </p>
                     <p onclick="showModal()">회원가입</p>
                 </div>
-                <!-- <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160"> -->
-                <!-- <img class="imgThumb" src="https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg"> -->
-                <img class="imgThumb" src="https://image.utoimage.com/preview/cp872722/2020/10/202010005928_500.jpg" th:onclick="showMyPage([[${userId}]]);">
+                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userId}" th:onclick="showMyPage([[${userId}]]);">
             </div>
         </div>
     </header>
