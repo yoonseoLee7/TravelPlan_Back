@@ -16,7 +16,13 @@
     </insert>
 
     <select id="getComments" resultType="RplyHstrDTO" parameterType="String">
-        select * from RPLY_HSTR where POI_ID = #{poiId} and DEL_YN = 'N'
-        order by REG_DTM desc limit 5
+        <!-- select * from RPLY_HSTR where POI_ID = #{poiId} and DEL_YN = 'N' order by REG_DTM desc limit 5 -->
+        SELECT parent.*, child.*
+        FROM RPLY_HSTR AS parent
+        LEFT JOIN RPLY_HSTR AS child ON parent.RPLY_ID = child.UPPR_RPLY_ID
+        WHERE parent.POI_ID = #{poiId}
+        AND parent.DEL_YN = 'N'
+        ORDER BY parent.REG_DTM DESC
+        LIMIT 5
     </select>
 </mapper>
