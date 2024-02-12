@@ -363,7 +363,7 @@ function showSuggestPlace(results) {
 
     var resultCount = 0;
     for(let result of results) {
-        let defaultImage = "images/sample.jpg"
+        let defaultImage = "images/suggest_default.png"
         let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage()" onerror="this.src=\'' + defaultImage + '\'"/>';
         resultCount++;
         resultDiv.append(img);
