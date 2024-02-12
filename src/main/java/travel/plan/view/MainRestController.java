@@ -50,8 +50,10 @@ public class MainRestController {
 
     //댓글창에 최신 5개 정렬하여 로딩
     @GetMapping("/getCommets")
-    public Map<String,Object> getComments(@RequestParam String poiId) throws Exception{
-        return rplyHstrService.getComments(poiId);
+    public Map<String,Object> getComments(@RequestBody String poiId) throws Exception{
+        RplyHstrDTO rplyHstrDTO = new RplyHstrDTO();
+        rplyHstrDTO.setPoiId(poiId);
+        return rplyHstrService.getComments(rplyHstrDTO);
     }
 
     //댓글테이블 정보저장

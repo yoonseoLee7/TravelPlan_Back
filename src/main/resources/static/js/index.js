@@ -154,17 +154,22 @@ function placeItem(result) {
     // 지도 혼잡도
     showTmap(result);
     //해당 장소 댓글 로딩
-    loadComments(result);
+    loadComments(result,function(){
+        //댓글 저장
+        submitComment(result);
+    });
     
 }
 
 //--------------------------------------댓글영역
 //초기화면 기본값 정보
-var defaultSpot = {
-    name: "롯데월드 잠실점",
-    poiId: "187961"
-};
+// var defaultSpot = {
+//     name: "롯데월드 잠실점",
+//     id: "187961"
+// };
 $(document).ready(function(){
+    // initSpotComments(defaultSpot.id);
+
     //댓글전송클릭했을때
     $('#submitBtn').click(function(){
         submitComment(result);
@@ -175,70 +180,57 @@ $(document).ready(function(){
             submitComment();
         }
     });
-
-    
-    initSpotComments(defaultSpot.poiId);
 })
 
-//롯데월드 댓글 conttypeid 가져오기
-function initSpotComments(poiId) {
-    $('#commentList').text(defaultSpot.name);
-    $.ajax({
-        url:'/api/main/getComments',
-        type:'GET',
-        data:{
-            poiId
-        },
-        success: function(response) {
-            console.log("초기화면 정보 가져오기 성공",response);
-            loadComments(response);
+//롯데월드 댓글 poiid 가져오기
+// function initSpotComments(id) {
+//     $('#commentList').text(defaultSpot.name);
+//     $.ajax({
+//         url:'/api/main/getComments',
+//         type:'GET',
+//         data:{
+//             poiId: id
+//         },
+//         success: function(response) {
+//             console.log("초기화면 정보 가져오기 성공",response);
+//             var comments = JSON.parse(response);
+//             $('#comment_list_box').empty();
+//             comments.forEach(function(comment){
+//                 $('#comment_list').append("<li>" + comment.rplyCtt + "</li>");
+//             });
             
-        },
-        error: function(error) {
-            console.error("초기화면 정보 가져오기 실패:", error);
-        }
-    });
-}
+//         },
+//         error: function(error) {
+//             console.error("초기화면 정보 가져오기 실패:", error);
+//         }
+//     });
+// }
 //======검색 후 댓글
 
 // 해당장소 댓글내역 가져오기
 function loadComments(result) {
-    let value =JSON.parse($(result).attr('value'));
-    var name = value.name;
-    var poiid = value.id;
+    var poiId = result.contents.poiId.split("=")[1];
 
-    $('#commentList').text(name);
+    $('#commentList').text(result.name);
     $.ajax({
         type: "GET",
         url: "/api/main/getComments",
-        data: {poiId: poiid},
+        data: {poiId},
         success: function (response) {
-            displayTopComments(response);
-            submitComment(response);
+            let rb = response.body;
+            let commentListBox = $('#comment_list_box');
+            commentListBox.empty();
+        
+            rb?.forEach(function(comment) {
+                $("#comment_list").append("<li>" + comment.rplyCtt + "</li>");
+            });
+
+
         },
         error: function (error) {
             console.error("댓글 로딩 오류",error);
         }
     });
-}
-//댓글 로딩
-function displayTopComments(comments){
-    let commentListBox = $('#comment_list_box');
-    commentListBox.empty();
-
-    if(comments.length > 0){
-        comments.forEach(comment => {
-            let commentHTML = generateCommentHTML(comment);
-            commentListBox.append(commentHTML);
-        });
-    }else {
-        commentListBox.append('<li>댓글이 없습니다.</li');
-    }
-}
-
-
-function generateCommentHTML(comment){
-    return '<li class="li_search">'+comment.text+'</li>';
 }
 
 //선택한 관광지에 댓글 작성 & 저장
@@ -249,7 +241,6 @@ function submitComment(result){
     var poiid = result.poiId;
     
 
-    //유효성검사 TODO: 리스트 클릭하면 자꾸 같이 뜸
     // if (commentContent === '') {
     //     alert('댓글 내용을 입력하세요.');
     //     return;
@@ -329,6 +320,7 @@ function initSuggestPlace() {
         success: function(response){
             // 해당 데이터를 추천방문지에 뿌려줌
             showSuggestPlace(response.body);
+            loadComments(response.body);
         },
         error: function(error){console.error('Error:',error);}
     });
