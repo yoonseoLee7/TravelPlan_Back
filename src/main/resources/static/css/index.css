@@ -1,7 +1,7 @@
 @charset "utf-8";
 * {margin: 0; padding: 0; border-collapse: collapse;}
 /* border-collapse: collapse; */
-body {display: block; margin-top: 30px;}
+body {display: block; margin-top: 30px; overflow-y: scroll;}
 
 /* 헤더 영역 */
 #header {position: static; display: flex; margin: 0px 30px;}
@@ -21,15 +21,13 @@ body {display: block; margin-top: 30px;}
     width: 80%;
     font-size: 36px;
     padding: 14px 0px 14px 55px;
-    top: 50%;
-    transform: translate(0%, -50%);
 }
 .img_search {
     position: absolute;
     width: 50px;
     height: 50px;
-    top: 50%;
-    transform: translate(0%, -50%);
+    top: 40%;
+    transform: translate(0%, -40%);
 }
 
 #header #h_inner #util_box {align-items: center; display: flex; justify-content: end; flex-grow: 2; height: inherit; max-width: 22%;}
@@ -44,15 +42,15 @@ body {display: block; margin-top: 30px;}
 #container #c_inner_map #comment_box {flex-grow: 2; height: inherit; max-width: 33%;}
 
 #search_result_box .p_search {height: 50px; line-height: 46px; padding-left: 10px; font-weight: bold; background-color: rgb(238, 226, 226);}
-#comment_box .p_comment {height: 50px; line-height: 46px; padding-left: 20px; font-size: 24px; font-weight: bold; background-color: rgb(238, 226, 226);}
+#comment_box .p_comment {height: 50px; line-height: 46px; padding-left: 10px; font-size: 24px; font-weight: bold; background-color: rgb(238, 226, 226);}
 
 #container #search_result_box #result_list_box {width: inherit; height: 450px; overflow: scroll; overflow-x: hidden;}
 
 .search_items {height: 50px; display: flex; line-height: 50px;}
 .li_search {height: 50px; margin: 10px; font-size: 30px; padding: 13px 10px; border: 1px solid green;}
 
-#container #comment_box #comment_list_box {width: inherit; height: 400px; overflow: scroll; overflow-x: hidden;}
-#container #comment_box #comment_input_box {width: inherit; height: 50px; border: 1px solid green;}
+#container #comment_box #comment_list_box {width: inherit; height: 380px; overflow: scroll; overflow-x: hidden;}
+#container #comment_box #comment_input_box {width: inherit; height: 60px; border: 1px solid green; padding: 10px 0px 0px 10px; display: flex; justify-items: center;}
 #container #c_inner_suggestion {width: inherit; display: flex; height: auto; flex-wrap: wrap; justify-content: space-between;}
 
 .place_image_box {width: 23%; height: 200px; margin: 20px 10px 10px 10px; border: 1px solid greenyellow;}
@@ -108,14 +106,27 @@ body {display: block; margin-top: 30px;}
 .tab_selected {width: 100px; padding: 10px; text-align: center; background-color: white; border-radius: 5px 5px 0 0;}
 .tab_unselected {width: 100px; padding: 10px; text-align: center; background-color: gray; border-radius: 5px 5px 0 0;}
 
-.img_title {width: 50px; height: 50px;}
-
 input {
     width: 60%;
     font-size: 16px;
     padding: 14px 0px 14px 5px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+.comment_input {
+    margin-left: 10px;
+    margin-top: 0px;
+    height: 20px;
+    width: 80%;
+}
+
+#submitBtn {
+    font-weight: bold;
+    font-size: 48px;
+    text-align: center;
+    height: 50px;
+    margin-top: -7px;
+    margin-left: 5px;
 }
 
 .modal_button {
