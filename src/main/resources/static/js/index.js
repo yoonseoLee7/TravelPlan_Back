@@ -6,6 +6,7 @@ $(window).on('load', function () {
     initTmap();
     initSuggestPlace();
     changeProfile();
+    initSpotComments();
 });
 
 var map, marker, rect;
@@ -165,15 +166,9 @@ function placeItem(result) {
 //초기화면 기본값 정보
 // var defaultSpot = {
 //     name: "롯데월드 잠실점",
-//     id: "187961"
+//     poiId: "187961"
 // };
 $(document).ready(function(){
-    // initSpotComments(defaultSpot.id);
-
-    //댓글전송클릭했을때
-    $('#submitBtn').click(function(){
-        submitComment(result);
-    });
     //댓글쓰고 그냥 엔터쳤을때
     $('#commentContent').keypress(function(event) {
         if (event.which === 13) {
@@ -182,54 +177,91 @@ $(document).ready(function(){
     });
 })
 
-//롯데월드 댓글 poiid 가져오기
-// function initSpotComments(id) {
-//     $('#commentList').text(defaultSpot.name);
-//     $.ajax({
-//         url:'/api/main/getComments',
-//         type:'GET',
-//         data:{
-//             poiId: id
-//         },
-//         success: function(response) {
-//             console.log("초기화면 정보 가져오기 성공",response);
-//             var comments = JSON.parse(response);
-//             $('#comment_list_box').empty();
-//             comments.forEach(function(comment){
-//                 $('#comment_list').append("<li>" + comment.rplyCtt + "</li>");
-//             });
+//롯데월드 댓글 로딩
+function initSpotComments() {
+    $('#commentList').text("롯데월드 잠실점");
+    var id="187961";
+    $.ajax({
+        url:'/api/main/getComments',
+        type:'GET',
+        data: { poiId: id }, 
+        contentType: "application/json",
+        success: function(response) {
+            console.log("초기화면 정보 가져오기 성공",response);
+            $('#comment_box').empty();
+
+            response.forEach(function(comment){
+
+                let li = `<li class="search_items" value='${response}'>${comment.rplyCtt}</li>`;
+                $("#comment_list").append(li);
+            });
             
-//         },
-//         error: function(error) {
-//             console.error("초기화면 정보 가져오기 실패:", error);
-//         }
-//     });
-// }
+        },
+        error: function(error) {
+            console.error("초기화면 정보 가져오기 실패:", error);
+        }
+    });
+}
 //======검색 후 댓글
 
 // 해당장소 댓글내역 가져오기
 function loadComments(result) {
-    var poiId = result.contents.poiId.split("=")[1];
+    // var poiId = result.contents.poiId.split("=")[0];
+    var poiId = result.id;
 
     $('#commentList').text(result.name);
     $.ajax({
         type: "GET",
         url: "/api/main/getComments",
-        data: {poiId},
+        data: { poiId },
+        dataType: "json",
         success: function (response) {
-            let rb = response.body;
-            let commentListBox = $('#comment_list_box');
-            commentListBox.empty();
-        
-            rb?.forEach(function(comment) {
-                $("#comment_list").append("<li>" + comment.rplyCtt + "</li>");
-            });
-
-
+            console.log("댓글 로딩 성공",response);
+            displayComment(response);
         },
         error: function (error) {
             console.error("댓글 로딩 오류",error);
         }
+    });
+}
+// 댓글
+function displayComments(comments) {
+    var commentHTML = '';
+    if (comments && comments.length > 0) {
+        comments.forEach(function(comment) {
+            commentHTML += '<li class="search_items">';
+            commentHTML += '<p>' + comment.rplyCtt + '</p>';
+            commentHTML += '<button class="replyButton" data-upprRplyId="' + comment.upprRplyId + '">ㄴ</button>';
+            commentHTML += '</li>';
+
+    // 대댓글
+    if(comment.replies && comment.replies.length > 0) {
+        comment.replies.forEach(function(reply) {
+            commentHTML += '<li class="search_items">';
+            commentHTML += '<p>' + reply.rplyCtt + '</p>';
+            commentHTML += '</li>';
+        });
+    }
+    });
+    } else {
+        commentHTML = '<p>댓글이 없습니다.</p>';
+    }
+    $('#comment_list').html(commentHTML);
+    
+    // 대댓글 입력창
+    $('.replyButton').click(function() {
+        var upprRplyId = $(this).data('upprRplyId');
+        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">Submit</button></div>';
+        $(this).after(replyFormHTML);
+    });
+
+    // 대댓글 submit
+    $(document).on('click', '.submitReply', function() {
+        var upprRplyId = $(this).data('upprRplyId');
+        var replyContent = $('#replyContent').val();
+        
+        //서버에 저장
+        saveReply(upprRplyId, replyContent);
     });
 }
 
@@ -237,9 +269,8 @@ function loadComments(result) {
 function submitComment(result){
     var currentTime = new Date();
     var formattedTime = currentTime.toISOString().slice(0,19).replace('T',' ');
-    var commentContent = $('#commentContent').val().trim();
+    var commentContent = $('#commentContent').val();
     var poiid = result.poiId;
-    
 
     // if (commentContent === '') {
     //     alert('댓글 내용을 입력하세요.');
@@ -320,7 +351,7 @@ function initSuggestPlace() {
         success: function(response){
             // 해당 데이터를 추천방문지에 뿌려줌
             showSuggestPlace(response.body);
-            loadComments(response.body);
+
         },
         error: function(error){console.error('Error:',error);}
     });
@@ -342,6 +373,7 @@ function suggestPlace(vo) {
         success: function(response){
             // 해당 데이터를 추천방문지에 뿌려줌
             showSuggestPlace(response.body);
+
         },
         error: function(error){console.error('Error:',error);}
     });
