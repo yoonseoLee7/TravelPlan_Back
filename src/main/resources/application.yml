@@ -100,7 +100,7 @@ spring:
   datasource:
     # driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://54.180.120.43:3306/TIMING_GAME?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true&serverTimezone=Asia/Seoul
+    url: jdbc:log4jdbc:mysql://54.180.120.43:3306/TIMING_GAME?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
     #username: proj_app
     username: proj_lee
     #password: shoechooBaiCh5D!
