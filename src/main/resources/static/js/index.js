@@ -414,7 +414,9 @@ function suggestPlace(vo) {
     });
 }
 
+var listDetail;
 function showSuggestPlace(results) {
+    window.listDetail = results;
     var resultDiv = $('#c_inner_suggestion');
     resultDiv.empty();
 
@@ -423,7 +425,9 @@ function showSuggestPlace(results) {
     var resultCount = 0;
     for(let result of results) {
         let defaultImage = "images/suggest_default.png"
-        let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage()" onerror="this.src=\'' + defaultImage + '\'"/>';
+        // let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage(\'' + JSON.parse(JSON.stringify(result)) + '\')" onerror="this.src=\'' + defaultImage + '\'"/>';
+        let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage('+ resultCount +')" onerror="this.src=\'' + defaultImage + '\'"/>';
+        
         resultCount++;
         resultDiv.append(img);
 
@@ -432,9 +436,21 @@ function showSuggestPlace(results) {
 }
 
 // 추천방문지 리스트에서 선택 후 상세페이지 이동
-function showDetailPage() {
+function showDetailPage(count) {
     // TODO 나중에 넘길때 필요한 데이터들 추가
-    location.href = "/detail";
+    console.log(window.listDetail[count]);
+   
+    // location.href = "/detail&detail=" + JSON.stringify(window.listDetail[count]);
+    $.ajax({
+        url: '/detail',
+        type: 'GET',
+        data: window.listDetail[count],
+        success: function(response){
+        },
+        error: function(error){
+            console.error('Error:',error);
+        }
+    });
 }
 
 // 메인화면 진입 시 첫 장소 근처에 위치한 관광명소의 추천 리스트 제공
