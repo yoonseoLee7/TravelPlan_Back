@@ -48,11 +48,12 @@ public class MainRestController {
         return searchService.suggest(vo);
     }
 
-    //댓글창에 최신 5개 정렬하여 로딩
+    //poiId로 검색 관광지 댓글 로딩
     @GetMapping("/getComments")
-    public Map<String,Object> getComments(@RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
-        
-        return rplyHstrService.getComments(rplyHstrDTO);
+    public Map<String,Object> getCommentsForPoi(@RequestBody String poiId) throws Exception{
+        RplyHstrDTO rplyHstrDTO = new RplyHstrDTO();
+        rplyHstrDTO.setPoiId(poiId);
+        return rplyHstrService.getCommentsForPoi(rplyHstrDTO);
     }
 
     //댓글테이블 정보저장

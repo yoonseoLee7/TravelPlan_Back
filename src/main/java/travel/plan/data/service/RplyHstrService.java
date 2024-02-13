@@ -9,6 +9,6 @@ public interface RplyHstrService {
 
     public Map<String,Object> saveComment(RplyHstrDTO rplyHstrDTO);
 
-    public Map<String, Object> getComments(RplyHstrDTO rplyHstrDTO);
+    public Map<String, Object> getCommentsForPoi(RplyHstrDTO rplyHstrDTO);
 
 }

@@ -15,7 +15,7 @@
         )
     </insert>
 
-    <select id="getComments" resultType="RplyHstrDTO" parameterType="hashMap">
+    <select id="getCommentsForPoi" resultType="RplyHstrDTO" parameterType="String">
         <!-- select * from RPLY_HSTR where POI_ID = #{poiId} and DEL_YN = 'N' order by REG_DTM desc limit 5 -->
         SELECT parent.*, child.*
         FROM RPLY_HSTR AS parent

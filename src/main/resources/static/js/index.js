@@ -179,28 +179,62 @@ $(document).ready(function(){
 
 //롯데월드 댓글 로딩
 function initSpotComments() {
-    $('#commentList').text("롯데월드 잠실점");
+    $('.p_comment').text("롯데월드 잠실점");
     var id="187961";
     $.ajax({
         url:'/api/main/getComments',
         type:'GET',
         data: { poiId: id }, 
-        contentType: "application/json",
+        // dataType: "json",
         success: function(response) {
             console.log("초기화면 정보 가져오기 성공",response);
             $('#comment_box').empty();
 
-            response.forEach(function(comment){
+           var comments = response.body;
+            console.log("body",comments);
+           if (comments.length === 0) {
+               console.log("댓글이 없습니다.");
+               return;
+           }
 
-                let li = `<li class="search_items" value='${response}'>${comment.rplyCtt}</li>`;
-                $("#comment_list").append(li);
-            });
+           comments.forEach(function (comment) {
+               console.log(comment.rplyId); // 댓글 ID
+               console.log(comment.rplyCtt); // 댓글 내용
+                
+               //${comment.regrId}등록회원id
+               // 댓글 내용과 ID를 사용하여 리스트 아이템 생성
+               let li = `<li class="search_items" value='01001'>aaaaaaa</li>`;
+            //    let li = `<li class="search_items" value='${comment.rplyId}'>${comment.rplyCtt}</li>`;
+               $("#comment_list").append(li);
+           });
             
         },
         error: function(error) {
             console.error("초기화면 정보 가져오기 실패:", error);
+            let li = `<li class="search_items" value='01001' type="button" id="replyButton">aaaaaaa</li>`;
+            //    let li = `<li class="search_items" value='${comment.rplyId}'>${comment.rplyCtt}</li>`;
+               $("#comment_list").append(li);
+               $('#replyButton').click(function() {
+                var upprRplyId = $(this).data('01001');
+                var replyFormHTML = '<div class="replyForm" value="false" onclick="replyClick()"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">전송</button id="hideBtn"><button>취소</button></div>';
+                $(this).after(replyFormHTML);
+            });
+            
         }
     });
+}
+function replyClick(){
+    let click = $('.replyForm').attr('value');
+    console.log(click);
+    if(click === "false"){
+        //click = true;
+        // $('.replyForm').hide();
+        $('.replyForm').attr('value', "true");
+        $('.replyForm').hide();
+    }else{
+        $('.replyForm').attr('value', "false");
+        $('.replyForm').show();
+    }
 }
 //======검색 후 댓글
 
@@ -226,6 +260,7 @@ function loadComments(result) {
 }
 // 댓글
 function displayComments(comments) {
+
     var commentHTML = '';
     if (comments && comments.length > 0) {
         comments.forEach(function(comment) {
@@ -569,7 +604,7 @@ function showMyPage(result) {
 }
 
 function changeProfile() {
-    let userId = $('.imgThumb').attr('value');
+    let userId = $('.imgThumb').attr('value');                           //로그인됐는지확인하는거
     if(userId != undefined && userId != null && userId != '') {
         $.ajax({
             url: '/api-docs/getUserInfo',
