@@ -80,8 +80,8 @@ springdoc:
 
 app:
   sk:
-    api-key: Ga0DcA2C7w1DIIZA9pvYB1jZI6kcy6Ed5wQ0vvbm
-    #api-key: cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt
+    #api-key: Ga0DcA2C7w1DIIZA9pvYB1jZI6kcy6Ed5wQ0vvbm
+    api-key: cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt
     url-area: https://apis.openapi.sk.com/tmap/pois
     url-puzzle: https://apis.openapi.sk.com/puzzle/place/congestion/rltm/pois/poiId
   visitkorea:
