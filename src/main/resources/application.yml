@@ -101,10 +101,10 @@ spring:
     # driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:log4jdbc:mysql://54.180.120.43:3306/TIMING_GAME?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
-    #username: proj_app
-    username: proj_lee
-    #password: shoechooBaiCh5D!
-    password: WooliGhao1cheer@
+    username: proj_app
+    #username: proj_lee
+    password: shoechooBaiCh5D!
+    #password: WooliGhao1cheer@
     hikari:
       #connection-init-sql: SET time_zone ='Asia/Seoul' 8버전 이하 타임존 세팅방법 url로 이동
       auto-commit: true
