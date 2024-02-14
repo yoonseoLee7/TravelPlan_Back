@@ -1,5 +1,6 @@
 package travel.plan.data.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,8 @@ public class RplyHstrServiceImpl implements RplyHstrService{
         // Map<String, Object> paramMap = new HashMap<>();
         // paramMap.put("rplyHstrDTO", rplyHstrDTO);
 
-        List<RplyHstrDTO> commentsList = rplyHstrMapper.getCommentsForPoi(rplyHstrDTO.getPoiId());
+        List<RplyHstrDTO> commentsList = new ArrayList<>();
+        commentsList = rplyHstrMapper.getCommentsForPoi(rplyHstrDTO.getPoiId());
 
         // Map<String, Object> commentsMap = new HashMap<>();
         // for(RplyHstrDTO comment : commentsList){

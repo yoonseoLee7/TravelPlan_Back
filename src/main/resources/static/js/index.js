@@ -184,30 +184,10 @@ function initSpotComments() {
     $.ajax({
         url:'/api/main/getComments',
         type:'GET',
-        data: { poiId: id }, 
-        // dataType: "json",
+        data: { poiId : id },
         success: function(response) {
-            console.log("초기화면 정보 가져오기 성공",response);
-            $('#comment_box').empty();
-
-           var comments = response.body;
-            console.log("body",comments);
-           if (comments.length === 0) {
-               console.log("댓글이 없습니다.");
-               return;
-           }
-
-           comments.forEach(function (comment) {
-               console.log(comment.rplyId); // 댓글 ID
-               console.log(comment.rplyCtt); // 댓글 내용
-                
-               //${comment.regrId}등록회원id
-               // 댓글 내용과 ID를 사용하여 리스트 아이템 생성
-               let li = `<li class="search_items" value='01001'>aaaaaaa</li>`;
-            //    let li = `<li class="search_items" value='${comment.rplyId}'>${comment.rplyCtt}</li>`;
-               $("#comment_list").append(li);
-           });
-            
+            console.log("초기정보 가져오기 성공", response);
+            displayinit(response);
         },
         error: function(error) {
             console.error("초기화면 정보 가져오기 실패:", error);
@@ -215,25 +195,53 @@ function initSpotComments() {
             //    let li = `<li class="search_items" value='${comment.rplyId}'>${comment.rplyCtt}</li>`;
                $("#comment_list").append(li);
                $('#replyButton').click(function() {
+                
                 var upprRplyId = $(this).data('01001');
                 var replyFormHTML = '<div class="replyForm" value="false" onclick="replyClick()"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">전송</button id="hideBtn"><button>취소</button></div>';
+               
                 $(this).after(replyFormHTML);
             });
             
         }
     });
 }
+function displayinit(results){
+    var resultDiv = $('#comment_list_box');
+    resultDiv.empty();
+
+    if(results.length === 0){
+        resultDiv.html('댓글이 없습니다.');
+        return;
+    }
+    console.log(results);
+    var ul = $('#comment_list');
+
+    results.body?.forEach(function (result){
+        let li = `<li class="search_items" value='${result.rplyId}' type="button" id="replyButton">${result.rplyCtt}</li>`;
+        ul.append(li);
+        $('#replyButton').click(function() {
+                
+            var upprRplyId = $(this).data('${result.rplyId}');
+            var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">전송</button><button id="returnReply" value="false" onclick="replyClick()">취소</button></div>';
+           
+            $(this).after(replyFormHTML);
+        });
+    });
+
+}
+//댓글 클릭하면 대댓글창 사라지기
 function replyClick(){
-    let click = $('.replyForm').attr('value');
+    let click = $('#returnReply').attr('value');
     console.log(click);
+    
     if(click === "false"){
         //click = true;
         // $('.replyForm').hide();
-        $('.replyForm').attr('value', "true");
-        $('.replyForm').hide();
+        $('#returnReply').attr('value', "true");
+        $('#returnReply').hide();
     }else{
-        $('.replyForm').attr('value', "false");
-        $('.replyForm').show();
+        $('#returnReply').attr('value', "false");
+        $('#returnReply').show();
     }
 }
 //======검색 후 댓글
@@ -248,7 +256,6 @@ function loadComments(result) {
         type: "GET",
         url: "/api/main/getComments",
         data: { poiId },
-        dataType: "json",
         success: function (response) {
             console.log("댓글 로딩 성공",response);
             displayComment(response);
