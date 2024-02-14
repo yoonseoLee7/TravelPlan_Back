@@ -1,5 +1,7 @@
 $(window).on('load', function () {
+    // TODO async await 바꿔야함!!!!!!!!!!!!!!
     getDetailInfo();
+    changeProfile();
 });
 
 // 상세페이지 화면 전환 시 상세정보 조회 api 호출
@@ -78,4 +80,33 @@ function showTmap(lat, lng, contentId, title) {
         success: function(response){createRect(lat, lng, response.body);},
         error: function(error){console.error('Error:',error);}
     });
+}
+
+function showMyPage(result) {
+    console.log(result);
+    if(result != '' && result != null) {
+        // 로그인 한 상태인 경우
+        location.href = "/myPage";
+    }
+}
+
+function changeProfile() {
+    let userId = $('.imgThumb').attr('value');                           //로그인됐는지확인하는거
+    if(userId != undefined && userId != null && userId != '') {
+        $.ajax({
+            url: '/api-docs/getUserInfo',
+            type: 'GET',
+            data: {username: userId},
+            success: function(response){
+                let result = response.body;
+                let img = result.userImg;
+                if(img != null && img != '' && img != undefined) {
+                    $('.imgThumb').attr("src", img);
+                }
+            },
+            error: function(error){
+                console.error('Error:',error);
+            }
+        });
+    }
 }

@@ -15,18 +15,20 @@
             <div id="title_box">
                 <div id="title">
                     <h1 class="h1_title">대국민 눈치게임</h1>
-                    <img class="img_title" src="images/sample.jpg" >
+                    <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
                 </div>
                 <p class="p_title_current_time">2024-04-28 14:56:04</p>
             </div>
             <div id="search_box">
-                <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요">
+                <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요" id="searchText" autofocus onkeydown="handleKeyDown(event)">
                 <img class="img_search" src="images/search.png">
             </div>
             <div id="util_box">
-                <a href="">로그인</a>
-                <p> | </p>
-                <a href="">회원가입</a>
+                <div id="login_box" th:style="${userId == null ? 'display: flex;' : 'display: none;'}">
+                    <p onclick="showModal()">로그인</p>
+                    <p> | </p>
+                    <p onclick="showModal()">회원가입</p>
+                </div>
                 <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userId}" th:onclick="showMyPage([[${userId}]]);">
             </div>
         </div>
