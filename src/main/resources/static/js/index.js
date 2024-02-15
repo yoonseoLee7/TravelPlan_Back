@@ -155,31 +155,28 @@ function placeItem(result) {
     // 지도 혼잡도
     showTmap(result);
     //해당 장소 댓글 로딩
-    loadComments(result,function(){
-        //댓글 저장
-        submitComment(result);
-    });
+    loadComments(result)
+    //댓글 저장
+    submitComment(result);
+    
     
 }
 
 //--------------------------------------댓글영역
-//초기화면 기본값 정보
-// var defaultSpot = {
-//     name: "롯데월드 잠실점",
-//     poiId: "187961"
-// };
-$(document).ready(function(){
-    //댓글쓰고 그냥 엔터쳤을때
-    $('#commentContent').keypress(function(event) {
-        if (event.which === 13) {
-            submitComment();
-        }
-    });
-})
+
+// $(document).ready(function(){
+//     //댓글쓰고 그냥 엔터쳤을때
+//     $('#commentContent').keypress(function(event) {
+//         if (event.which === 13) {
+//             submitComment();
+//         }
+//     });
+// })
 
 //롯데월드 댓글 로딩
 function initSpotComments() {
     $('.p_comment').text("롯데월드 잠실점");
+
     var id="187961";
     $.ajax({
         url:'/api/main/getComments',
@@ -190,90 +187,66 @@ function initSpotComments() {
             displayinit(response);
         },
         error: function(error) {
-            console.error("초기화면 정보 가져오기 실패:", error);
-            let li = `<li class="search_items" value='01001' type="button" id="replyButton">aaaaaaa</li>`;
-            //    let li = `<li class="search_items" value='${comment.rplyId}'>${comment.rplyCtt}</li>`;
-               $("#comment_list").append(li);
-               $('#replyButton').click(function() {
-                
-                var upprRplyId = $(this).data('01001');
-                var replyFormHTML = '<div class="replyForm" value="false" onclick="replyClick()"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">전송</button id="hideBtn"><button>취소</button></div>';
-               
-                $(this).after(replyFormHTML);
-            });
-            
+            console.error("초기화면 정보 가져오기 실패:", error);          
         }
     });
 }
-// function displayinit(results) {
-//     var resultDiv = $('#comment_list_box');
 
-//     if (results.length === 0) {
-//         resultDiv.html('댓글이 없습니다.');
-//         return;
-//     }
-
-//     var ul = $('#comment_list');
-
-//     results.body?.forEach(function(result) {
-//         let li = `<li class="search_items" value='${result.RPLY_ID}' type="button" class="replyButton">${result.RPLY_CTT}  ${result.REG_DTM}</li>`;
-//         ul.append(li);
-        
-//     $('.replyButton').click(function() {
-//         var replyFormHTML = '<div class="replyForm"><input class="replyContent"/><button class="submitReply">전송</button><button class="cancelReply">취소</button></div>';
-//         $(this).after(replyFormHTML);
-
-        
-
-//         // 대댓글 취소 버튼 click
-//         $(this).next('.replyForm').find('.cancelReply').click(function() {
-//             // 대댓글 창 삭제
-//             $(this).parent('.replyForm').remove();
-//         });
-//     });
-
-//     });
-// }
-
-function displayinit(results){
+function displayinit(results) {
     var resultDiv = $('#comment_list_box');
     // resultDiv.empty();
 
-    if(results.length === 0){
+    if (results.length === 0) {
         resultDiv.html('댓글이 없습니다.');
         return;
     }
     console.log(results);
     var ul = $('#comment_list');
 
-    results.body?.forEach(function (result){
-        let li = `<li class="search_items" value='${result.RPLY_ID}' type="button" id="replyButton">${result.RPLY_CTT}  ${result.REG_DTM}</li>`;
+    results.body?.forEach(function(result) {
+        let json = JSON.stringify(result);
+        var epochTime = result.REG_DTM;
+        var date = new Date(epochTime);
+        var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+        
+        let li = `<li class="search_items" value='${json}' onclick='replyClick(this)'>${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
         ul.append(li);
-        $('#replyButton').click(function() {
-                
-            var upprRplyId = $(this).data('value');
-            var replyFormHTML = '<div class="replyForm" value="false"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">전송</button><button  id="returnReply" onclick="replyClick()">취소</button></div>';
-           
-            $(this).after(replyFormHTML);
-        });
     });
+    resultDiv.append(ul);
 
 }
-//댓글 클릭하면 대댓글창 사라지기
-function replyClick(){
-    let click = $('.replyForm').attr('value');
-    console.log(click);
-    
-    if(click === "false"){
-        //click = true;
-        // $('.replyForm').hide();
-        $('#returnReply').attr('value', "true");
-        $('#returnReply').hide();
-    }else{
-        $('#returnReply').attr('value', "false");
-        $('#returnReply').show();
+//댓글 클릭시
+    function replyClick(result){
+    // 상위댓글 넘버
+    var rplyId = $(result).find('input[type="hidden"]').val();
+
+    // 대댓글 창이 이미 열려있는지 확인
+    if ($(result).next('.replyForm').length === 0) {
+        
+        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + rplyId + '">전송</button><button class="cancelReply">취소</button></div>';
+        $(result).after(replyFormHTML);
+
+        // 전송
+        $(result).next('.replyForm').find('.submitReply').click(function() {
+            // 대댓글 전송 로직 구현
+            var upprRplyId = rplyId;
+            var replyContent = $(this).siblings('#replyContent').val();
+            // ----------------------------------------------대댓 ajax 써서 전송시키기
+
+            
+            $(this).parent('.replyForm').remove();
+        });
+
+        // 대댓글 취소
+        $(result).next('.replyForm').find('.cancelReply').click(function() {
+            // 대댓글 창 삭제
+            $(this).parent('.replyForm').remove();
+        });
     }
+    
+    
 }
+
 //======검색 후 댓글
 
 // 해당장소 댓글내역 가져오기
