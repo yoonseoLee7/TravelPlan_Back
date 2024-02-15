@@ -1,5 +1,6 @@
 package travel.plan.view;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,13 +60,15 @@ public class MainRestController {
     //댓글테이블 정보저장
     @PostMapping("/saveComment")
     public Map<String, Object> saveComment(@SessionAttribute(name = "userId", required = false) int userId, @RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
+        Map<String,Object> rply = new HashMap<>();
         try {
-            
+         rplyHstrDTO.setRegrId(userId);
+         rply = rplyHstrService.saveComment(rplyHstrDTO);
         } catch (Exception e) {
             // 현재 로그인 되어 있는 상태가 아님
-        } finally {
-            return rplyHstrService.saveComment(rplyHstrDTO);
-        }
+            log.error("defined userId", e);
+            }        
+        return rply;
     }
 
     //검색어 관련 리스트
