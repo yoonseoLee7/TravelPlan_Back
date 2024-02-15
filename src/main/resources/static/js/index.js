@@ -474,20 +474,7 @@ function showSuggestPlace(results) {
 
 // 추천방문지 리스트에서 선택 후 상세페이지 이동
 function showDetailPage(count) {
-    // TODO 나중에 넘길때 필요한 데이터들 추가
-    console.log(window.listDetail[count]);
-   
-    // location.href = "/detail&detail=" + JSON.stringify(window.listDetail[count]);
-    $.ajax({
-        url: '/detail',
-        type: 'GET',
-        data: window.listDetail[count],
-        success: function(response){
-        },
-        error: function(error){
-            console.error('Error:',error);
-        }
-    });
+    location.href = "/detail?contentId=" + window.listDetail[count].contentid;
 }
 
 // 메인화면 진입 시 첫 장소 근처에 위치한 관광명소의 추천 리스트 제공

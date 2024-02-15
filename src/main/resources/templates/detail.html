@@ -1,42 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <div th:replace="~{fragments/header.html :: fragment-header}" />
+    <script th:src="@{/js/detail.js}"></script>
     <link rel="stylesheet" href="css/detail.css">
-    <!-- <link rel="stylesheet" href="../static/css/style.css"> -->
 </head>
+
 <body>
     <header id="header">
         <div id="h_inner">
             <div id="title_box">
                 <div id="title">
                     <h1 class="h1_title">대국민 눈치게임</h1>
-                    <img class="img_title" src="images/sample.jpg" >
+                    <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
                 </div>
                 <p class="p_title_current_time">2024-04-28 14:56:04</p>
             </div>
             <div id="search_box">
-                <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요">
+                <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요" id="searchText" autofocus onkeydown="handleKeyDown(event)">
                 <img class="img_search" src="images/search.png">
             </div>
             <div id="util_box">
-                <a href="">로그인</a>
-                <p> | </p>
-                <a href="">회원가입</a>
-                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" width="100" height="100">
+                <div id="login_box" th:style="${userId == null ? 'display: flex;' : 'display: none;'}">
+                    <p onclick="showModal()">로그인</p>
+                    <p> | </p>
+                    <p onclick="showModal()">회원가입</p>
+                </div>
+                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userId}" th:onclick="showMyPage([[${userId}]]);">
             </div>
         </div>
     </header>
     <div id="container">
         <div>
-            <div>
+            <div id="detail_title" onclick="a('this.form')">
                 방문지 타이틀
             </div>
             <div style="display: flex;">
-                <div style="width: 47%; height: 500px; border: 1px solid red;">대표 사진</div>
-                <div style="width: 47%; height: 500px; border: 1px solid red;">지도</div>
+                <div id="div_image" style="width: 47%; height: 500px; border: 1px solid red;">대표 사진</div>
+                <div style="width: 47%; height: 500px; border: 1px solid red;">
+                    지도
+                    <div id="map_div"></div>
+                </div>
             </div>
         </div>
         <div>
@@ -44,12 +51,12 @@
                 상세정보
             </div>
             <div>
-                <div>상세정보 내용</div>
+                <div id="detail_overview">상세정보 내용</div>
                 <div>
                     <ul>
-                        <li>주소</li>
-                        <li>전화번호</li>
-                        <li>홈페이지</li>
+                        <li>주소</li><div id="detail_addr">aaaaa</div>
+                        <li>전화번호</li><div id="detail_tel">aaaaa</div>
+                        <li>홈페이지</li><div id="detail_homepage">aaaaa</div>
                     </ul>
                 </div>
             </div>
