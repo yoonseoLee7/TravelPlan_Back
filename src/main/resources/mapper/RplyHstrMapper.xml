@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
     <insert id="saveComment" parameterType="RplyHstrDTO">
-        insert into RPLY_HSTR(RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,CONT_TYPE_ID,POI_ID) values(
+        insert into RPLY_HSTR(RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,POI_ID) values(
             #{rplyCtt},
             #{delYn},
             #{regDtm},
@@ -10,13 +10,12 @@
             #{corcDtm},
             #{corrId},
             #{upprRplyId},
-            #{contTypeId},
             #{poiId}
         )
     </insert>
 
     <select id="getCommentsForPoi" resultType="java.util.HashMap" parameterType="String">
-        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,c.RPLY_CTT,c.REG_DTM
+        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.UPPR_RPLY_ID,c.RPLY_CTT,c.REG_DTM
         from RPLY_HSTR as p 
         left join RPLY_HSTR as c on p.UPPR_RPLY_ID = c.RPLY_ID
         where p.POI_ID = #{poiId}
