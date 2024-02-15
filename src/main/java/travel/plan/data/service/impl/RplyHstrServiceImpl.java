@@ -1,6 +1,5 @@
 package travel.plan.data.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,18 +50,15 @@ public class RplyHstrServiceImpl implements RplyHstrService{
 
     //댓글 최신화 최대5개 정렬 가져오기
     @Override
-    public Map<String, Object> getCommentsForPoi(RplyHstrDTO rplyHstrDTO){
-        // Map<String, Object> paramMap = new HashMap<>();
-        // paramMap.put("rplyHstrDTO", rplyHstrDTO);
+    public Map<String, Object> getCommentsForPoi(String poiId){
+        RplyHstrDTO rplyHstrDTO = new RplyHstrDTO();
+        rplyHstrDTO.setPoiId(poiId);
 
-        List<RplyHstrDTO> commentsList = new ArrayList<>();
-        commentsList = rplyHstrMapper.getCommentsForPoi(rplyHstrDTO.getPoiId());
+        //가져오고
+        List<Map<String,Object>> getrply = rplyHstrMapper.getCommentsForPoi(rplyHstrDTO.getPoiId());
+        
+        
 
-        // Map<String, Object> commentsMap = new HashMap<>();
-        // for(RplyHstrDTO comment : commentsList){
-        //     commentsMap.put(comment.getPoiId(), comment);
-        // }
-
-        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,commentsList);
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,getrply);
     }
 }

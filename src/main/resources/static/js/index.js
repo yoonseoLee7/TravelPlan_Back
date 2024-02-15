@@ -205,9 +205,39 @@ function initSpotComments() {
         }
     });
 }
+// function displayinit(results) {
+//     var resultDiv = $('#comment_list_box');
+
+//     if (results.length === 0) {
+//         resultDiv.html('댓글이 없습니다.');
+//         return;
+//     }
+
+//     var ul = $('#comment_list');
+
+//     results.body?.forEach(function(result) {
+//         let li = `<li class="search_items" value='${result.RPLY_ID}' type="button" class="replyButton">${result.RPLY_CTT}  ${result.REG_DTM}</li>`;
+//         ul.append(li);
+        
+//     $('.replyButton').click(function() {
+//         var replyFormHTML = '<div class="replyForm"><input class="replyContent"/><button class="submitReply">전송</button><button class="cancelReply">취소</button></div>';
+//         $(this).after(replyFormHTML);
+
+        
+
+//         // 대댓글 취소 버튼 click
+//         $(this).next('.replyForm').find('.cancelReply').click(function() {
+//             // 대댓글 창 삭제
+//             $(this).parent('.replyForm').remove();
+//         });
+//     });
+
+//     });
+// }
+
 function displayinit(results){
     var resultDiv = $('#comment_list_box');
-    resultDiv.empty();
+    // resultDiv.empty();
 
     if(results.length === 0){
         resultDiv.html('댓글이 없습니다.');
@@ -217,12 +247,12 @@ function displayinit(results){
     var ul = $('#comment_list');
 
     results.body?.forEach(function (result){
-        let li = `<li class="search_items" value='${result.rplyId}' type="button" id="replyButton">${result.rplyCtt}</li>`;
+        let li = `<li class="search_items" value='${result.RPLY_ID}' type="button" id="replyButton">${result.RPLY_CTT}  ${result.REG_DTM}</li>`;
         ul.append(li);
         $('#replyButton').click(function() {
                 
-            var upprRplyId = $(this).data('${result.rplyId}');
-            var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">전송</button><button id="returnReply" value="false" onclick="replyClick()">취소</button></div>';
+            var upprRplyId = $(this).data('value');
+            var replyFormHTML = '<div class="replyForm" value="false"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">전송</button><button  id="returnReply" onclick="replyClick()">취소</button></div>';
            
             $(this).after(replyFormHTML);
         });
@@ -231,7 +261,7 @@ function displayinit(results){
 }
 //댓글 클릭하면 대댓글창 사라지기
 function replyClick(){
-    let click = $('#returnReply').attr('value');
+    let click = $('.replyForm').attr('value');
     console.log(click);
     
     if(click === "false"){

@@ -15,20 +15,12 @@
         )
     </insert>
 
-    <select id="getCommentsForPoi" resultType="RplyHstrDTO" parameterType="String">
-        <!-- select * from RPLY_HSTR where POI_ID = #{poiId} and DEL_YN = 'N' order by REG_DTM desc limit 5 -->
-        <!-- SELECT parent.*, child.*
-        FROM RPLY_HSTR AS parent
-        LEFT JOIN RPLY_HSTR AS child ON parent.RPLY_ID = child.UPPR_RPLY_ID
-        WHERE parent.POI_ID = #{poiId}
-        AND parent.DEL_YN = 'N'
-        ORDER BY parent.REG_DTM DESC
-        LIMIT 5 -->
-        select c.RPLY_CTT,c.REG_DTM,p.RPLY_CTT,p.REG_DTM
-        from RPLY_HSTR p 
-        inner join RPLY_HSTR c on p.UPPR_RPLY_ID=c.RPLY_ID
-        where p.POI_ID = '187961'
-        <!-- and c.DEL_YN='N'
-        order by REG_DTM desc limit 5 -->
+    <select id="getCommentsForPoi" resultType="java.util.HashMap" parameterType="String">
+        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,c.RPLY_CTT,c.REG_DTM
+        from RPLY_HSTR as p 
+        left join RPLY_HSTR as c on p.UPPR_RPLY_ID = c.RPLY_ID
+        where p.POI_ID = #{poiId}
+        <!-- and p.DEL_YN = 'N'
+        order by p.REG_DTM limit 5 -->
     </select>
 </mapper>

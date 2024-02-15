@@ -51,9 +51,8 @@ public class MainRestController {
     //poiId로 검색 관광지 댓글 로딩
     @GetMapping("/getComments")
     public Map<String,Object> getCommentsForPoi(@RequestBody String poiId) throws Exception{
-        RplyHstrDTO rplyHstrDTO = new RplyHstrDTO();
-        rplyHstrDTO.setPoiId(poiId);
-        return rplyHstrService.getCommentsForPoi(rplyHstrDTO);
+        
+        return rplyHstrService.getCommentsForPoi(poiId);
     }
 
     //댓글테이블 정보저장
