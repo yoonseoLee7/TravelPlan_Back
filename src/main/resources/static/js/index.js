@@ -157,19 +157,10 @@ function placeItem(result) {
     //해당 장소 댓글 로딩
     loadComments(result)
     //댓글 저장
-    submitComment(result);   
+    submitComment(result);
 }
 
 //--------------------------------------댓글영역
-
-// $(document).ready(function(){
-//     //댓글쓰고 그냥 엔터쳤을때
-//     $('#commentContent').keypress(function(event) {
-//         if (event.which === 13) {
-//             submitComment();
-//         }
-//     });
-// })
 
 //롯데월드 댓글 로딩
 function initSpotComments() {
@@ -191,12 +182,14 @@ function initSpotComments() {
 }
 //댓글 출력
 function displayinit(results) {
+    var ul = $('#comment_list');
+
     if (results.length === 0) {
-        resultDiv.html('댓글이 없습니다.');
+        let defined = '<p>댓글이 없습니다.</p>';
+        ul.append(defined);
         return;
     }
     console.log(results);
-    var ul = $('#comment_list');
     ul.empty();
 
     results.body?.forEach(function(result) {
@@ -205,7 +198,7 @@ function displayinit(results) {
         var date = new Date(epochTime);
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         
-        let li = `<li class="search_items" value='${json}' onclick='replyClick(this)'>${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
+        let li = `<li class="search_items" value='${json}' onclick='replyClick(this)' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
         ul.append(li);
     });
 }
@@ -227,7 +220,25 @@ function displayinit(results) {
             var upprRplyId = rplyId; // 상위댓글
             var replyContent = $(this).siblings('#replyContent').val(); //댓글내용
             // ----------------------------------------------대댓 ajax 써서 전송시키기
-
+            $.ajax({
+                type: "POST",
+                url: "/api/main/saveComment",
+                data: { 
+                    rplyCtt: replyContent,
+                    regDtm: currentTime,
+                    poiId,
+                    regrId: $('#userId').val(),
+                    upprRplyId
+                 },
+                success: function (response) {
+                    console.log("대댓글 저장 성공",response);
+                    //displayinit(response);
+                    loadComments(response);
+                },
+                error: function (error) {
+                    console.error("대댓글 저장 오류",error);
+                }
+            });
             
             $(this).parent('.replyForm').remove();
         });
@@ -271,26 +282,38 @@ function loadComments(result) {
 function submitComment(result){
     var currentTime = new Date();
     var commentContent = $('#commentContent').val();
-    var poiid = result.poiId;
-    
-    $.ajax({
-        type: "POST",
-        url: "/api/main/saveComment",
-        data: {
-            rplyCtt: commentContent,
-            regDtm: currentTime,
-            poiId: poiid,
-            regrId: 1
-        },
-        success: function (response) {
-            console.log("댓글저장성공",response);
-            loadComments(response.body);
-        },
-        error: function (error) {
-            console.error("댓글 저장에 실패했습니다.",error);
+    var value = JSON.parse($(result).attr('value'));
+    var poiId = value.id;
+
+    $('#submitBtn').click(function() {
+        if ($('#userId').val() === "") {
+            alert("로그인 후 이용해주세요.");
+            return;
         }
-    });
-}
+        if(commentContent === ""){
+            alert("내용을 적어주세요.");
+            return;
+        }
+    }); 
+
+        $.ajax({
+            type: "POST",
+            url: "/api/main/saveComment",
+            data: {
+                rplyCtt: commentContent,
+                regDtm: currentTime,
+                poiId,
+                regrId: $('#userId').val()
+            },
+            success: function (response) {
+                console.log("댓글저장성공",response);
+                loadComments(response.body);
+            },
+            error: function (error) {
+                console.error("댓글 저장에 실패했습니다.",error);
+            }
+        }); 
+    }
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
 
@@ -529,12 +552,6 @@ function showMyPage(result) {
     if(result != '' && result != null) {
         // 로그인 한 상태인 경우
         location.href = "/myPage";
-    }else{//로그인 안했는데 댓글창을 클릭할 때
-        $('#comment_input_box').find('#loginBtn').click(function() {
-            alert("로그인 후 이용해주세요");
-            showModal();
-        });
-
     }
 }
 

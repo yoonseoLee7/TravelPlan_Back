@@ -59,8 +59,8 @@
                     <!-- <img th:src="${로그인프로필이미지}"> -->
                     <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}">
                     <input class="comment_input" type="text" placeholder="댓글을 입력해 주세요" id="commentContent"/>
-                    <!-- <button type="button" id="submitBtn" onclick="submitComment(result)">전송이미지</button> -->
-                    <p id="submitBtn" onclick="submitComment(result)"><button id="loginBtn">↵</button></p>
+                    <!-- <button type="button" id="submitBtn" onclick="submitComment(result,event)">전송이미지</button> -->
+                    <button id="submitBtn">↵</button>
                 </div>
             </div>
         </div>
