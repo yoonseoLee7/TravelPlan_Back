@@ -157,9 +157,7 @@ function placeItem(result) {
     //해당 장소 댓글 로딩
     loadComments(result)
     //댓글 저장
-    submitComment(result);
-    
-    
+    //submitComment(result);   
 }
 
 //--------------------------------------댓글영역
@@ -176,8 +174,8 @@ function placeItem(result) {
 //롯데월드 댓글 로딩
 function initSpotComments() {
     $('.p_comment').text("롯데월드 잠실점");
-
     var id="187961";
+
     $.ajax({
         url:'/api/main/getComments',
         type:'GET',
@@ -191,10 +189,10 @@ function initSpotComments() {
         }
     });
 }
-
+//댓글 출력
 function displayinit(results) {
     var resultDiv = $('#comment_list_box');
-    // resultDiv.empty();
+    resultDiv.empty();
 
     if (results.length === 0) {
         resultDiv.html('댓글이 없습니다.');
@@ -229,8 +227,8 @@ function displayinit(results) {
         // 전송
         $(result).next('.replyForm').find('.submitReply').click(function() {
             // 대댓글 전송 로직 구현
-            var upprRplyId = rplyId;
-            var replyContent = $(this).siblings('#replyContent').val();
+            var upprRplyId = rplyId; // 상위댓글
+            var replyContent = $(this).siblings('#replyContent').val(); //댓글내용
             // ----------------------------------------------대댓 ajax 써서 전송시키기
 
             
@@ -252,68 +250,55 @@ function displayinit(results) {
 // 해당장소 댓글내역 가져오기
 function loadComments(result) {
     // var poiId = result.contents.poiId.split("=")[0];
-    var poiId = result.id;
+    var value = JSON.parse($(result).attr('value'));
+    var poiId = value.id;
+    var name = value.name;
+    console.log("poiId=",poiId);
+    $('#commentList').text(name);
 
-    $('#commentList').text(result.name);
     $.ajax({
         type: "GET",
         url: "/api/main/getComments",
         data: { poiId },
         success: function (response) {
             console.log("댓글 로딩 성공",response);
-            displayComment(response);
+            displayinit(response);
         },
         error: function (error) {
             console.error("댓글 로딩 오류",error);
         }
     });
 }
-// 댓글
-function displayComments(comments) {
+// // 댓글보여주기    롯데월드이닛이랑 보여주기는 같이쓰기
+// function displayComments(results) {
+//     var resultDiv = $('#comment_list_box');
+//     // resultDiv.empty();
 
-    var commentHTML = '';
-    if (comments && comments.length > 0) {
-        comments.forEach(function(comment) {
-            commentHTML += '<li class="search_items">';
-            commentHTML += '<p>' + comment.rplyCtt + '</p>';
-            commentHTML += '<button class="replyButton" data-upprRplyId="' + comment.upprRplyId + '">ㄴ</button>';
-            commentHTML += '</li>';
+//     if (results.length === 0) {
+//         resultDiv.html('댓글이 없습니다.');
+//         return;
+//     }
+//     console.log(results);
+//     var ul = $('#comment_list');
 
-    // 대댓글
-    if(comment.replies && comment.replies.length > 0) {
-        comment.replies.forEach(function(reply) {
-            commentHTML += '<li class="search_items">';
-            commentHTML += '<p>' + reply.rplyCtt + '</p>';
-            commentHTML += '</li>';
-        });
-    }
-    });
-    } else {
-        commentHTML = '<p>댓글이 없습니다.</p>';
-    }
-    $('#comment_list').html(commentHTML);
-    
-    // 대댓글 입력창
-    $('.replyButton').click(function() {
-        var upprRplyId = $(this).data('upprRplyId');
-        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + upprRplyId + '">Submit</button></div>';
-        $(this).after(replyFormHTML);
-    });
-
-    // 대댓글 submit
-    $(document).on('click', '.submitReply', function() {
-        var upprRplyId = $(this).data('upprRplyId');
-        var replyContent = $('#replyContent').val();
+//     results.body?.forEach(function(result) {
+//         let json = JSON.stringify(result);
+//         var epochTime = result.REG_DTM;
+//         var date = new Date(epochTime);
+//         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         
-        //서버에 저장
-        saveReply(upprRplyId, replyContent);
-    });
-}
+//         let li = `<li class="search_items" value='${json}' onclick='replyClick(this)'>${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
+//         ul.append(li);
+//     });
+//     resultDiv.append(ul);
+
+// }
+
+
 
 //선택한 관광지에 댓글 작성 & 저장
 function submitComment(result){
     var currentTime = new Date();
-    var formattedTime = currentTime.toISOString().slice(0,19).replace('T',' ');
     var commentContent = $('#commentContent').val();
     var poiid = result.poiId;
 
@@ -329,7 +314,7 @@ function submitComment(result){
         url: "/api/main/saveComment",
         data: {
             rplyCtt: commentContent,
-            regDtm: formattedTime,
+            regDtm: currentTime,
             poiId: poiid,
             regrId: 1
         },
