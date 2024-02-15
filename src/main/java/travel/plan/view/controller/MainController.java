@@ -12,13 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController {
 
     @RequestMapping("/")
-    public String mainView(@SessionAttribute(name = "userId", required = false) String userId, Model model) {
-        if(userId == null) {
+    public String mainView(@SessionAttribute(name = "userNick", required = false) String userNick, Model model) {
+        if(userNick == null) {
             log.debug("MainController: userId는 null");
         } else {
-            log.debug("MainController: " + userId);
+            log.debug("MainController: " + userNick);
             // 사용자 정보가 있을 경우 로그인/회원가입 텍스트 없애기
-            model.addAttribute("userId", userId);
+            model.addAttribute("userNick", userNick);
         }
         return "index";
     }

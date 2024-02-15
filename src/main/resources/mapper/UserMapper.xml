@@ -13,11 +13,14 @@
          values(#{username}, #{password}, #{reg}, IFNULL(#{USER_ID}, 1))
     </insert>
 
-    <select id="loginCheck" parameterType="hashMap" resultType="Integer">
+    <!-- <select id="loginCheck" parameterType="hashMap" resultType="Integer">
         select count(*) from USER where USER_NICK = #{username} and USER_PWD = #{password}
+    </select> -->
+    <select id="loginCheck" parameterType="hashMap" resultType="UserVO">
+        select USER_ID, USER_NICK, USER_PWD, USER_IMG from USER where USER_NICK = #{username} and USER_PWD = #{password}
     </select>
     
     <select id="getUserInfo" parameterType="hashMap" resultType="UserVO">
-        select * from USER where USER_NICK = #{username}
+        select USER_ID, USER_NICK, USER_PWD, USER_IMG from USER where USER_NICK = #{username}
     </select>
 </mapper>

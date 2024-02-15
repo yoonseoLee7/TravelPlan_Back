@@ -23,12 +23,12 @@
                 <img class="img_search" src="images/search.png">
             </div>
             <div id="util_box">
-                <div id="login_box" th:style="${userId == null ? 'display: flex;' : 'display: none;'}">
+                <div id="login_box" th:style="${userNick == null ? 'display: flex;' : 'display: none;'}">
                     <p onclick="showModal()">로그인</p>
                     <p> | </p>
                     <p onclick="showModal()">회원가입</p>
                 </div>
-                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userId}" th:onclick="showMyPage([[${userId}]]);">
+                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}" th:onclick="showMyPage([[${userNick}]]);">
             </div>
         </div>
     </header>
@@ -57,7 +57,7 @@
                 </div>
                 <div id="comment_input_box">
                     <!-- <img th:src="${로그인프로필이미지}"> -->
-                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userId}">
+                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}">
                     <input class="comment_input" type="text" placeholder="댓글을 입력해 주세요" id="commentContent"/>
                     <!-- <button type="button" id="submitBtn" onclick="submitComment(result)">전송이미지</button> -->
                     <div id="submitBtn" onclick="submitComment(result)">↵</div>

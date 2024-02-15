@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -57,8 +58,14 @@ public class MainRestController {
 
     //댓글테이블 정보저장
     @PostMapping("/saveComment")
-    public Map<String, Object> saveComment(@RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
-        return rplyHstrService.saveComment(rplyHstrDTO);
+    public Map<String, Object> saveComment(@SessionAttribute(name = "userId", required = false) int userId, @RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
+        try {
+            
+        } catch (Exception e) {
+            // 현재 로그인 되어 있는 상태가 아님
+        } finally {
+            return rplyHstrService.saveComment(rplyHstrDTO);
+        }
     }
 
     //검색어 관련 리스트
