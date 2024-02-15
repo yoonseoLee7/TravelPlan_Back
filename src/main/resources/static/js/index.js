@@ -157,7 +157,7 @@ function placeItem(result) {
     //해당 장소 댓글 로딩
     loadComments(result)
     //댓글 저장
-    //submitComment(result);   
+    submitComment(result);   
 }
 
 //--------------------------------------댓글영역
@@ -191,15 +191,13 @@ function initSpotComments() {
 }
 //댓글 출력
 function displayinit(results) {
-    var resultDiv = $('#comment_list_box');
-    resultDiv.empty();
-
     if (results.length === 0) {
         resultDiv.html('댓글이 없습니다.');
         return;
     }
     console.log(results);
     var ul = $('#comment_list');
+    ul.empty();
 
     results.body?.forEach(function(result) {
         let json = JSON.stringify(result);
@@ -210,13 +208,12 @@ function displayinit(results) {
         let li = `<li class="search_items" value='${json}' onclick='replyClick(this)'>${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
         ul.append(li);
     });
-    resultDiv.append(ul);
-
 }
 //댓글 클릭시
     function replyClick(result){
     // 상위댓글 넘버
     var rplyId = $(result).find('input[type="hidden"]').val();
+    console.log("상위댓글넘버:",rplyId);
 
     // 대댓글 창이 이미 열려있는지 확인
     if ($(result).next('.replyForm').length === 0) {
@@ -237,7 +234,7 @@ function displayinit(results) {
 
         // 대댓글 취소
         $(result).next('.replyForm').find('.cancelReply').click(function() {
-            // 대댓글 창 삭제
+            // 대댓글 창 삭제  
             $(this).parent('.replyForm').remove();
         });
     }
@@ -269,46 +266,13 @@ function loadComments(result) {
         }
     });
 }
-// // 댓글보여주기    롯데월드이닛이랑 보여주기는 같이쓰기
-// function displayComments(results) {
-//     var resultDiv = $('#comment_list_box');
-//     // resultDiv.empty();
 
-//     if (results.length === 0) {
-//         resultDiv.html('댓글이 없습니다.');
-//         return;
-//     }
-//     console.log(results);
-//     var ul = $('#comment_list');
-
-//     results.body?.forEach(function(result) {
-//         let json = JSON.stringify(result);
-//         var epochTime = result.REG_DTM;
-//         var date = new Date(epochTime);
-//         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
-        
-//         let li = `<li class="search_items" value='${json}' onclick='replyClick(this)'>${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
-//         ul.append(li);
-//     });
-//     resultDiv.append(ul);
-
-// }
-
-
-
-//선택한 관광지에 댓글 작성 & 저장
+//댓글 작성 & 저장
 function submitComment(result){
     var currentTime = new Date();
     var commentContent = $('#commentContent').val();
     var poiid = result.poiId;
-
-    // if (commentContent === '') {
-    //     alert('댓글 내용을 입력하세요.');
-    //     return;
-    // }
     
-    //로그인 후 이용하세요
-
     $.ajax({
         type: "POST",
         url: "/api/main/saveComment",
@@ -327,39 +291,6 @@ function submitComment(result){
         }
     });
 }
-
-
-
-
-
-//poiid 가져오기
-// function displayComments(result){
-//     let value =JSON.parse($(result).attr('value'));
-//     let lat = value.noorLat;
-//     let lng = value.noorLon;
-//     var name = value.name;
-//     var poiid = value.id;
-
-//     $('#commentList').text(name);
-
-//     $.ajax({
-//         url:'/api/main/savecomment',
-//         type:'GET',
-//         data:{
-//             noorLat:lat,
-//             noorLon:lng
-//         },
-//         success: function(response){
-//             console.log("conttypeid 보내기성공",response);
-//             loadComments(response);
-//             submitComment(response);
-//         },
-//         error: function(error){
-//             console.error('conttypeid 추출 error',error);
-//         }
-//     });
-// }
-
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
 
@@ -598,6 +529,12 @@ function showMyPage(result) {
     if(result != '' && result != null) {
         // 로그인 한 상태인 경우
         location.href = "/myPage";
+    }else{//로그인 안했는데 댓글창을 클릭할 때
+        $('#comment_input_box').find('#loginBtn').click(function() {
+            alert("로그인 후 이용해주세요");
+            showModal();
+        });
+
     }
 }
 
