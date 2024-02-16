@@ -158,6 +158,8 @@ function placeItem(result) {
     loadComments(result)
     //댓글 저장
     submitComment(result);
+    //관광지 이름
+    tourName(result);
 }
 
 //--------------------------------------댓글영역
@@ -204,48 +206,46 @@ function displayinit(results) {
 }
 //롯데월드 댓글 저장
 function initSave(){
-    var userId = parseInt($('#userId').val());
+    var userId = $('#userId').val();
 
-        var commentContent = $('#commentContent').val();
-        
-        // 댓글 내용 유효성검사
-        if(commentContent.trim().length === 0){
-            alert("내용을 입력해주세요.");
-            return;
-        }
-        
-        // 로그인 여부 확인
-        if (!userId || userId === 0) {
-            alert("로그인 후 이용해주세요.");
-            return;
-        }
-        
-        // 로그인 후
-        var currentTime = new Date();
-        var date = currentTime.toISOString();
+    var commentContent = $('#commentContent').val();
+    
+    // 댓글 내용 유효성검사
+    if(commentContent.trim().length === 0){
+        alert("내용을 입력해주세요.");
+        return;
+    }
+    
+    // 로그인 여부 확인
+    if (!userId || userId === 0) {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+    
+    // 로그인 후
+    var currentTime = new Date();
+    var date = currentTime.toISOString();
 
-        var poiId = "187961";
-        userId = 14;
-        
-        $.ajax({
-            type: "POST",
-            url: "/api/main/saveComment",
-            data: {
-                rplyCtt: commentContent,
-                regDtm: date,
-                poiId,
-                regrId: userId
-            },
-            success: function (response) {
-                console.log("댓글저장성공",response);
-                // 저장된 댓글 포함하여 댓글 목록 새로고침
-                initSpotComments();
-                // 댓글 입력창 초기화
-                $('#commentContent').val('');
-            },
-            error: function (error) {
-                console.error("댓글 저장에 실패했습니다.",error);
-            }
+    var poiId = "187961";
+    
+    $.ajax({
+        type: "POST",
+        url: "/api/main/saveComment",
+        data: {
+            rplyCtt: commentContent,
+            regDtm: date,
+            poiId,
+            regrId: userId
+        },
+        success: function (response) {
+            console.log("댓글저장성공",response);
+            // 저장된 댓글 포함하여 댓글 목록 새로고침
+            initSpotComments();
+            $('#commentContent').val('');
+        },
+        error: function (error) {
+            console.error("댓글 저장에 실패했습니다.",error);
+        }
     }); 
 }
 
@@ -280,7 +280,7 @@ function initSave(){
                 success: function (response) {
                     console.log("대댓글 저장 성공",response);
                     //displayinit(response);
-                    loadComments(response);
+                    updateComments(response);
                 },
                 error: function (error) {
                     console.error("대댓글 저장 오류",error);
@@ -298,15 +298,19 @@ function initSave(){
     }    
 }
 //======검색 후 댓글
+//관광지이름 출력
+function tourName(result){
+    var value = JSON.parse($(result).attr('value'));
+    var name = value.name;
+    $('#commentList').text(name);
 
+}
 // 검색 후 해당장소 댓글 로딩
 function loadComments(result) {
     // var poiId = result.contents.poiId.split("=")[0];
     var value = JSON.parse($(result).attr('value'));
     var poiId = value.id;
-    var name = value.name;
     console.log("poiId=",poiId);
-    $('#commentList').text(name);
 
     $.ajax({
         type: "GET",
@@ -325,9 +329,11 @@ function loadComments(result) {
 //댓글 작성 & 저장
 function submitComment(result){
     var currentTime = new Date();
+    var date = currentTime.toISOString();
     var commentContent = $('#commentContent').val();
     var value = JSON.parse($(result).attr('value'));
     var poiId = value.id;
+    var userId = $('#userId').val();
 
     $('#submitBtn').click(function() {
         if ($('#userId').val() === "") {
@@ -340,24 +346,43 @@ function submitComment(result){
         }
     }); 
 
-        $.ajax({
-            type: "POST",
-            url: "/api/main/saveComment",
-            data: {
-                rplyCtt: commentContent,
-                regDtm: currentTime,
-                poiId,
-                regrId: $('#userId').val()
-            },
-            success: function (response) {
-                console.log("댓글저장성공",response);
-                loadComments(response);
-            },
-            error: function (error) {
-                console.error("댓글 저장에 실패했습니다.",error);
-            }
-        }); 
-    }
+    $.ajax({
+        type: "POST",
+        url: "/api/main/saveComment",
+        data: {
+            rplyCtt: commentContent,
+            regDtm: date,
+            poiId,
+            regrId: userId
+        },
+        success: function (response) {
+            console.log("댓글저장성공",response);
+            updateComments(response);
+            $('#commentContent').val('');
+        },
+        error: function (error) {
+            console.error("댓글 저장에 실패했습니다.",error);
+        }
+    }); 
+}
+//저장 후 목록불러오기
+function updateComments(result) {
+    var poiId = result.body.poiId;
+
+    $.ajax({
+        type: "GET",
+        url: "/api/main/getComments",
+        data: { poiId },
+        success: function (response) {
+            console.log("댓글 업데이트 성공", response);
+            displayinit(response); // 댓글 목록을 업데이트하는 함수 호출
+        },
+        error: function (error) {
+            console.error("댓글 업데이트 실패", error);
+        }
+    });
+}
+    
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
 
