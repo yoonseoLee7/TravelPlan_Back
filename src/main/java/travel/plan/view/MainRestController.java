@@ -59,7 +59,7 @@ public class MainRestController {
 
     //댓글테이블 정보저장
     @PostMapping("/saveComment")
-    public Map<String, Object> saveComment(@SessionAttribute(name = "userId", required = false) int userId, @RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
+    public Map<String, Object> saveComment(@SessionAttribute(name = "userId", required = false) Integer userId, @RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
         Map<String,Object> rply = new HashMap<>();
         try {
          rplyHstrDTO.setRegrId(userId);
