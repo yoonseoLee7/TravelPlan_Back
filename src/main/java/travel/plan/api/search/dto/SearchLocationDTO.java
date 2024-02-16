@@ -1,12 +1,18 @@
 package travel.plan.api.search.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 // 위치기반 관광정보 API Request 시 사용
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class SearchLocationDTO {
-    
+
     // OS 종류(IOS, AND, WIN)
     @NotBlank
     private String MobileOS;

@@ -184,13 +184,22 @@ public class SearchServiceImpl implements SearchService {
         searchLocationDTO.setMapX(vo.getNoorLon());
         searchLocationDTO.setMapY(vo.getNoorLat());
         searchLocationDTO.setRadius(500);
-        
+
+        // NOTE: Builder로도 사용할 수 있어요! 가독성도 좋고 체이닝 형태로 한번에 쭉 나열하면 돼서 편합니당~
+        // SearchLocationDTO searchLocationDTO = SearchLocationDTO.builder()
+        //                                                         .MobileApp("Demo")
+        //                                                         .MobileOS("WIN")
+        //                                                         .mapX(vo.getNoorLon())
+        //                                                         .mapY(vo.getNoorLat())
+        //                                                         .radius(500)
+        //                                                         .build();
+
         List<SearchDetailVO> detailList = locationToDetail(searchLocationDTO);
         List<SearchDetailVO> sortList = new ArrayList<>();
-        
+
         int[] rank = getDistance(vo, detailList);
-        for(int i = 0; i < detailList.size(); i++) {
-            for(int j = 0; j < rank.length; j++) {
+        for (int i = 0; i < detailList.size(); i++) {
+            for (int j = 0; j < rank.length; j++) {
                 if (i == rank[j] - 1) {
                     sortList.add(detailList.get(j));
                 }
@@ -202,17 +211,17 @@ public class SearchServiceImpl implements SearchService {
     // 두 좌표 사이의 거리 값 측정
     public int[] getDistance(SearchAreaVO vo, List<SearchDetailVO> detailList) {
         List<Double> distance = new ArrayList<>();
-        for(var detail: detailList) {
+        for (var detail : detailList) {
             var result = getDistanceOne(vo.getNoorLat(), vo.getNoorLon(), detail.getMapy(), detail.getMapx());
             distance.add(result);
         }
 
         // 가져온 좌표들의 가까운 순위대로 표시
         int[] ranks = new int[distance.size()];
-        for(int i = 0; i < distance.size(); i++) {
+        for (int i = 0; i < distance.size(); i++) {
             int rank = distance.size();
-            for(int j = 0; j < distance.size(); j++) {
-                if(distance.get(i) < distance.get(j)) {
+            for (int j = 0; j < distance.size(); j++) {
+                if (distance.get(i) < distance.get(j)) {
                     rank--;
                 }
                 ranks[i] = rank;
@@ -226,8 +235,9 @@ public class SearchServiceImpl implements SearchService {
         double dLat = Math.toRadians(latSecond - latFirst);
         double dLng = Math.toRadians(lngSecond = lngFirst);
 
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(latFirst)) * Math.cos(Math.toRadians(latSecond))
-            * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(latFirst)) * Math.cos(Math.toRadians(latSecond))
+                        * Math.sin(dLng / 2) * Math.sin(dLng / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = radius * c * 1000;
         return d;
@@ -237,7 +247,7 @@ public class SearchServiceImpl implements SearchService {
         List<SearchLocationVO> locationList = searchLocation(searchLocationDTO);
         List<SearchDetailVO> detailList = new ArrayList<SearchDetailVO>();
         SearchDetailDTO detailDTO = new SearchDetailDTO();
-        for(int i = 0; i < locationList.size(); i++) {
+        for (int i = 0; i < locationList.size(); i++) {
             detailDTO.setContentId(locationList.get(i).getContentid());
             detailDTO.setMobileApp("DEMO");
             detailDTO.setMobileOS("WIN");
@@ -253,7 +263,7 @@ public class SearchServiceImpl implements SearchService {
 
         try {
             searchArea = searchArea(searchText);
-            return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,searchArea);
+            return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, searchArea);
         } catch (Exception e) {
             log.error("api request error", e);
             throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
@@ -277,12 +287,10 @@ public class SearchServiceImpl implements SearchService {
     //     // searchDetailDTO.setMobileOS("WIN");
     //     // searchDetailDTO.setContentId(searchLocationVO.getContentid()); 
 
-        
-
     //     return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, searchDetailVO); 
 
     // }
-    
+
     /* 
     URLConnection을 사용하여 데이터 가져오기
     @Override
