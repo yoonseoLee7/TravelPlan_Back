@@ -206,7 +206,6 @@ function displayinit(results) {
 function initSave(){
     var userId = parseInt($('#userId').val());
 
-    $('#submitBtn').click(function() {
         var commentContent = $('#commentContent').val();
         
         // 댓글 내용 유효성검사
@@ -226,6 +225,7 @@ function initSave(){
         var date = currentTime.toISOString();
 
         var poiId = "187961";
+        userId = 14;
         
         $.ajax({
             type: "POST",
@@ -234,29 +234,21 @@ function initSave(){
                 rplyCtt: commentContent,
                 regDtm: date,
                 poiId,
-                regrId: 14
+                regrId: userId
             },
             success: function (response) {
                 console.log("댓글저장성공",response);
-                appendComment(response);
+                // 저장된 댓글 포함하여 댓글 목록 새로고침
+                initSpotComments();
+                // 댓글 입력창 초기화
+                $('#commentContent').val('');
             },
             error: function (error) {
                 console.error("댓글 저장에 실패했습니다.",error);
             }
-        }); 
     }); 
 }
-// 새로운 댓글을 기존 목록에 추가하는 함수
-function appendComment(comment) {
-    var ul = $('#comment_list');
-    var json = JSON.stringify(comment);
-    var epochTime = comment.REG_DTM;
-    var date = new Date(epochTime);
-    var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
 
-    var li = `<li class="search_items" value='${json}' onclick='replyClick(this)' style="${comment.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${comment.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${comment.RPLY_ID}"></li>`;
-    ul.append(li);
-}
 //댓글 클릭시
     function replyClick(result){
     // 상위댓글 넘버

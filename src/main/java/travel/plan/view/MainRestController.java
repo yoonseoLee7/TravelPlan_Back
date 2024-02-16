@@ -59,6 +59,7 @@ public class MainRestController {
 
     //댓글테이블 정보저장
     @PostMapping("/saveComment")
+    @ResponseBody // dto객체 json으로 변환하기위해
     public Map<String, Object> saveComment(@SessionAttribute(name = "userId", required = false) Integer userId, @RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
         Map<String,Object> rply = new HashMap<>();
         try {
