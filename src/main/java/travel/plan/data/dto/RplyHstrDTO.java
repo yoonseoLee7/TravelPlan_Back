@@ -21,12 +21,10 @@ public class RplyHstrDTO {
     private String rplyCtt,delYn;
 
     //등록일시
-    @NotBlank
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime regDtm;
     
     //수정일시
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime corcDtm;
 
     //관광지코드번호,장소통합번호
