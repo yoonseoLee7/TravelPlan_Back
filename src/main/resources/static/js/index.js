@@ -187,7 +187,7 @@ function displayinit(results) {
     if (results.length === 0) {
         let defined = '<p>댓글이 없습니다.</p>';
         ul.append(defined);
-        return;
+        //return;
     }
     console.log(results);
     ul.empty();
@@ -201,6 +201,61 @@ function displayinit(results) {
         let li = `<li class="search_items" value='${json}' onclick='replyClick(this)' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
         ul.append(li);
     });
+}
+//롯데월드 댓글 저장
+function initSave(){
+    var userId = parseInt($('#userId').val());
+
+    $('#submitBtn').click(function() {
+        var commentContent = $('#commentContent').val();
+        
+        // 댓글 내용 유효성검사
+        if(commentContent.trim().length === 0){
+            alert("내용을 입력해주세요.");
+            return;
+        }
+        
+        // 로그인 여부 확인
+        if (!userId || userId === 0) {
+            alert("로그인 후 이용해주세요.");
+            return;
+        }
+        
+        // 로그인 후
+        var currentTime = new Date();
+        var date = currentTime.toISOString();
+
+        var poiId = "187961";
+        
+        $.ajax({
+            type: "POST",
+            url: "/api/main/saveComment",
+            data: {
+                rplyCtt: commentContent,
+                regDtm: date,
+                poiId,
+                regrId: 14
+            },
+            success: function (response) {
+                console.log("댓글저장성공",response);
+                appendComment(response);
+            },
+            error: function (error) {
+                console.error("댓글 저장에 실패했습니다.",error);
+            }
+        }); 
+    }); 
+}
+// 새로운 댓글을 기존 목록에 추가하는 함수
+function appendComment(comment) {
+    var ul = $('#comment_list');
+    var json = JSON.stringify(comment);
+    var epochTime = comment.REG_DTM;
+    var date = new Date(epochTime);
+    var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+
+    var li = `<li class="search_items" value='${json}' onclick='replyClick(this)' style="${comment.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${comment.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${comment.RPLY_ID}"></li>`;
+    ul.append(li);
 }
 //댓글 클릭시
     function replyClick(result){
@@ -248,14 +303,11 @@ function displayinit(results) {
             // 대댓글 창 삭제  
             $(this).parent('.replyForm').remove();
         });
-    }
-    
-    
+    }    
 }
-
 //======검색 후 댓글
 
-// 해당장소 댓글내역 가져오기
+// 검색 후 해당장소 댓글 로딩
 function loadComments(result) {
     // var poiId = result.contents.poiId.split("=")[0];
     var value = JSON.parse($(result).attr('value'));
@@ -307,7 +359,7 @@ function submitComment(result){
             },
             success: function (response) {
                 console.log("댓글저장성공",response);
-                loadComments(response.body);
+                loadComments(response);
             },
             error: function (error) {
                 console.error("댓글 저장에 실패했습니다.",error);
