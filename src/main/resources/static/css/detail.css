@@ -54,3 +54,16 @@ body {display: block; margin-top: 30px;}
 #container #c_inner_suggestion {width: inherit; display: flex; height: auto; flex-wrap: wrap; justify-content: space-between;}
 
 .place_image_box {width: 23%; height: 200px; margin: 20px 10px 10px 10px; border: 1px solid greenyellow;}
+
+.detail_info {
+    display: flex;
+    padding-left: 10px;
+}
+.detail_into_title {
+    width: 150px;
+}
+
+.division_line {
+    border-top: 2px solid #444444;
+    margin: 30px 0px 3px 0px;
+}
