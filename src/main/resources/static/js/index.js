@@ -133,12 +133,10 @@ function searchResults(results){
         resultDiv.html('검색 결과가 없습니다.');
         return;
     }
-    console.log(results);
-    // var ul = $('<div></div>');
+    
     var ul = $('<ul></ul>');
     results.body?.forEach(function (result) { // cf. 옵셔널체이닝
         let json = JSON.stringify(result);
-        // let li = `<div class="search_items" onclick="placeItem(this);" value='${json}'>${result.name}</div>`;
         let li = `<li class="search_items" onclick="placeItem(this);" value='${json}'>
         <img src="images/location.png"/>${result.name}</li>`;
         
@@ -401,18 +399,13 @@ function initSuggestPlace() {
             noorLat: firstLat,
             noorLon: firstLng
         },
-        success: function(response){
-            // 해당 데이터를 추천방문지에 뿌려줌
-            showSuggestPlace(response.body);
-
-        },
+        success: function(response){showSuggestPlace(response.body);}, // 해당 데이터를 추천방문지에 뿌려줌
         error: function(error){console.error('Error:',error);}
     });
 }
 
 function suggestPlace(vo) {
-    let value = $(vo).attr('value');
-    // {"id":"5845839","name":"경복궁 한옥마을점 주차장","noorLat":37.39052415,"noorLon":126.63841805}
+    let value = JSON.parse($(vo).attr('value'));
 
     $.ajax({
         url: '/api/main/suggest',
@@ -423,11 +416,7 @@ function suggestPlace(vo) {
             noorLat: value.noorLat,
             noorLon: value.noorLon
         },
-        success: function(response){
-            // 해당 데이터를 추천방문지에 뿌려줌
-            showSuggestPlace(response.body);
-
-        },
+        success: function(response){showSuggestPlace(response.body);}, // 해당 데이터를 추천방문지에 뿌려줌
         error: function(error){console.error('Error:',error);}
     });
 }
@@ -438,12 +427,15 @@ function showSuggestPlace(results) {
     var resultDiv = $('#c_inner_suggestion');
     resultDiv.empty();
 
-    if(results.length === 0) return;
+    if(results.length == 0) {
+        let text = '<div class="suggest_error">추천방문지가 없습니다</div>';
+        resultDiv.append(text);
+        return;
+    } 
 
     var resultCount = 0;
     for(let result of results) {
         let defaultImage = "images/suggest_default.png"
-        // let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage(\'' + JSON.parse(JSON.stringify(result)) + '\')" onerror="this.src=\'' + defaultImage + '\'"/>';
         let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage('+ resultCount +')" onerror="this.src=\'' + defaultImage + '\'"/>';
         
         resultCount++;
@@ -555,13 +547,8 @@ function sendUserInfo() {
         data: {username:$('#join_username').val(),
             password:$('#join_password').val()},
         success: function(response){
-            if(response.code == "Fail") {
-                console.log(response.message);
-            }
-            if(response.code == "Success") {
-                console.log("회원가입 성공");
-                $('.modal').hide();
-            }
+            if(response.code == "Fail") {console.error('Error:', response.message);}
+            if(response.code == "Success") {$('.modal').hide();}
         },
         error: function(error){
             console.error('Error:',error);
@@ -581,13 +568,9 @@ function checkId() {
                 $('.error_message_join').text(response.message);
                 $('#join_username').css('border', "2px solid #ff0000");
             }
-            if(response.code == "Success") {
-                sendUserInfo();
-            }
+            if(response.code == "Success") {sendUserInfo();}
         },
-        error: function(error){
-            console.error('Error:',error);
-        }
+        error: function(error){console.error('Error:',error);}
     });
 }
 
@@ -617,11 +600,7 @@ function loginCheck() {
 }
 
 function showMyPage(result) {
-    console.log(result);
-    if(result != '' && result != null) {
-        // 로그인 한 상태인 경우
-        location.href = "/myPage";
-    }
+    if(result != '' && result != null) {location.href = "/myPage";}  // 로그인 한 상태인 경우
 }
 
 function changeProfile() {
@@ -638,9 +617,7 @@ function changeProfile() {
                     $('.imgThumb').attr("src", img);
                 }
             },
-            error: function(error){
-                console.error('Error:',error);
-            }
+            error: function(error){console.error('Error:',error);}
         });
     }
 }

@@ -12,4 +12,8 @@ public class SearchLocationVO {
     // 콘텐츠 제목
     @NotBlank
     private String title;
+
+    private Double mapx;
+
+    private Double mapy;
 }

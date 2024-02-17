@@ -248,10 +248,12 @@ public class SearchServiceImpl implements SearchService {
         List<SearchDetailVO> detailList = new ArrayList<SearchDetailVO>();
         SearchDetailDTO detailDTO = new SearchDetailDTO();
         for (int i = 0; i < locationList.size(); i++) {
-            detailDTO.setContentId(locationList.get(i).getContentid());
-            detailDTO.setMobileApp("DEMO");
-            detailDTO.setMobileOS("WIN");
-            detailList.add(searchDetail(detailDTO));
+            if(locationList.get(i).getMapx() > 0 && locationList.get(i).getMapy() > 0) {
+                detailDTO.setContentId(locationList.get(i).getContentid());
+                detailDTO.setMobileApp("DEMO");
+                detailDTO.setMobileOS("WIN");
+                detailList.add(searchDetail(detailDTO));
+            }
         }
 
         return detailList;
@@ -265,7 +267,6 @@ public class SearchServiceImpl implements SearchService {
             searchArea = searchArea(searchText);
             return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, searchArea);
         } catch (Exception e) {
-            log.error("api request error", e);
             throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
         }
     }

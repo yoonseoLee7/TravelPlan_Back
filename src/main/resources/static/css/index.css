@@ -138,6 +138,12 @@ input {
     padding: 14px 0px 14px 0px;
 }
 
+.suggest_error {
+    font-weight: bold;
+    font-size: 48px;
+    margin: 10px;
+}
+
 .error_message {
     color: red;
 }
