@@ -35,19 +35,19 @@ public class SearchController {
         return searchService.searchArea(searchText);
     }
 
-    @Operation(summary = "장소혼잡도검색", description = "TODO")
+    @Operation(summary = "장소혼잡도검색", description = "특정 장소의 가장 최근에 집계된 혼잡도 정보를 조회")
     @RequestMapping(value = "/searchPuzzle", method = RequestMethod.GET)
     public SearchPuzzleVO searchPuzzle(SearchPuzzleDTO searchPuzzle) throws Exception {
         return searchService.searchPuzzle(searchPuzzle);
     }
 
-    @Operation(summary = "위치기반관광정보검색", description = "TODO")
+    @Operation(summary = "위치기반관광정보검색", description = "특정 장소의 주변 관광지 정보 목록을 조회")
     @RequestMapping(value = "/searchLocation", method = RequestMethod.GET)
     public List<SearchLocationVO> searchLocation(SearchLocationDTO searchLocation) throws Exception {
         return searchService.searchLocation(searchLocation);
     }
 
-    @Operation(summary = "공통정보검색", description = "TODO")
+    @Operation(summary = "공통정보검색", description = "특정 장소에 대한 상세정보를 조회")
     @RequestMapping(value = "/searchDetail", method = RequestMethod.GET)
     public SearchDetailVO searchDetail(SearchDetailDTO searchDetailDTO) throws Exception {
         return searchService.searchDetail(searchDetailDTO);
