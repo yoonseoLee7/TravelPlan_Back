@@ -29,12 +29,23 @@ function getDetailInfo() {
             //     "mapx": 127.0976311526,
             //     "mapy": 37.5123821225
             // }
-            $('#detail_title').text(response.title);
-            $('#detail_overview').text(response.overview);
-            $('#detail_addr').text(response.addr1 + response.addr2);
-            $('#detail_tel').text(response.tel + response.telname);
-            $('#detail_homepage').text(response.homepage);
 
+            if(response.title != "" && response.title != undefined) {
+                $('#detail_title').text(response.title);
+            }
+            if(response.overview != "" && response.overview != undefined) {
+                $('#detail_overview').text(response.overview);
+            }
+            if(response.addr1 != "" && response.addr1 != undefined) {
+                $('#detail_addr').text(response.addr1 + response.addr2);
+            }
+            if(response.tel != "" && response.tel != undefined) {
+                $('#detail_tel').text(response.tel + response.telname);
+            }
+            if(response.homepage != "" && response.homepage != undefined) {
+                $('#detail_homepage').text(response.homepage);
+            }
+            
             let divBox = $('#div_image');
             divBox.empty();
 
