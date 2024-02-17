@@ -30,7 +30,7 @@ public class RplyHstrServiceImpl implements RplyHstrService{
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,save);  
     }
 
-    //댓글 최신화 최대5개 정렬 가져오기
+    //메인페이지 댓글 로딩
     @Override
     public Map<String, Object> getCommentsForPoi(String poiId){
         RplyHstrDTO rplyHstrDTO = new RplyHstrDTO();
@@ -39,8 +39,18 @@ public class RplyHstrServiceImpl implements RplyHstrService{
         //가져오고
         List<Map<String,Object>> getrply = rplyHstrMapper.getCommentsForPoi(rplyHstrDTO.getPoiId());
         
-        
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,getrply);
+    }
 
+    //상세페이지 모달댓글
+    @Override
+    public Map<String, Object> getCommentsContType(String contTypeId) throws Exception {
+        
+        RplyHstrDTO rplyHstrDTO = new RplyHstrDTO();
+        rplyHstrDTO.setPoiId(contTypeId);
+
+        List<Map<String,Object>> getrply = rplyHstrMapper.getCommentsContType(rplyHstrDTO.getContTypeId());
+        
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,getrply);
     }
 

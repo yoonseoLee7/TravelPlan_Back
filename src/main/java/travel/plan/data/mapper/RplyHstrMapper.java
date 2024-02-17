@@ -12,5 +12,5 @@ public interface RplyHstrMapper {
     public RplyHstrDTO saveComment(RplyHstrDTO rplyHstrDTO);
 
     public List<Map<String,Object>> getCommentsForPoi(String poiId);
-
+    public List<Map<String,Object>> getCommentsContType(String contTypeId);
 }
