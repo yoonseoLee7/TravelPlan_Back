@@ -3,10 +3,10 @@
 
 // 화면이 처음 보여졌을 때 실행되어야 할 기능들
 $(window).on('load', function () {
-    initTmap();
-    initSuggestPlace();
-    changeProfile();
-    initSpotComments();
+    // initTmap();
+    // initSuggestPlace();
+    // changeProfile();
+    loadComments();
 });
 
 var map, marker, rect;
@@ -148,38 +148,46 @@ function searchResults(results){
 
 // 검색 리스트 아이템 클릭 시 이벤트
 function placeItem(result) {
+    var value = JSON.parse($(result).attr('value'));
+    var poiId = value.id;
     // 추천방문지
     suggestPlace(result);
     // 지도 혼잡도
-    showTmap(result);
-    //해당 장소 댓글 로딩
-    loadComments(result)
-    //댓글 저장
-    submitComment(result);
-    //관광지 이름
-    tourName(result);
+    //showTmap(result);
+    //poiId 변경
+    updatePoiId(poiId);
 }
 
 //--------------------------------------댓글영역
-
 //롯데월드 댓글 로딩
-function initSpotComments() {
-    $('.p_comment').text("롯데월드 잠실점");
-    var id="187961";
+// function initSpotComments() {
+//     $('.p_comment').text("롯데월드 잠실점");
+//     var id="187961";
+//     loadComments(id);
+// }
 
+var changePoiId = "187961";
+function updatePoiId(poiId){
+    changePoiId = poiId;
+    loadComments();
+}
+
+//해당장소 댓글 로딩
+function loadComments() {
     $.ajax({
-        url:'/api/main/getComments',
-        type:'GET',
-        data: { poiId : id },
-        success: function(response) {
-            console.log("초기정보 가져오기 성공", response);
+        type: "GET",
+        url: "/api/main/getComments",
+        data: { poiId:changePoiId },
+        success: function (response) {
+            console.log("댓글 로딩 성공",response);
             displayinit(response);
         },
-        error: function(error) {
-            console.error("초기화면 정보 가져오기 실패:", error);          
+        error: function (error) {
+            console.error("댓글 로딩 오류",error);
         }
     });
 }
+
 //댓글 출력
 function displayinit(results) {
     var ul = $('#comment_list');
@@ -201,50 +209,6 @@ function displayinit(results) {
         let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
         ul.append(li);
     });
-}
-//롯데월드 댓글 저장
-function initSave(result){
-    var userId = result;
-
-    var commentContent = $('#commentContent').val();
-    
-    // 댓글 내용 유효성검사
-    if(commentContent.trim().length === 0){
-        alert("내용을 입력해주세요.");
-        return;
-    }
-    
-    // 로그인 여부 확인
-    if (!userId || userId === 0) {
-        alert("로그인 후 이용해주세요.");
-        return;
-    }
-    
-    // 로그인 후
-    var currentTime = new Date();
-    var date = currentTime.toISOString();
-
-    var poiId = "187961";
-    
-    $.ajax({
-        type: "POST",
-        url: "/api/main/saveComment",
-        data: {
-            rplyCtt: commentContent,
-            regDtm: date,
-            poiId,
-            regrId: userId
-        },
-        success: function (response) {
-            console.log("댓글저장성공",response);
-            // 저장된 댓글 포함하여 댓글 목록 새로고침
-            initSpotComments();
-            $('#commentContent').val('');
-        },
-        error: function (error) {
-            console.error("댓글 저장에 실패했습니다.",error);
-        }
-    }); 
 }
 
 //댓글 클릭시
@@ -272,13 +236,11 @@ function initSave(result){
                     rplyCtt: replyContent,
                     regDtm: currentTime,
                     poiId,
-                    regrId: $('#userId').val(),
                     upprRplyId
                  },
                 success: function (response) {
                     console.log("대댓글 저장 성공",response);
-                    //displayinit(response);
-                    updateComments(response);
+                    loadComments();
                 },
                 error: function (error) {
                     console.error("대댓글 저장 오류",error);
@@ -295,92 +257,60 @@ function initSave(result){
         });
     }    
 }
-//======검색 후 댓글
-//관광지이름 출력
-function tourName(result){
-    var value = JSON.parse($(result).attr('value'));
-    var name = value.name;
-    $('#commentList').text(name);
-
-}
-// 검색 후 해당장소 댓글 로딩
-function loadComments(result) {
-    // var poiId = result.contents.poiId.split("=")[0];
-    var value = JSON.parse($(result).attr('value'));
-    var poiId = value.id;
-    console.log("poiId=",poiId);
-
-    $.ajax({
-        type: "GET",
-        url: "/api/main/getComments",
-        data: { poiId },
-        success: function (response) {
-            console.log("댓글 로딩 성공",response);
-            displayinit(response);
-        },
-        error: function (error) {
-            console.error("댓글 로딩 오류",error);
-        }
-    });
-}
 
 //댓글 작성 & 저장
-function submitComment(result){
+function submitComment(){
     var currentTime = new Date();
     var date = currentTime.toISOString();
     var commentContent = $('#commentContent').val();
-    var value = JSON.parse($(result).attr('value'));
-    var poiId = value.id;
-    var userId = $('#userId').val();
-
-    $('#submitBtn').click(function() {
-        if ($('#userId').val() === "") {
-            alert("로그인 후 이용해주세요.");
-            return;
-        }
-        if(commentContent === ""){
-            alert("내용을 적어주세요.");
-            return;
-        }
-    }); 
-
+    var userId = $('.userId').attr("value");
+    var delYn = "N";
+    
+    if (!userId || userId === 0) {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+    if(commentContent === ""){
+        alert("내용을 적어주세요.");
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/api/main/saveComment",
         data: {
             rplyCtt: commentContent,
             regDtm: date,
-            poiId,
-            regrId: userId
+            poiId:changePoiId,
+            delYn
         },
         success: function (response) {
             console.log("댓글저장성공",response);
-            updateComments(response);
+            loadComments();
             $('#commentContent').val('');
         },
         error: function (error) {
             console.error("댓글 저장에 실패했습니다.",error);
         }
-    }); 
-}
-//저장 후 목록불러오기
-function updateComments(result) {
-    var poiId = result.body.poiId;
-
-    $.ajax({
-        type: "GET",
-        url: "/api/main/getComments",
-        data: { poiId },
-        success: function (response) {
-            console.log("댓글 업데이트 성공", response);
-            displayinit(response); // update
-        },
-        error: function (error) {
-            console.error("댓글 업데이트 실패", error);
-        }
     });
 }
-    
+
+//저장 후 목록불러오기
+// function updateComments(result) {
+//     var poiId = result.body.poiId;
+
+//     $.ajax({
+//         type: "GET",
+//         url: "/api/main/getComments",
+//         data: { poiId },
+//         success: function (response) {
+//             console.log("댓글 업데이트 성공", response);
+//             displayinit(response); // update
+//         },
+//         error: function (error) {
+//             console.error("댓글 업데이트 실패", error);
+//         }
+//     });
+// }
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
 
