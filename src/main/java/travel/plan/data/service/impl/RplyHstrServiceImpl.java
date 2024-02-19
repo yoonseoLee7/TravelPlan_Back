@@ -23,7 +23,7 @@ public class RplyHstrServiceImpl implements RplyHstrService{
     @Autowired
     SearchService searchService;
 
-    //mainpage 댓글테이블에 저장
+    //댓글테이블에 저장
     @Override
     public Map<String,Object> saveComment(RplyHstrDTO rplyHstrDTO){
         RplyHstrDTO save = rplyHstrMapper.saveComment(rplyHstrDTO);
@@ -47,7 +47,7 @@ public class RplyHstrServiceImpl implements RplyHstrService{
     public Map<String, Object> getCommentsContType(String contTypeId) throws Exception {
         
         RplyHstrDTO rplyHstrDTO = new RplyHstrDTO();
-        rplyHstrDTO.setPoiId(contTypeId);
+        rplyHstrDTO.setContTypeId(contTypeId);
 
         List<Map<String,Object>> getrply = rplyHstrMapper.getCommentsContType(rplyHstrDTO.getContTypeId());
         

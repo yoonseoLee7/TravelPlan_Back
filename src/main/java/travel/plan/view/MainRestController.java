@@ -56,7 +56,7 @@ public class MainRestController {
         return rplyHstrService.getCommentsForPoi(poiId);
     }
 
-    //poiId로 검색 관광지 댓글 로딩
+    //contTypeId 검색 관광지 댓글 로딩
     @GetMapping("/getCommentsModal")
     public Map<String,Object> getCommentsContType(@RequestBody String contTypeId) throws Exception{
         
