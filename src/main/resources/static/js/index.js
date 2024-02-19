@@ -590,6 +590,7 @@ function loginCheck() {
                 $('.modal').hide();
                 $('#login_box').hide();
                 $('.imgThumb').attr('value', $('#login_username').val());
+                $('#userId').attr('value', response.body.userId);
                 changeProfile();
             }
         },
