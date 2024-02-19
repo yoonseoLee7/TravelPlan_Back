@@ -35,8 +35,16 @@
     </header>
     <div id="container">
         <div>
-            <div id="detail_title" onclick="a('this.form')">
-                방문지 타이틀
+            <div style="display: flex;">
+                <div id="detail_title" style="margin-right: 10px;" onclick="a('this.form')">
+                    방문지 타이틀
+                </div>
+                <div id="detail_comment" style="margin-right: 10px;" onclick="openModalComment()">
+                    댓글
+                </div>
+                <div id="bookMark" data-visible="false" onclick="bookMarkSave(event)">
+                    북맠
+                </div>
             </div>
             <div style="display: flex;">
                 <div id="div_image" style="width: 47%; height: 500px; border: 1px solid red;">대표 사진</div>
