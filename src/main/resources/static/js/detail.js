@@ -43,7 +43,8 @@ function getDetailInfo() {
                 $('#detail_tel').text(response.tel + response.telname);
             }
             if(response.homepage != "" && response.homepage != undefined) {
-                $('#detail_homepage').text(response.homepage);
+                let homepage = response.homepage.split("\"")[1];
+                changeHyperLink(homepage); // 받아온 홈페이지 주소로 하이퍼링크 만들기
             }
             
             let divBox = $('#div_image');
@@ -120,4 +121,13 @@ function changeProfile() {
             }
         });
     }
+}
+
+// 받아온 홈페이지 주소로 하이퍼링크 만들기
+function changeHyperLink(homepage) {
+    let divBox = $('#detail_homepage');
+    divBox.empty();
+    // <a href=\"http://www.charlottetheater.co.kr/\" target=\"_blank\" title=\"새창 : 샤롯데씨어터 홈페이지로 이동\">http://www.charlottetheater.co.kr</a>",
+    let a = `<a href="` + homepage + `">` + homepage + `</a>`;
+    divBox.append(a);
 }
