@@ -183,14 +183,14 @@ function initSpotComments() {
 //댓글 출력
 function displayinit(results) {
     var ul = $('#comment_list');
+    ul.empty();
 
-    if (results.length === 0) {
+    if (results.body.length === 0) {
         let defined = '<p>댓글이 없습니다.</p>';
         ul.append(defined);
-        //return;
+        return;
     }
     console.log(results);
-    ul.empty();
 
     results.body?.forEach(function(result) {
         let json = JSON.stringify(result);
@@ -198,13 +198,13 @@ function displayinit(results) {
         var date = new Date(epochTime);
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         
-        let li = `<li class="search_items" value='${json}' onclick='replyClick(this)' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
+        let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
         ul.append(li);
     });
 }
 //롯데월드 댓글 저장
-function initSave(){
-    var userId = $('#userId').val();
+function initSave(result){
+    var userId = result;
 
     var commentContent = $('#commentContent').val();
     
@@ -248,7 +248,7 @@ function initSave(){
 }
 
 //댓글 클릭시
-    function replyClick(result){
+    function replyClick(result,poiId){
     // 상위댓글 넘버
     var rplyId = $(result).find('input[type="hidden"]').val();
     console.log("상위댓글넘버:",rplyId);
@@ -373,7 +373,7 @@ function updateComments(result) {
         data: { poiId },
         success: function (response) {
             console.log("댓글 업데이트 성공", response);
-            displayinit(response); // 댓글 목록을 업데이트하는 함수 호출
+            displayinit(response); // update
         },
         error: function (error) {
             console.error("댓글 업데이트 실패", error);
