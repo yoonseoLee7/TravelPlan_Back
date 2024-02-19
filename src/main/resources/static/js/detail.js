@@ -149,6 +149,11 @@ function createIconHomepage(homepage) {
     divBox.append(icon);
 }
 
+// 홈페이지 타이틀 클릭 시 메인화면으로 이동
+function returnMain() {
+    location.href = "/";
+}
+
 //---------------------------------댓글모달
 function openModalComment(){
     var modal = $('.modal');
