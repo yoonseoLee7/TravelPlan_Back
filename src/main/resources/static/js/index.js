@@ -150,12 +150,15 @@ function searchResults(results){
 function placeItem(result) {
     var value = JSON.parse($(result).attr('value'));
     var poiId = value.id;
+    var name = value.name;
     // 추천방문지
     suggestPlace(result);
     // 지도 혼잡도
     //showTmap(result);
     //poiId 변경
     updatePoiId(poiId);
+    //name 변경
+    changeTitle(name);
 }
 
 //--------------------------------------댓글영역
@@ -167,13 +170,19 @@ function placeItem(result) {
 // }
 
 var changePoiId = "187961";
+var changeName = "롯데월드 잠실점";
 function updatePoiId(poiId){
     changePoiId = poiId;
     loadComments();
 }
+function changeTitle(name){
+    changeName = name;
+    loadComments();
 
+}
 //해당장소 댓글 로딩
 function loadComments() {
+    $('#commentList').text(changeName);
     $.ajax({
         type: "GET",
         url: "/api/main/getComments",
@@ -216,27 +225,39 @@ function displayinit(results) {
     // 상위댓글 넘버
     var rplyId = $(result).find('input[type="hidden"]').val();
     console.log("상위댓글넘버:",rplyId);
+    var currentTime = new Date();
+    var date = currentTime.toISOString();
 
     // 대댓글 창이 이미 열려있는지 확인
     if ($(result).next('.replyForm').length === 0) {
         
-        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + rplyId + '">전송</button><button class="cancelReply">취소</button></div>';
+        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" id="userId" th:value="${userId}">전송</button><button class="cancelReply">취소</button></div>';
         $(result).after(replyFormHTML);
 
         // 전송
         $(result).next('.replyForm').find('.submitReply').click(function() {
-            // 대댓글 전송 로직 구현
             var upprRplyId = rplyId; // 상위댓글
             var replyContent = $(this).siblings('#replyContent').val(); //댓글내용
+            var userId = $('#userId').attr("value");
+            var delYn = "N";
+            if (!userId || userId === 0) {
+                alert("로그인 후 이용해주세요.");
+                return;
+            }
+            if(replyContent === ""){
+                alert("내용을 적어주세요.");
+                return;
+            }
             // ----------------------------------------------대댓 ajax 써서 전송시키기
             $.ajax({
                 type: "POST",
                 url: "/api/main/saveComment",
                 data: { 
                     rplyCtt: replyContent,
-                    regDtm: currentTime,
+                    delYn,
+                    regDtm: date,
                     poiId,
-                    upprRplyId
+                    upprRplyId                    
                  },
                 success: function (response) {
                     console.log("대댓글 저장 성공",response);
