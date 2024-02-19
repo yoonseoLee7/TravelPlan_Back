@@ -45,6 +45,7 @@ function getDetailInfo() {
             if(response.homepage != "" && response.homepage != undefined) {
                 let homepage = response.homepage.split("\"")[1];
                 changeHyperLink(homepage); // 받아온 홈페이지 주소로 하이퍼링크 만들기
+                createIconHomepage(homepage);
             }
             
             let divBox = $('#div_image');
@@ -136,8 +137,16 @@ function changeProfile() {
 function changeHyperLink(homepage) {
     let divBox = $('#detail_homepage');
     divBox.empty();
-    let a = `<a href="` + homepage + `">` + homepage + `</a>`;
+    let a = `<a href="` + homepage + `" target="_blank">` + homepage + `</a>`;
     divBox.append(a);
+}
+
+// 받아온 홈페이지 주소가 있을 경우 홈페이지 이동 아이콘 생성
+function createIconHomepage(homepage) {
+    let divBox = $('#icon_homepage_box');
+    divBox.empty();
+    let icon = `<a href="` + homepage + `" target="_blank">🔗</a>`;
+    divBox.append(icon);
 }
 
 //---------------------------------댓글모달
