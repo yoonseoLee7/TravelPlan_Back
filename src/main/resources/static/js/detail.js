@@ -55,6 +55,15 @@ function getDetailInfo() {
             divBox.append(img);
 
             showTmap(response.mapy, response.mapx, response.contentId, response.title);
+            //댓글 클릭한다면 로딩코멘트로 보내기
+            $('#detail_comment').click(function() {
+                modalLoadComments(response.contenttypeid);
+            });
+            //댓글입력칸 클릭하면 저장함수에 conttypeid보내기
+            $('#submitBtn').click(function() {
+                modalCommentSave(response.contenttypeid);
+            });
+
         },
         error: function(error){
             console.error('Error:',error);
@@ -120,4 +129,178 @@ function changeProfile() {
             }
         });
     }
+}
+
+//---------------------------------댓글모달
+function openModalComment(){
+    var modal = $('.modal');
+    if(modal.is(':visible') == false) {
+        modal.show();
+        modal.data('visible', 'true');
+    }
+}
+
+function closeModalComment(result){
+    if (!$(result.target).closest('.modal_main').length) {
+        var modal = $('.modal');
+        if (modal.data('visible') === 'true') {
+            modal.hide();
+            modal.data('visible', 'false');
+        }
+    }
+}
+
+//contenttypeid get
+function modalLoadComments(result){
+    var contTypeId = result;
+    // var contTypeId = "14";
+    console.log(contTypeId);
+    $.ajax({
+        type: "GET",
+        url: "/api/main/getCommentsModal",
+        data:{contTypeId},
+        success:function(response){
+            console.log("모달 댓글 로딩",response);
+            //display 함수 호출
+            displayComments(response);
+        },
+        error:function(error){
+            console.log("모달 댓글 로딩실패",error);
+        }
+    });
+}
+
+//댓글출력
+function displayComments(results){
+    var ul = $('#commentUL');
+    ul.empty();   
+
+    if (results.body.length === 0) {
+        let defined = '<p>댓글이 없습니다.</p>';
+        ul.append(defined);
+        return;
+    }
+    console.log(results);
+    
+    results.body?.forEach(function(result){
+        let json = JSON.stringify(result);
+        var epochTime = result.REG_DTM;
+        var date = new Date(epochTime);
+        var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+        var liStyle = result.UPPR_RPLY_ID ? 'margin-left: 20px;' : '';
+        
+        let li = `<li class="li_search" value='${json}' onclick='modalReplyClick(this,${result.CONT_TYPE_ID})' style='${liStyle}'>${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
+        ul.append(li);
+    });
+}
+
+//댓글 클릭시
+function modalReplyClick(result,contTypeId){
+    var rplyId = $(result).find('input[type="hidden"]').val();
+
+    //대댓글창 유무확인
+    if ($(result).next('.replyForm').length === 0) {
+        
+        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" data-upprRplyId="' + rplyId + '">전송</button><button class="cancelReply">취소</button></div>';
+        $(result).after(replyFormHTML);
+
+        // 전송
+        $(result).next('.replyForm').find('.submitReply').click(function() {
+
+            var upprRplyId = rplyId;
+            var replyContent = $(this).siblings('#replyContent').val(); 
+
+            $.ajax({
+                type: "POST",
+                url: "/api/main/saveComment",
+                data: { 
+                    rplyCtt: replyContent,
+                    regDtm: currentTime,
+                    contTypeId,
+                    regrId: $('#userId').val(),
+                    upprRplyId
+                 },
+                success: function (response) {
+                    console.log("대댓글 저장 성공",response);
+                    updateComments(response);
+                },
+                error: function (error) {
+                    console.error("대댓글 저장 오류",error);
+                }
+            });
+            
+            $(this).parent('.replyForm').remove();
+        });
+
+        // 대댓글 취소
+        $(result).next('.replyForm').find('.cancelReply').click(function() {
+            // 대댓글 창 삭제  
+            $(this).parent('.replyForm').remove();
+        });
+    }
+}
+
+function updateComments(result) {
+    var contTypeId = result.body.contTypeId;
+
+    $.ajax({
+        type: "GET",
+        url: "/api/main/getComments",
+        data: { contTypeId },
+        success: function (response) {
+            console.log("댓글 업데이트 성공", response);
+            displayComments(response); // update
+        },
+        error: function (error) {
+            console.error("댓글 업데이트 실패", error);
+        }
+    });
+}
+
+//댓글 저장
+function modalCommentSave(result){
+    var currentTime = new Date();
+    var date = currentTime.toISOString();
+    var commentContent = $('.comment_input').val();
+    //var value = JSON.parse($(result).attr('value'));
+    var contTypeId = result;
+    var userId = $('#userId').val();
+
+    $('#submitBtn').click(function() {
+        if ($('#userId').val() === "") {
+            alert("로그인 후 이용해주세요.");
+            return;
+        }
+        if(commentContent === ""){
+            alert("내용을 적어주세요.");
+            return;
+        }
+    }); 
+
+    $.ajax({
+        type: "POST",
+        url: "/api/main/saveComment",
+        data: { 
+            rplyCtt: commentContent,
+            regDtm: date,
+            contTypeId,
+            regrId: userId
+         },
+        success: function (response) {
+            console.log("모달댓글 저장 성공",response);
+            updateComments(response);
+        },
+        error: function (error) {
+            console.error("모달댓글 저장 오류",error);
+        }
+    });
+
+}
+
+//-------------------북마크영역
+function bookMarkSave(result){
+    var change = result.currentTarget;
+    change.classList.toggle("red");
+
+
 }
