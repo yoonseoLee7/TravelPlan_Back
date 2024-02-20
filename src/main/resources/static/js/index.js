@@ -214,23 +214,36 @@ function displayinit(results) {
         var date = new Date(epochTime);
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         console.log(result);
-    
-        let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})'>${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
-        ul.append(li);
-    //     results.body?.forEach(function(subResult){
-    //     var epochTime = subResult.REG_DTM;
-    //     var date = new Date(epochTime);
-    //     var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
-    //     console.log(subResult);
-    //     if(subResult.UPPR_RPLY_ID == result.RPLY_ID){
+        
+        if(result.UPPR_RPLY_ID != 0 && result.UPPR_RPLY_ID != null){
+            var rplyId = $("#find").find('input[type="hidden"]').val();
+            if(rplyId == 3){console.log("333:",rplyId);}
+            let subLi = `<li class="search_item" style="margin-left: 20px;">ㄴ${result.RPLY_CTT}  ${formattedDate}</li>`;
+            // $.after(subLi);
+        }else{
+            let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})'>${result.RPLY_CTT}  ${formattedDate}<input id="find" type="hidden" value="${result.RPLY_ID}"></li>`;
+            ul.append(li);
+        }
 
-    //     // subResult.UPPR_RPLY_ID == result.RPLY_ID;
-    //     let subLi = `<li class="search_items" style="margin-left: 20px;">ㄴ${subResult.RPLY_CTT}  ${formattedDate}</li>`;
-    //     ul.append(subLi);
-    // }
-            
-    //     });
-        });
+    });
+// }else{
+        //     var rplyId = $(result).find('input[type="hidden"]').val();
+        //     if(rplyId === result.UPPR_RPLY_ID){
+        //     let subLi = `<li class="search_item" style="margin-left: 20px;">ㄴ${result.RPLY_CTT}  ${formattedDate}</li>`;
+        //     // ul.append(subLi);
+        //     $(".search_items").after(subLi);
+        //     }
+        //}
+        // results.body?.forEach(function(subResult){
+        // var epochTime = subResult.REG_DTM;
+        // var date = new Date(epochTime);
+        // var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+        // console.log(subResult);
+
+        // if(subResult.UPPR_RPLY_ID === result.RPLY_ID){
+        // let subLi = `<li class="search_items" style="margin-left: 20px;">ㄴ${subResult.RPLY_CTT}  ${formattedDate}</li>`;
+        // ul.append(subLi);}
+        // });
        
     // let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
     // ul.append(li);
