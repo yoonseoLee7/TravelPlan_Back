@@ -16,7 +16,7 @@
     </insert>
 
     <select id="getCommentsForPoi" resultType="java.util.HashMap" parameterType="String">
-        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.UPPR_RPLY_ID,c.RPLY_CTT,c.REG_DTM
+        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.UPPR_RPLY_ID,p.POI_ID,c.RPLY_CTT,c.REG_DTM
         from RPLY_HSTR as p 
         left join RPLY_HSTR as c on p.UPPR_RPLY_ID = c.RPLY_ID
         where p.POI_ID = #{poiId}
@@ -25,7 +25,7 @@
     </select>
 
     <select id="getCommentsContType" resultType="java.util.HashMap" parameterType="String">
-        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.UPPR_RPLY_ID,c.RPLY_CTT,c.REG_DTM
+        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.UPPR_RPLY_ID,p.CONT_TYPE_ID,c.RPLY_CTT,c.REG_DTM
         from RPLY_HSTR as p 
         left join RPLY_HSTR as c on p.UPPR_RPLY_ID = c.RPLY_ID
         where p.CONT_TYPE_ID = #{contTypeId}
