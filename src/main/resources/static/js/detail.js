@@ -52,7 +52,7 @@ function getDetailInfo() {
             divBox.empty();
 
             let defaultImage = "images/suggest_default.png";
-            let img = '<img class="place_image_box" src="' + response.firstimage + '" onerror="this.src=\'' + defaultImage + '\'"/>';
+            let img = '<img class="place_image_box2" style="width: 100%; height: 100%;" src="' + response.firstimage + '" onerror="this.src=\'' + defaultImage + '\'"/>';
 
             divBox.append(img);
 
@@ -80,8 +80,9 @@ function showTmap(lat, lng, contentId, title) {
     var map = new Tmapv2.Map("map_div",  
     {
         center: new Tmapv2.LatLng(lat, lng), // 지도 초기 좌표(잠실 롯데월드)
-        width: "inherit", 
-        height: "inherit",
+        // width: "inherit",
+        width: "100%", 
+        height: "100%",
         zoom: 15
     });
 

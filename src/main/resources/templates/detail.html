@@ -19,14 +19,11 @@
                 </div>
                 <p class="p_title_current_time">2024-04-28 14:56:04</p>
             </div>
-            <div id="search_box">
-                <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요" id="searchText" autofocus onkeydown="handleKeyDown(event)">
-                <img class="img_search" src="images/search.png">
-            </div>
+            <div id="search_box"></div>
             <div id="util_box">
                 <div id="login_box" th:style="${userNick == null ? 'display: flex;' : 'display: none;'}">
                     <p onclick="showModal()">로그인</p>
-                    <p> | </p>
+                    <p>&nbsp;|&nbsp;</p>
                     <p onclick="showModal()">회원가입</p>
                 </div>
                 <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}" th:onclick="showMyPage([[${userNick}]]);">
@@ -48,9 +45,8 @@
                 </div>
             </div>
             <div style="display: flex;">
-                <div id="div_image" style="width: 47%; height: 500px; border: 1px solid red;">대표 사진</div>
-                <div style="width: 47%; height: 500px; border: 1px solid red;">
-                    지도
+                <div id="div_image" style="width: 50%; height: 500px; border: 1px solid red;"></div>
+                <div style="width: 50%; height: 500px; border: 1px solid red;">
                     <div id="map_div"></div>
                 </div>
             </div>
