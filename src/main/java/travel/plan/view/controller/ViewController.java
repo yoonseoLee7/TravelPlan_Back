@@ -20,12 +20,14 @@ public class ViewController {
     }
 
     @RequestMapping("/detail")
-    public String detail(@SessionAttribute(name = "userNick", required = false) String userNick, Model model, String contentId) {
+    public String detail(@SessionAttribute(name = "userNick", required = false) String userNick,
+        @SessionAttribute(name = "userId", required = false) String userId, Model model, String contentId) {
         if(userNick == null) {
             log.debug("MainController: userNick은 null");
         } else {
             log.debug("MainController: " + userNick);
             model.addAttribute("userNick", userNick);
+            model.addAttribute("userId", userId);
         }
         model.addAttribute("contentId", contentId);
         log.info("ViewController-contentId: " + contentId);
