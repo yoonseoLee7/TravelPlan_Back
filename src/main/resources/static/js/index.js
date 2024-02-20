@@ -216,15 +216,16 @@ function displayinit(results) {
         console.log(result);
         
         if(result.UPPR_RPLY_ID != 0 && result.UPPR_RPLY_ID != null){
-            var rplyId = $("#find").find('input[type="hidden"]').val();
-            if(rplyId == 3){console.log("333:",rplyId);}
-            let subLi = `<li class="search_item" style="margin-left: 20px;">ㄴ${result.RPLY_CTT}  ${formattedDate}</li>`;
-            // $.after(subLi);
+            $('li[class=search_items]').each(function() {
+                if(JSON.parse($(this).attr('value')).RPLY_ID == result.UPPR_RPLY_ID) {
+                    let subLi = `<li class="search_item" style="margin-left: 20px; list-style-type: none;">ㄴ${result.RPLY_CTT}  ${formattedDate}</li>`;
+                    $(this).after(subLi);
+                }
+            });
         }else{
             let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})'>${result.RPLY_CTT}  ${formattedDate}<input id="find" type="hidden" value="${result.RPLY_ID}"></li>`;
             ul.append(li);
         }
-
     });
 // }else{
         //     var rplyId = $(result).find('input[type="hidden"]').val();
