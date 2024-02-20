@@ -208,16 +208,32 @@ function displayinit(results) {
         return;
     }
     console.log(results);
-
     results.body?.forEach(function(result) {
         let json = JSON.stringify(result);
         var epochTime = result.REG_DTM;
         var date = new Date(epochTime);
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
-        
-        let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
+        console.log(result);
+    
+        let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})'>${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
         ul.append(li);
-    });
+    //     results.body?.forEach(function(subResult){
+    //     var epochTime = subResult.REG_DTM;
+    //     var date = new Date(epochTime);
+    //     var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+    //     console.log(subResult);
+    //     if(subResult.UPPR_RPLY_ID == result.RPLY_ID){
+
+    //     // subResult.UPPR_RPLY_ID == result.RPLY_ID;
+    //     let subLi = `<li class="search_items" style="margin-left: 20px;">ㄴ${subResult.RPLY_CTT}  ${formattedDate}</li>`;
+    //     ul.append(subLi);
+    // }
+            
+    //     });
+        });
+       
+    // let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
+    // ul.append(li);
 }
 
 //댓글 클릭시
@@ -231,14 +247,15 @@ function displayinit(results) {
     // 대댓글 창이 이미 열려있는지 확인
     if ($(result).next('.replyForm').length === 0) {
         
-        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" id="userId" th:value="${userId}">전송</button><button class="cancelReply">취소</button></div>';
+        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" th:value="${userId}">전송</button><button class="cancelReply">취소</button></div>';
         $(result).after(replyFormHTML);
 
         // 전송
         $(result).next('.replyForm').find('.submitReply').click(function() {
             var upprRplyId = rplyId; // 상위댓글
             var replyContent = $(this).siblings('#replyContent').val(); //댓글내용
-            var userId = $('#userId').attr("value");
+            var userId = $('.userId').attr("value");
+            console.log(userId);
             var delYn = "N";
             if (!userId || userId === 0) {
                 alert("로그인 후 이용해주세요.");
