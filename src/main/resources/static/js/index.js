@@ -3,9 +3,9 @@
 
 // 화면이 처음 보여졌을 때 실행되어야 할 기능들
 $(window).on('load', function () {
-    // initTmap();
-    // initSuggestPlace();
-    // changeProfile();
+    initTmap();
+    initSuggestPlace();
+    changeProfile();
     loadComments();
 });
 
@@ -162,12 +162,6 @@ function placeItem(result) {
 }
 
 //--------------------------------------댓글영역
-//롯데월드 댓글 로딩
-// function initSpotComments() {
-//     $('.p_comment').text("롯데월드 잠실점");
-//     var id="187961";
-//     loadComments(id);
-// }
 
 var changePoiId = "187961";
 var changeName = "롯데월드 잠실점";
@@ -227,27 +221,6 @@ function displayinit(results) {
             ul.append(li);
         }
     });
-// }else{
-        //     var rplyId = $(result).find('input[type="hidden"]').val();
-        //     if(rplyId === result.UPPR_RPLY_ID){
-        //     let subLi = `<li class="search_item" style="margin-left: 20px;">ㄴ${result.RPLY_CTT}  ${formattedDate}</li>`;
-        //     // ul.append(subLi);
-        //     $(".search_items").after(subLi);
-        //     }
-        //}
-        // results.body?.forEach(function(subResult){
-        // var epochTime = subResult.REG_DTM;
-        // var date = new Date(epochTime);
-        // var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
-        // console.log(subResult);
-
-        // if(subResult.UPPR_RPLY_ID === result.RPLY_ID){
-        // let subLi = `<li class="search_items" style="margin-left: 20px;">ㄴ${subResult.RPLY_CTT}  ${formattedDate}</li>`;
-        // ul.append(subLi);}
-        // });
-       
-    // let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})' style="${result.UPPR_RPLY_ID ? 'margin-left: 20px;' : ''}">${result.RPLY_CTT}  ${formattedDate}<input type="hidden" value="${result.RPLY_ID}"></li>`;
-    // ul.append(li);
 }
 
 //댓글 클릭시
