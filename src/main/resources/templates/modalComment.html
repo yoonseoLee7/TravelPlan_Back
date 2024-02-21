@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="css/modal3.css">
 </head>
 <body>
-    <div class="modal">
+     <!-- 댓글모달 -->
+     <div class="modal" data-visible="false" onclick="closeModalComment(event)">
         <div class="modal_main">
             <div class="modal_tab">
                 <div class="tab_selected">댓글</div>
@@ -15,20 +16,15 @@
             <div class="modal_body">
                 <div id="comment_box">
                     <div id="comment_list_box">
-                        <ul style="list-style-type: none;">
-                            <li class="li_search">aaaaaaaa</li>
-                            <li class="li_search">aaaaaaaa</li>
-                            <li class="li_search">aaaaaaaa</li>
-                            <li class="li_search">aaaaaaaa</li>
-                            <li class="li_search">aaaaaaaa</li>
-                            <li class="li_search">aaaaaaaa</li>
-                            <li class="li_search">aaaaaaaa</li>
+                        <ul id="commentUL" style="list-style-type: none;">
                         </ul>
                     </div>
                     <div id="comment_input_box">
                         <div id="search_box">
-                            <input type="text" class="search_bar" placeholder="댓글을 입력하세요">
-                            <img class="img_search" src="images/search.png">
+                    <!-- <img th:src="${로그인프로필이미지}"> -->
+                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}">
+                    <input class="comment_input" type="text" placeholder="댓글을 입력해 주세요"/>
+                    <button id="submitBtn" th:value="${userId}" th:onclick="modalCommentSave()">↵</button>
                         </div>
                     </div>
                 </div>
