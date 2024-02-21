@@ -332,16 +332,19 @@ function saveBookMark(result){
     var userId = $('#submitBtn').attr("value");
     var delYN = "N";
     console.log(value);
+    if (!userId || userId === 0) {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
     $.ajax({
         type:"POST",
         url:"/api/main/saveBookMark",
         data:{
-            userId:14,
             contTypeId:"14",
             noorLat:127.0976311526,
             noorLon:37.5123821225,
             regDtm:date,
-            regrId:14,
+            regrId:userId,
             delYN,
             title:"샤롯데씨어터"
         },
@@ -367,13 +370,11 @@ function deleteBookMark(result){
         if(visible === "true"){
         //삭제 
         let value = JSON.stringify(result);
-        var userId = $('#submitBtn').attr("value");
         
         $.ajax({
             type:"POST",
             url:"/api/main/deleteBookMark",
             data:{
-                userId:14,
                 contTypeId:"14",
                 title:"샤롯데씨어터"
             },
