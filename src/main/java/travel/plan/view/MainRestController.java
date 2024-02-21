@@ -17,7 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import travel.plan.api.search.service.SearchService;
 import travel.plan.api.search.vo.SearchAreaVO;
+import travel.plan.data.dto.KorContDTO;
 import travel.plan.data.dto.RplyHstrDTO;
+import travel.plan.data.service.KorContService;
 import travel.plan.data.service.RplyHstrService;
 import travel.plan.data.service.UserService;
 
@@ -36,6 +38,9 @@ public class MainRestController {
 
     @Autowired
     RplyHstrService rplyHstrService;
+
+    @Autowired
+    KorContService korContService;
 
     // 지도에 검색지 표시
     @GetMapping("/congestion")
@@ -75,6 +80,32 @@ public class MainRestController {
             log.error("defined userId", e);
             }        
         return rply;
+    }
+
+    //북마크 저장
+    @PostMapping("/saveBookMark")
+    public Map<String,Object> saveBookMark(@SessionAttribute(name = "userId", required = false) Integer userId,@RequestBody KorContDTO korContDTO) {
+        Map<String,Object> bm = new HashMap<>();
+        try {
+            korContDTO.setUserId(userId);
+            bm = korContService.saveBookMark(korContDTO);
+        } catch (Exception e) {
+            log.error("defined userId", e);
+        }
+        return bm;
+    }
+
+    //북마크 삭제
+    @PostMapping("/deleteBookMark")
+    public Map<String,Object> deleteBookMark(@SessionAttribute(name = "userId", required = false) Integer userId,@RequestBody KorContDTO korContDTO){
+        Map<String,Object> bm = new HashMap<>();
+        try {
+            korContDTO.setUserId(userId);
+            bm = korContService.deleteBookMark(korContDTO);
+        } catch (Exception e) {
+            log.error("defined userId", e);
+        }
+        return bm;
     }
 
     //검색어 관련 리스트

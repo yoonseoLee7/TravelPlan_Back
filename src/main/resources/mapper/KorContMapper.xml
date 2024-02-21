@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="travel.plan.data.mapper.KorContMapper">
+    <insert id="saveBookMark" parameterType="KorContDTO">
+        insert into KOR_CONT(USER_ID,CONT_TYPE_ID,NOOR_LAT,NOOR_LON,
+                            REG_DTM,REGR_ID,TITLE,DEL_YN) values(
+            #{userId},
+            #{contTypeId},
+            #{noorLat},
+            #{noorLon},
+            #{regDtm},
+            #{regrId},
+            #{title},
+            #{delYN}
+        )
+    </insert>
+
+    <delete id="deleteBookMark" parameterType="KorContDTO">
+        delete from KOR_CONT
+        where USER_ID = #{userId} and 
+        CONT_TYPE_ID = #{contTypeId} and
+        TITLE = #{title}
+    </delete>
+
+</mapper>
