@@ -6,6 +6,5 @@ import travel.plan.data.dto.KorContDTO;
 
 @Mapper
 public interface KorContMapper {
-    public KorContDTO saveBookMark(KorContDTO KorContDTO);
-    public KorContDTO deleteBookMark(KorContDTO KorContDTO);
+    public void saveBookMark(KorContDTO KorContDTO);
 }

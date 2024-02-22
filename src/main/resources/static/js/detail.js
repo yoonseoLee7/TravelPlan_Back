@@ -61,7 +61,7 @@ function getDetailInfo() {
             updateContTypeId(response.contenttypeid);
 
             saveBookMark(response);
-            deleteBookMark(response);
+            // deleteBookMark(response);
 
         },
         error: function(error){
@@ -284,7 +284,6 @@ function modalCommentSave(){
     var currentTime = new Date();
     var date = currentTime.toISOString();
     var commentContent = $('.comment_input').val();
-    //var value = JSON.parse($(result).attr('value'));
     var delYn = "N";
     var userId = $('#submitBtn').attr("value");
     
@@ -322,72 +321,92 @@ function saveBookMark(result){
     $('#bookMark').click(function() {
     var bookMarkDiv = document.getElementById("bookMark");
     var visible = bookMarkDiv.getAttribute("data-visible");
-
-    console.log(result);
-    if(visible === "false"){
-    //저장
     let value = JSON.stringify(result);
     var currentTime = new Date();
     var date = currentTime.toISOString();
     var userId = $('#submitBtn').attr("value");
-    var delYN = "N";
-    console.log(value);
+    var delYN = "";
+       
     if (!userId || userId === 0) {
         alert("로그인 후 이용해주세요.");
         return;
+    }
+    if(visible === "false"){
+        delYN = "N"; 
+        //red
+        document.getElementById("org").style.filter = "invert(16%) sepia(89%) saturate(6054%) hue-rotate(358deg) brightness(97%) contrast(113%)";
+    }
+    if(visible === "true"){
+        delYN = "Y";
+        document.getElementById("org").style.filter = "invert(90%) sepia(13%) saturate(5708%) hue-rotate(357deg) brightness(99%) contrast(105%)";
+
     }
     $.ajax({
         type:"POST",
         url:"/api/main/saveBookMark",
         data:{
-            contTypeId:"14",
-            noorLat:127.0976311526,
-            noorLon:37.5123821225,
+            contTypeId:value.contenttypeid,
+            noorLat:value.mapx,
+            noorLon:value.mapy,
             regDtm:date,
             regrId:userId,
             delYN,
-            title:"샤롯데씨어터"
+            title:value.title
         },
         success:function(){
-            bookMarkDiv.setAttribute("data-visible","true");
-            document.getElementById("org").style.filter = "invert(16%) sepia(89%) saturate(6054%) hue-rotate(358deg) brightness(97%) contrast(113%)";
-            console.log("북마크 저장");
+            if(visible === "false"){
+                bookMarkDiv.setAttribute("data-visible","true");
+                console.log("북마크 저장");
+            }else{
+                bookMarkDiv.setAttribute("data-visible","false");
+                console.log("북마크 업뎃");
+            }
         },
         error:function(error){
             console.log("북마크 저장 실패",error);
         }
 
     });
-}
+
 });
 }
 
-function deleteBookMark(result){
-    $('#bookMark').click(function() {
-        var bookMarkDiv = document.getElementById("bookMark");
-        var visible = bookMarkDiv.getAttribute("data-visible");
+// function deleteBookMark(result){
+//     $('#bookMark').click(function() {
+//         var bookMarkDiv = document.getElementById("bookMark");
+//         var visible = bookMarkDiv.getAttribute("data-visible");
     
-        if(visible === "true"){
-        //삭제 
-        let value = JSON.stringify(result);
-        
-        $.ajax({
-            type:"POST",
-            url:"/api/main/deleteBookMark",
-            data:{
-                contTypeId:"14",
-                title:"샤롯데씨어터"
-            },
-            success:function(){
-                console.log("북마크 해제");
-                bookMarkDiv.setAttribute("data-visible","false");
-                document.getElementById("org").style.filter = "invert(90%) sepia(13%) saturate(5708%) hue-rotate(357deg) brightness(99%) contrast(105%)";
-            },
-            error:function(error){
-                console.log("북마크 해제 실패",error);
-            }
+//         if(visible === "true"){
+//         //삭제 
+//         let value = JSON.stringify(result);
+//         var currentTime = new Date();
+//         var date = currentTime.toISOString();
+//         var userId = $('#submitBtn').attr("value");
+//         var delYN = "Y";
+//         console.log(value);
     
-        });
-    }
-    });
-}
+//         $.ajax({
+//             type:"POST",
+//             url:"/api/main/saveBookMark",
+//             data:{
+//                 contTypeId:"14",
+//                 noorLat:127.0976311526,
+//                 noorLon:37.5123821225,
+//                 regDtm:date,
+//                 regrId:userId,
+//                 delYN,
+//                 title:"샤롯데씨어터"
+//             },
+//             success:function(){
+//                 console.log("북마크 해제");
+//                 bookMarkDiv.setAttribute("data-visible","false");
+//                 document.getElementById("org").style.filter = "invert(90%) sepia(13%) saturate(5708%) hue-rotate(357deg) brightness(99%) contrast(105%)";
+//             },
+//             error:function(error){
+//                 console.log("북마크 해제 실패",error);
+//             }
+    
+//         });
+//     }
+//     });
+// }

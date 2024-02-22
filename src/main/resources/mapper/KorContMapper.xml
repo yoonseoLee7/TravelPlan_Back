@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.KorContMapper">
+    
+    <!-- <select id="checkBookMark" parameterType="KorContDTO" resultType="Integer">
+        select count(*) from KOR_CONT where USER_ID = #{userId} and CONT_TYPE_ID = #{contTypeId} and DEL_YN = #{delYN}
+    </select> -->
+    
     <insert id="saveBookMark" parameterType="KorContDTO">
         insert into KOR_CONT(USER_ID,CONT_TYPE_ID,NOOR_LAT,NOOR_LON,
                             REG_DTM,REGR_ID,TITLE,DEL_YN) values(
@@ -13,13 +18,22 @@
             #{title},
             #{delYN}
         )
+        on duplicate key update
+            NOOR_LAT = #{noorLat},
+            NOOR_LON = #{noorLon},
+            REG_DTM = #{regDtm},
+            REGR_ID = #{regrId},
+            TITLE = #{title},
+            DEL_YN = #{delYN}
     </insert>
-
-    <delete id="deleteBookMark" parameterType="KorContDTO">
+    <!-- <update id="updateBookMark" parameterType="KorContDTO">
+        update KOR_CONT set DEL_YN = #{delYN},CORC_DTM = #{corcDtm},CORR_ID = #{corrId} where USER_ID = #{userId} and CONT_TYPE_ID = #{contTypeId}
+    </update> -->
+    <!-- <delete id="deleteBookMark" parameterType="KorContDTO">
         delete from KOR_CONT
         where USER_ID = #{userId} and 
         CONT_TYPE_ID = #{contTypeId} and
         TITLE = #{title}
-    </delete>
+    </delete> -->
 
 </mapper>

@@ -16,17 +16,9 @@ public class KorContServiceImpl implements KorContService{
     @Autowired
     KorContMapper korContMapper;
 
-    //북마크 클릭 시 저장
     @Override
     public Map<String, Object> saveBookMark(KorContDTO KorContDTO) throws Exception {
-        KorContDTO save = korContMapper.saveBookMark(KorContDTO);
-        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,save);
-    }
-
-    //북마크 다시 클릭 시 삭제
-    @Override
-    public Map<String, Object> deleteBookMark(KorContDTO KorContDTO) throws Exception {
-        KorContDTO delete = korContMapper.deleteBookMark(KorContDTO);
-        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,delete);
+        korContMapper.saveBookMark(KorContDTO);
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,"save or update");
     }
 }

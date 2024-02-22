@@ -95,19 +95,6 @@ public class MainRestController {
         return bm;
     }
 
-    //북마크 삭제
-    @PostMapping("/deleteBookMark")
-    public Map<String,Object> deleteBookMark(@SessionAttribute(name = "userId", required = false) Integer userId,@RequestBody KorContDTO korContDTO){
-        Map<String,Object> bm = new HashMap<>();
-        try {
-            korContDTO.setUserId(userId);
-            bm = korContService.deleteBookMark(korContDTO);
-        } catch (Exception e) {
-            log.error("defined userId", e);
-        }
-        return bm;
-    }
-
     //검색어 관련 리스트
     @GetMapping("/searchList")
     public Map<String,Object> searchList(@RequestParam String searchText) throws Exception {
