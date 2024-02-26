@@ -191,6 +191,7 @@ function loadComments() {
     });
 }
 
+
 //댓글 출력
 function displayinit(results) {
     var ul = $('#comment_list');
@@ -207,19 +208,40 @@ function displayinit(results) {
         var epochTime = result.REG_DTM;
         var date = new Date(epochTime);
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+        var userNick = $('.imgThumb').attr("value");
         console.log(result);
         
-        if(result.UPPR_RPLY_ID != 0 && result.UPPR_RPLY_ID != null){
-            $('li[class=search_items]').each(function() {
-                if(JSON.parse($(this).attr('value')).RPLY_ID == result.UPPR_RPLY_ID) {
-                    let subLi = `<li class="search_item" style="margin-left: 20px; list-style-type: none;">ㄴ${result.RPLY_CTT}  ${formattedDate}</li>`;
-                    $(this).after(subLi);
-                }
-            });
-        }else{
-            let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})'>${result.RPLY_CTT}  ${formattedDate}<input id="find" type="hidden" value="${result.RPLY_ID}"></li>`;
-            ul.append(li);
-        }
+        let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
+                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}">
+                ${result.RPLY_CTT}  ${formattedDate}
+                <input id="find" type="hidden" value="${result.RPLY_ID}">
+                </li>`;
+        ul.append(li);
+        
+    });
+}
+
+function displayReply(results) {
+    var ul = $('#replies');
+    ul.empty();
+
+    if (results.body.length === 0) {
+        let defined = '<p>댓글이 없습니다.</p>';
+        ul.append(defined);
+        return;
+    }
+    console.log(results);
+    results.body?.forEach(function(result) {
+        var epochTime = result.REG_DTM;
+        var date = new Date(epochTime);
+        var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+        var userNick = $('.imgThumb').attr("value");
+        
+        let li = `<li class="search_items">
+                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}">
+                ${result.RPLY_CTT}  ${formattedDate}</li>`;
+        ul.append(li);
+        
     });
 }
 
@@ -230,14 +252,32 @@ function displayinit(results) {
     console.log("상위댓글넘버:",rplyId);
     var currentTime = new Date();
     var date = currentTime.toISOString();
-
+    var replyLength = $(result).next('.replyForm').length;
+    
     // 대댓글 창이 이미 열려있는지 확인
-    if ($(result).next('.replyForm').length === 0) {
-        
-        var replyFormHTML = '<div class="replyForm"><input id="replyContent"/><button class="submitReply" th:value="${userId}">전송</button><button class="cancelReply">취소</button></div>';
+    if (replyLength === 0) {        
+        //대댓글 loading
+        $.ajax({
+            type: "POST",
+            url: "/api/main/getRepies",
+            data: { poiId,
+                    upprRplyId:rplyId        
+            },
+            success: function (response) {
+                console.log("대댓글 로딩 성공",response);
+                displayReply(response);
+            },
+            error: function (error) {
+                console.error("대댓글 로딩 오류",error);
+            }
+        });
+
+        var replyFormHTML = `<div class="replyForm"><ul id="replies"></ul>
+        <input id="replyContent"/><button class="submitReply">전송</button><button class="cancelReply">취소</button></div>`;
+        $('.replyForm').remove();
         $(result).after(replyFormHTML);
 
-        // 전송
+        // 전송 click
         $(result).next('.replyForm').find('.submitReply').click(function() {
             var upprRplyId = rplyId; // 상위댓글
             var replyContent = $(this).siblings('#replyContent').val(); //댓글내용
