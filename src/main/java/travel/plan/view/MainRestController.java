@@ -67,7 +67,12 @@ public class MainRestController {
         
         return rplyHstrService.getCommentsContType(contTypeId);
     }
-
+    @PostMapping("/getRepies")
+    public Map<String,Object> getReplyList(@RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{
+        
+        return rplyHstrService.getReplyList(rplyHstrDTO);
+    }
+    
     //댓글테이블 정보저장
     @PostMapping("/saveComment")
     public Map<String, Object> saveComment(@SessionAttribute(name = "userId", required = false) Integer userId, @RequestBody RplyHstrDTO rplyHstrDTO) throws Exception{

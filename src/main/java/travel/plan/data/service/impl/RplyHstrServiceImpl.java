@@ -41,6 +41,11 @@ public class RplyHstrServiceImpl implements RplyHstrService{
         
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,getrply);
     }
+    @Override
+    public Map<String, Object> getReplyList(RplyHstrDTO rplyHstrDTO) throws Exception {
+        List<Map<String, Object>> getList = rplyHstrMapper.getReplyList(rplyHstrDTO);
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,getList);
+    }
 
     //상세페이지 모달댓글
     @Override

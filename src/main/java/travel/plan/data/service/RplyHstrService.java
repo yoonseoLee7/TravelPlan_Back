@@ -11,5 +11,6 @@ public interface RplyHstrService {
 
     public Map<String, Object> getCommentsForPoi(String poiId)throws Exception;
     public Map<String, Object> getCommentsContType(String contTypeId)throws Exception;
+    public Map<String, Object> getReplyList(RplyHstrDTO rplyHstrDTO)throws Exception;
 
 }
