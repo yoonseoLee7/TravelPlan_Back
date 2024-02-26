@@ -13,4 +13,6 @@ public interface RplyHstrMapper {
 
     public List<Map<String,Object>> getCommentsForPoi(String poiId);
     public List<Map<String,Object>> getCommentsContType(String contTypeId);
+    public List<Map<String,Object>> getReplyList(RplyHstrDTO rplyHstrDTO);
+    
 }

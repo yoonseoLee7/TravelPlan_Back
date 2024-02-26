@@ -16,20 +16,26 @@
     </insert>
 
     <select id="getCommentsForPoi" resultType="java.util.HashMap" parameterType="String">
-        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.UPPR_RPLY_ID,p.POI_ID,c.RPLY_CTT,c.REG_DTM
-        from RPLY_HSTR as p 
-        left join RPLY_HSTR as c on p.UPPR_RPLY_ID = c.RPLY_ID
-        where p.POI_ID = #{poiId}
-        <!-- and p.DEL_YN = 'N'
-        order by p.REG_DTM limit 5 -->
+        select RPLY_ID,RPLY_CTT,REG_DTM,POI_ID
+        from RPLY_HSTR
+        where POI_ID = #{poiId} and UPPR_RPLY_ID = 0 or UPPR_RPLY_ID = null
+        order by REG_DTM desc limit 5
     </select>
 
     <select id="getCommentsContType" resultType="java.util.HashMap" parameterType="String">
-        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.UPPR_RPLY_ID,p.CONT_TYPE_ID,c.RPLY_CTT,c.REG_DTM
-        from RPLY_HSTR as p 
-        left join RPLY_HSTR as c on p.UPPR_RPLY_ID = c.RPLY_ID
-        where p.CONT_TYPE_ID = #{contTypeId}
-        <!-- and p.DEL_YN = 'N'
-        order by p.REG_DTM limit 5 -->
+        select RPLY_ID,RPLY_CTT,REG_DTM,CONT_TYPE_ID
+        from RPLY_HSTR
+        where CONT_TYPE_ID = #{contTypeId} and UPPR_RPLY_ID = 0 or UPPR_RPLY_ID = null
+        order by REG_DTM desc limit 5
+    </select>
+
+    <select id="getReplyList" resultType="java.util.HashMap" parameterType="RplyHstrDTO">
+        SELECT p.RPLY_CTT, p.REG_DTM
+        FROM RPLY_HSTR AS p
+        LEFT JOIN RPLY_HSTR AS c ON p.UPPR_RPLY_ID = c.RPLY_ID
+        WHERE (p.POI_ID = #{poiId} OR p.CONT_TYPE_ID = #{contTypeId})
+        AND p.UPPR_RPLY_ID = #{upprRplyId}
+        ORDER BY p.REG_DTM DESC
+        LIMIT 5
     </select>
 </mapper>
