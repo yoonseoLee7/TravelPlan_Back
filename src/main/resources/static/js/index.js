@@ -436,9 +436,11 @@ function showSuggestPlace(results) {
     } 
 
     var resultCount = 0;
+    let defaultImage = "images/suggest_default.png";
     for(let result of results) {
-        let defaultImage = "images/suggest_default.png"
-        let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage('+ resultCount +')" onerror="this.src=\'' + defaultImage + '\'"/>';
+        let img = '<div class="place_image_box">'
+        + '<img class="place_image" src="' + result.firstimage + '" onclick="showDetailPage('+ resultCount +')" onerror="this.src=\'' + defaultImage + '\'">'
+        + '<span class="place_image_text">' + result.title + '</div>';
         
         resultCount++;
         resultDiv.append(img);

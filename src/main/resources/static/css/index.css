@@ -62,8 +62,19 @@ body {display: block; margin-top: 30px; overflow-y: scroll;}
 #container #comment_box #comment_input_box {width: inherit; height: 60px; border: 1px solid green; padding: 10px 0px 0px 10px; display: flex; justify-items: center;}
 #container #c_inner_suggestion {width: inherit; display: flex; height: auto; flex-wrap: wrap; justify-content: space-between;}
 
-.place_image_box {width: 23%; height: 200px; margin: 20px 10px 10px 10px; border: 1px solid greenyellow;}
-.place_image {width: 100%; height: inherit;}
+.place_image_box {position: relative; width: 380px; height: 200px; margin: 20px 10px 10px 10px; border: 1px solid greenyellow;}
+.place_image_text {position:absolute;
+    width: 320px;
+    text-align: center;
+    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50% );
+    font-size: 40px;
+    font-weight: bold;
+    opacity: 0.8;
+    z-index: 1;}
+.place_image {width: 100%; height: 100%;}
 
 .congestion_box {
     width:84px;height:25px; border: 1px solid #808080;
