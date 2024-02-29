@@ -1,10 +1,12 @@
 package travel.plan.api.search.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
 // 실시간 장소 혼잡도 API Request 시 사용
 @Data
+@Builder
 public class SearchPuzzleDTO {
     
     // 관심장소 Id
