@@ -55,7 +55,7 @@ body {display: block; margin-top: 30px; overflow-y: scroll;}
 
 #container #search_result_box #result_list_box {width: inherit; height: 450px; overflow: scroll; overflow-x: hidden;}
 
-.search_items {height: 50px; display: flex; line-height: 50px;}
+.search_items {height: 50px; display: flex; line-height: 50px; margin-left: 10px;}
 .li_search {height: 50px; margin: 10px; font-size: 30px; padding: 13px 10px; border: 1px solid green;}
 
 #container #comment_box #comment_list_box {width: inherit; height: 380px; overflow: scroll; overflow-x: hidden;}

@@ -53,7 +53,7 @@ function showTmap(result) {
     var epsg3857 = new Tmapv2.Point(lonlat.x, lonlat.y);
 	var wgs84 = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(epsg3857);
     map.setCenter(wgs84); // 지도의 위치 변경
-    marker.setPosition(WGS84GEO); // 마커의 위치 변경
+    // marker.setPosition(WGS84GEO); // 마커의 위치 변경
     rect.setMap(null); // 사각형 삭제
 
     $.ajax({
@@ -133,13 +133,20 @@ function searchResults(results){
         resultDiv.html('검색 결과가 없습니다.');
         return;
     }
-    
+
     var ul = $('<ul></ul>');
-    results.body?.forEach(function (result) { // cf. 옵셔널체이닝
+    results.body?.forEach(function (result, index) { // cf. 옵셔널체이닝
         let json = JSON.stringify(result);
+
+        window.marker = new Tmapv2.Marker({
+            position: new Tmapv2.LatLng(result.noorLat, result.noorLon),
+            icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_" + index + ".png",
+            iconSize : new Tmapv2.Size(24, 38),
+            map: map
+        });
+
         let li = `<li class="search_items" onclick="placeItem(this);" value='${json}'>
-        <img src="images/location.png"/>${result.name}</li>`;
-        
+        <img style="margin-right: 10px;" src="http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_${index}.png"/>${result.name}</li>`;
         ul.append(li);
     });
 
@@ -154,7 +161,7 @@ function placeItem(result) {
     // 추천방문지
     suggestPlace(result);
     // 지도 혼잡도
-    //showTmap(result);
+    showTmap(result);
     //poiId 변경
     updatePoiId(poiId);
     //name 변경

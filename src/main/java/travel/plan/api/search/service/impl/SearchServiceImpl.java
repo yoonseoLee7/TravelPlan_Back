@@ -63,6 +63,7 @@ public class SearchServiceImpl implements SearchService {
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("searchKeyword", searchText)
+                        .queryParam("count", 10)
                         .build())
                 .retrieve().bodyToFlux(String.class).blockLast();
 
