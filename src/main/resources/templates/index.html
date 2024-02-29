@@ -24,9 +24,9 @@
             </div>
             <div id="util_box">
                 <div id="login_box" th:style="${userNick == null ? 'display: flex;' : 'display: none;'}">
-                    <p onclick="showModal()">로그인</p>
-                    <p>&nbsp;|&nbsp;</p>
-                    <p onclick="showModal()">회원가입</p>
+                    <p class="p_bold" onclick="showModal()">로그인</p>
+                    <p class="p_bold">&nbsp;|&nbsp;</p>
+                    <p class="p_bold" onclick="showModal()">회원가입</p>
                 </div>
                 <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}" th:onclick="showMyPage([[${userNick}]]);">
             </div>
@@ -36,7 +36,7 @@
         <!-- 지도영역 상자 -->
         <div id="c_inner_map">
             <div id="search_result_box">
-                <div class="p_search">Search Result</div>
+                <div class="p_search">Search Results</div>
                 <div id="result_list_box"></div>
             </div>
             <div id="tmap_box">
