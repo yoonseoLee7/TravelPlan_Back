@@ -218,13 +218,15 @@ function displayinit(results) {
         var userNick = $('.imgThumb').attr("value");
         console.log(result);
         
-        let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
-                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}">
-                ${result.RPLY_CTT}  ${formattedDate}
-                <input id="find" type="hidden" value="${result.RPLY_ID}">
+        let li = `<li class="search_items comment_text" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
+                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
+                    <div class="imgThumb_text">
+                        <div style="font-size: 18px;">${result.RPLY_CTT}</div>
+                        <div style="font-size: 14px;">${formattedDate}</div>
+                    </div>
+                    <input id="find" type="hidden" value="${result.RPLY_ID}">
                 </li>`;
         ul.append(li);
-        
     });
 }
 
