@@ -226,7 +226,7 @@ function displayReply(results) {
     ul.empty();
 
     if (results.body.length === 0) {
-        let defined = '<p>댓글이 없습니다.</p>';
+        let defined = '<p style="margin-left: 20px;">댓글이 없습니다.</p>';
         ul.append(defined);
         return;
     }
@@ -237,8 +237,8 @@ function displayReply(results) {
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         var userNick = $('.imgThumb').attr("value");
         
-        let li = `<li class="search_items">
-                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}">
+        let li = `<li class="search_items" style="margin-left: 20px;">
+                👉<img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}" style="width: 30px; height: 30px;">
                 ${result.RPLY_CTT}  ${formattedDate}</li>`;
         ul.append(li);
         
@@ -272,7 +272,7 @@ function displayReply(results) {
             }
         });
 
-        var replyFormHTML = `<div class="replyForm"><ul id="replies"></ul>
+        var replyFormHTML = `<div class="replyForm" style="margin-left: 20px;"><ul id="replies"></ul>
         <input id="replyContent"/><button class="submitReply">전송</button><button class="cancelReply">취소</button></div>`;
         $('.replyForm').remove();
         $(result).after(replyFormHTML);
