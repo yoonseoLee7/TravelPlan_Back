@@ -63,6 +63,7 @@ public class SearchServiceImpl implements SearchService {
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("searchKeyword", searchText)
+                        .queryParam("count", 10)
                         .build())
                 .retrieve().bodyToFlux(String.class).blockLast();
 
@@ -166,10 +167,12 @@ public class SearchServiceImpl implements SearchService {
     // 지도 위치 및 혼잡도 표시
     @Override
     public Map<String, Object> congestion(SearchAreaVO vo) throws Exception {
-        SearchPuzzleDTO dto = new SearchPuzzleDTO();
-        dto.setPoiId(vo.getId());
-        dto.setNoorLat(vo.getNoorLat());
-        dto.setNoorLon(vo.getNoorLon());
+        SearchPuzzleDTO dto = SearchPuzzleDTO.builder()
+                                                .poiId(vo.getId())
+                                                .noorLat(vo.getNoorLat())
+                                                .noorLon(vo.getNoorLon())
+                                                .build();
+
 
         var level = searchPuzzle(dto).getCongestionLevel();
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, level);
@@ -178,21 +181,13 @@ public class SearchServiceImpl implements SearchService {
     // 검색 리스트 아이템 선택 시 추천방문지 호출용
     @Override
     public Map<String, Object> suggest(SearchAreaVO vo) throws Exception {
-        SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
-        searchLocationDTO.setMobileApp("DEMO");
-        searchLocationDTO.setMobileOS("WIN");
-        searchLocationDTO.setMapX(vo.getNoorLon());
-        searchLocationDTO.setMapY(vo.getNoorLat());
-        searchLocationDTO.setRadius(500);
-
-        // NOTE: Builder로도 사용할 수 있어요! 가독성도 좋고 체이닝 형태로 한번에 쭉 나열하면 돼서 편합니당~
-        // SearchLocationDTO searchLocationDTO = SearchLocationDTO.builder()
-        //                                                         .MobileApp("Demo")
-        //                                                         .MobileOS("WIN")
-        //                                                         .mapX(vo.getNoorLon())
-        //                                                         .mapY(vo.getNoorLat())
-        //                                                         .radius(500)
-        //                                                         .build();
+        SearchLocationDTO searchLocationDTO = SearchLocationDTO.builder()
+                                                                .MobileApp("DEMO")
+                                                                .MobileOS("WIN")
+                                                                .mapX(vo.getNoorLon())
+                                                                .mapY(vo.getNoorLat())
+                                                                .radius(500)
+                                                                .build();
 
         List<SearchDetailVO> detailList = locationToDetail(searchLocationDTO);
         List<SearchDetailVO> sortList = new ArrayList<>();
@@ -270,27 +265,6 @@ public class SearchServiceImpl implements SearchService {
             throw new ApiException(ApiStatus.AP_FAIL, "장소통합검색 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
         }
     }
-
-    // @Override
-    // public Map<String, Object> selectContTypeid(SearchAreaVO searchAreaVO) throws Exception {
-    //     SearchLocationDTO searchLocationDTO = new SearchLocationDTO();
-    //     searchLocationDTO.setMobileApp("DEMO");
-    //     searchLocationDTO.setMobileOS("WIN");
-    //     searchLocationDTO.setMapX(searchAreaVO.getNoorLon());
-    //     searchLocationDTO.setMapY(searchAreaVO.getNoorLat());
-    //     searchLocationDTO.setRadius(500);
-
-    //     SearchDetailVO searchDetailVO = searchDetail(null);
-    //     // SearchLocationVO searchLocationVO = new SearchLocationVO();
-
-    //     // SearchDetailDTO searchDetailDTO = new SearchDetailDTO();
-    //     // searchDetailDTO.setMobileApp("DEMO");
-    //     // searchDetailDTO.setMobileOS("WIN");
-    //     // searchDetailDTO.setContentId(searchLocationVO.getContentid()); 
-
-    //     return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, searchDetailVO); 
-
-    // }
 
     /* 
     URLConnection을 사용하여 데이터 가져오기

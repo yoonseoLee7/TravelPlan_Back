@@ -6,6 +6,7 @@
 <head>
     <div th:replace="~{fragments/header.html :: fragment-header}" />
     <script th:src="@{/js/detail.js}"></script>
+    <script th:src="@{/js/intervalTime.js}"></script>
     <link rel="stylesheet" href="css/detail.css">
 </head>
 
@@ -22,9 +23,9 @@
             <div id="search_box"></div>
             <div id="util_box">
                 <div id="login_box" th:style="${userNick == null ? 'display: flex;' : 'display: none;'}">
-                    <p onclick="showModal()">로그인</p>
-                    <p>&nbsp;|&nbsp;</p>
-                    <p onclick="showModal()">회원가입</p>
+                    <p class="p_bold" onclick="showModal()">로그인</p>
+                    <p class="p_bold">&nbsp;|&nbsp;</p>
+                    <p class="p_bold" onclick="showModal()">회원가입</p>
                 </div>
                 <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}" th:onclick="showMyPage([[${userNick}]]);">
             </div>
@@ -33,12 +34,8 @@
     <div id="container">
         <div>
             <div style="display: flex;">
-                <div id="detail_title" style="margin-right: 10px;" onclick="a('this.form')">
-                    방문지 타이틀
-                </div>
-                <div id="detail_comment" style="margin-right: 10px;" onclick="openModalComment()">
-                    💬
-                </div>
+                <div id="detail_title" class="p_bold" onclick="a('this.form')">방문지 타이틀</div>
+                <div id="detail_comment" onclick="openModalComment()">💬</div>
                 <div id="icon_homepage_box" style="margin-right: 10px;"></div>
                 <div id="bookMark" data-visible="false">
                     <img id="org" src="images/detail_bookmark.svg" style="width: 16px; height: 16px; filter: invert(90%) sepia(13%) saturate(5708%) hue-rotate(357deg) brightness(99%) contrast(105%);"/>
@@ -53,9 +50,7 @@
             </div>
         </div>
         <div>
-            <div>
-                상세정보
-            </div>
+            <div id="detail_info_title" class="p_bold">상세정보</div>
             <div class="division_line"></div>
             <div>
                 <div id="detail_overview">-</div>
@@ -68,6 +63,29 @@
                 </div>
                 <div class="detail_info">
                     <div class="detail_into_title">●  홈페이지</div><div id="detail_homepage">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 댓글모달 -->
+    <div class="modal" data-visible="false" onclick="closeModalComment(event)">
+        <div class="modal_main">
+            <div class="modal_tab">
+                <div class="tab_selected">댓글</div>
+            </div>
+            <div class="modal_body">
+                <div id="comment_box">
+                    <div id="comment_list_box">
+                        <ul id="commentUL" style="list-style-type: none;">
+                        </ul>
+                    </div>
+                    <div id="comment_input_box">
+                        <div id="search_box">
+                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}">
+                    <input class="comment_input" type="text" placeholder="댓글을 입력해 주세요"/>
+                    <button id="submitBtn" th:value="${userId}" th:onclick="modalCommentSave()">↵</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

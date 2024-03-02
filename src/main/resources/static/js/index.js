@@ -53,7 +53,7 @@ function showTmap(result) {
     var epsg3857 = new Tmapv2.Point(lonlat.x, lonlat.y);
 	var wgs84 = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(epsg3857);
     map.setCenter(wgs84); // 지도의 위치 변경
-    marker.setPosition(WGS84GEO); // 마커의 위치 변경
+    // marker.setPosition(WGS84GEO); // 마커의 위치 변경
     rect.setMap(null); // 사각형 삭제
 
     $.ajax({
@@ -133,13 +133,20 @@ function searchResults(results){
         resultDiv.html('검색 결과가 없습니다.');
         return;
     }
-    
+
     var ul = $('<ul></ul>');
-    results.body?.forEach(function (result) { // cf. 옵셔널체이닝
+    results.body?.forEach(function (result, index) { // cf. 옵셔널체이닝
         let json = JSON.stringify(result);
+
+        window.marker = new Tmapv2.Marker({
+            position: new Tmapv2.LatLng(result.noorLat, result.noorLon),
+            icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_" + index + ".png",
+            iconSize : new Tmapv2.Size(24, 38),
+            map: map
+        });
+
         let li = `<li class="search_items" onclick="placeItem(this);" value='${json}'>
-        <img src="images/location.png"/>${result.name}</li>`;
-        
+        <img style="margin-right: 10px;" src="http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_${index}.png"/>${result.name}</li>`;
         ul.append(li);
     });
 
@@ -154,7 +161,7 @@ function placeItem(result) {
     // 추천방문지
     suggestPlace(result);
     // 지도 혼잡도
-    //showTmap(result);
+    showTmap(result);
     //poiId 변경
     updatePoiId(poiId);
     //name 변경
@@ -211,13 +218,15 @@ function displayinit(results) {
         var userNick = $('.imgThumb').attr("value");
         console.log(result);
         
-        let li = `<li class="search_items" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
-                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}">
-                ${result.RPLY_CTT}  ${formattedDate}
-                <input id="find" type="hidden" value="${result.RPLY_ID}">
+        let li = `<li class="search_items comment_text" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
+                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
+                    <div class="imgThumb_text">
+                        <div style="font-size: 18px;">${result.RPLY_CTT}</div>
+                        <div style="font-size: 14px;">${formattedDate}</div>
+                    </div>
+                    <input id="find" type="hidden" value="${result.RPLY_ID}">
                 </li>`;
         ul.append(li);
-        
     });
 }
 
@@ -429,9 +438,11 @@ function showSuggestPlace(results) {
     } 
 
     var resultCount = 0;
+    let defaultImage = "images/suggest_default.png";
     for(let result of results) {
-        let defaultImage = "images/suggest_default.png"
-        let img = '<img class="place_image_box" src="' + result.firstimage + '" onclick="showDetailPage('+ resultCount +')" onerror="this.src=\'' + defaultImage + '\'"/>';
+        let img = '<div class="place_image_box">'
+        + '<img class="place_image" src="' + result.firstimage + '" onclick="showDetailPage('+ resultCount +')" onerror="this.src=\'' + defaultImage + '\'">'
+        + '<span class="place_image_text">' + result.title + '</div>';
         
         resultCount++;
         resultDiv.append(img);
@@ -462,34 +473,6 @@ function showDetailPage(count) {
 //         // 오류 처리
 //     })
 // }
-
-// -----------------------------------------------------------------------------------------------------
-// 실시간 시간 표시
-
-// 1초에 한번씩 실행
-setInterval(function() {
-    var date = new Date();
-
-    var year = date.getFullYear();
-    var month = plusZero(date.getMonth() + 1);
-    var day = plusZero(date.getDate());
- 
-    var hours = plusZero(date.getHours());
-    var minutes = plusZero(date.getMinutes());
-    var seconds = plusZero(date.getSeconds());
-
-    var resultString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-    $('.p_title_current_time').text(resultString);
-}, 1000);
-
-function plusZero(time) {
-    if (time < 10) {
-        return time = "0" + time;
-    } else {
-        return time;
-    }
-}
 
 // -----------------------------------------------------------------------------------------------------
 // 로그인|회원가입 모달창
