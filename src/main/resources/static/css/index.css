@@ -49,7 +49,8 @@ body {display: block; margin-top: 30px; overflow-y: scroll;}
 .li_search {height: 50px; margin: 10px; font-size: 30px; padding: 13px 10px; border: 1px solid green;}
 
 #container #comment_box #comment_list_box {width: inherit; height: 380px; overflow: scroll; overflow-x: hidden;}
-#container #comment_box #comment_input_box {width: inherit; height: 60px; border: 1px solid green; padding: 10px 0px 0px 10px; display: flex; justify-items: center;}
+#container #comment_box #comment_input_box {width: inherit; height: 60px; border: 1px solid green;
+    padding: 10px 0px 0px 10px; display: flex; justify-items: center;}
 #container #c_inner_suggestion {width: inherit; display: flex; height: auto; flex-wrap: wrap; justify-content: space-between;}
 
 .place_image_box {position: relative; width: 380px; height: 200px; margin: 20px 10px 10px 10px; border: 1px solid greenyellow;}
