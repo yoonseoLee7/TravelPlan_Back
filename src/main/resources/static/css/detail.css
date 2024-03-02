@@ -6,19 +6,27 @@ body {display: block; margin-top: 30px;}
 /* 헤더 영역 */
 #header {position: static; display: flex; margin: 0px 30px;}
 #header #h_inner {width: 100%; height: 100px; display: flex;}
-#header #h_inner #title_box {flex-grow: 2; height: 100px; max-width: 22%;}
+#header #h_inner #title_box {flex-grow: 2; height: 80px; max-width: 18%;}
 #header #h_inner #title_box #title {display: flex; padding-left: 15px;}
 
-.h1_title {font-size: 36px;}
+.h1_title {font-size: 32px;}
 .p_title_current_time {font-size: 24px; padding-left: 15px;}
-.img_title {width: 50px; height: 50px;}
+.p_bold{font-weight: bold; }
+.img_title {width: 40px; height: 40px; margin-left: 10px;}
 
-#header #h_inner #search_box {position: relative; flex-grow: 5; height: 100px; max-width: 56%;}
+#header #h_inner #search_box {position: relative; flex-grow: 5; height: 80px; max-width: 56%; margin-left: 30px;}
 
-#header #h_inner #util_box {align-items: center; display: flex; justify-content: end; flex-grow: 2; height: inherit; max-width: 22%;}
+#header #h_inner #util_box {align-items: center; display: flex; justify-content: end; flex-grow: 2; height: 70px; max-width: 22%; margin-right: 20px;}
 #header #h_inner #util_box #login_box {align-items: center; display: flex; width: 100%; height: inherit; justify-content: flex-end; padding-right: 20px;}
 .imgThumb {width: 50px; height: 50px; background-size: 50px; border-radius: 70%; object-fit: cover;}
-
+.imgThumb_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    line-height: 0px;
+    width: auto; height: 50px;
+    margin-left: 20px;
+}
 /* 메인(가운데 영역) */
 #container {position: static; margin: 0px 30px; min-height: 100%;}
 #container #c_inner_map {width: inherit; display: flex; height: 500px; border: 1px solid black;}
