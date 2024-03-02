@@ -110,18 +110,19 @@ body {display: block; margin-top: 30px; overflow-y: scroll;}
     flex-direction: column;
 
     width:400px;  
-    height:400px; 
+    height:500px; 
     background-color:transparent;
     box-shadow:0 2px 3px 0 rgba(34,36,38,0.15);
 }
 
 .modal_body{
     width:400px;  
-    height:350px; 
+    height:500px; 
     background-color: white; 
     box-shadow:0 2px 3px 0 rgba(34,36,38,0.15);
     align-items: center;
     text-align: center;
+    padding-top: 40px;
 }
 
 .modal_tab {
@@ -164,6 +165,7 @@ input {
     background-color: gray;
     color: white;
     padding: 14px 0px 14px 0px;
+    margin: 10px 0px;
 }
 
 .suggest_error {
