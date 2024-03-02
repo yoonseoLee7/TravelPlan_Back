@@ -6,6 +6,7 @@
 <head>
     <div th:replace="~{fragments/header.html :: fragment-header}" />
     <script th:src="@{/js/detail.js}"></script>
+    <script th:src="@{/js/intervalTime.js}"></script>
     <link rel="stylesheet" href="css/detail.css">
 </head>
 
@@ -62,6 +63,29 @@
                 </div>
                 <div class="detail_info">
                     <div class="detail_into_title">●  홈페이지</div><div id="detail_homepage">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 댓글모달 -->
+    <div class="modal" data-visible="false" onclick="closeModalComment(event)">
+        <div class="modal_main">
+            <div class="modal_tab">
+                <div class="tab_selected">댓글</div>
+            </div>
+            <div class="modal_body">
+                <div id="comment_box">
+                    <div id="comment_list_box">
+                        <ul id="commentUL" style="list-style-type: none;">
+                        </ul>
+                    </div>
+                    <div id="comment_input_box">
+                        <div id="search_box">
+                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}">
+                    <input class="comment_input" type="text" placeholder="댓글을 입력해 주세요"/>
+                    <button id="submitBtn" th:value="${userId}" th:onclick="modalCommentSave()">↵</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
