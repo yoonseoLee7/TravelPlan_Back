@@ -181,6 +181,7 @@ function changeTitle(name){
     loadComments();
 
 }
+
 //해당장소 댓글 로딩
 function loadComments() {
     $('#commentList').text(changeName);
@@ -290,7 +291,7 @@ function displayReply(results) {
         $(result).next('.replyForm').find('.submitReply').click(function() {
             var upprRplyId = rplyId; // 상위댓글
             var replyContent = $(this).siblings('#replyContent').val(); //댓글내용
-            var userId = $('.userId').attr("value");
+            var userId = $('#comment_input_box').attr("value");
             console.log(userId);
             var delYn = "N";
             if (!userId || userId === 0) {
@@ -332,12 +333,15 @@ function displayReply(results) {
     }    
 }
 
+function commentEnter(event){
+    if(event.key === "Enter"){submitComment();}
+}
 //댓글 작성 & 저장
 function submitComment(){
     var currentTime = new Date();
     var date = currentTime.toISOString();
     var commentContent = $('#commentContent').val();
-    var userId = $('.userId').attr("value");
+    var userId = $('#comment_input_box').attr("value");
     var delYn = "N";
     
     if (!userId || userId === 0) {
@@ -368,23 +372,6 @@ function submitComment(){
     });
 }
 
-//저장 후 목록불러오기
-// function updateComments(result) {
-//     var poiId = result.body.poiId;
-
-//     $.ajax({
-//         type: "GET",
-//         url: "/api/main/getComments",
-//         data: { poiId },
-//         success: function (response) {
-//             console.log("댓글 업데이트 성공", response);
-//             displayinit(response); // update
-//         },
-//         error: function (error) {
-//             console.error("댓글 업데이트 실패", error);
-//         }
-//     });
-// }
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
 
@@ -568,7 +555,7 @@ function loginCheck() {
                 $('.modal').hide();
                 $('#login_box').hide();
                 $('.imgThumb').attr('value', $('#login_username').val());
-                $('.userId').attr('value', response.body.userId);
+                $('#comment_input_box').attr('value', response.body.userId);
                 changeProfile();
             }
         },
