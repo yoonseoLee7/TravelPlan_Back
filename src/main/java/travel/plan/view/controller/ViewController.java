@@ -13,12 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class ViewController {
     
-    // 일단 임시로 넣어두고 명칭은 나중에 변경...
-    @RequestMapping("/modalComment")
-    public String modalComment() {
-        return "modalComment";
-    }
-
     @RequestMapping("/detail")
     public String detail(@SessionAttribute(name = "userNick", required = false) String userNick,
         @SessionAttribute(name = "userId", required = false) String userId, Model model, String contentId) {
