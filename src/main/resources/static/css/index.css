@@ -16,7 +16,7 @@ body {display: block; margin-top: 30px; overflow-y: scroll;}
 .p_bold{font-weight: bold; }
 .img_title {width: 40px; height: 40px; margin-left: 10px;}
 
-#header #h_inner #search_box {position: relative; flex-grow: 5; height: 80px; max-width: 56%; margin-left: 30px;}
+#header #h_inner #search_box {position: relative; flex-grow: 5; height: 80px; max-width: 56%; margin-left: 20px;}
 .search_bar {
     position: absolute;
     width: 90%; height: auto; line-height : normal;
