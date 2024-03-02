@@ -199,18 +199,17 @@ function loadComments() {
     });
 }
 
-
 //댓글 출력
 function displayinit(results) {
     var ul = $('#comment_list');
     ul.empty();
-
+    console.log("댓글 출력부분",results.body);
     if (results.body.length === 0) {
         let defined = '<p>댓글이 없습니다.</p>';
         ul.append(defined);
         return;
     }
-    console.log(results);
+
     results.body?.forEach(function(result) {
         let json = JSON.stringify(result);
         var epochTime = result.REG_DTM;
@@ -218,16 +217,29 @@ function displayinit(results) {
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         var userNick = $('.imgThumb').attr("value");
         console.log(result);
-        
-        let li = `<li class="search_items comment_text" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
-                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
-                    <div class="imgThumb_text">
-                        <div style="font-size: 18px;">${result.RPLY_CTT}</div>
-                        <div style="font-size: 14px;">${formattedDate}</div>
-                    </div>
-                    <input id="find" type="hidden" value="${result.RPLY_ID}">
+
+        $.ajax({
+            type: "POST",
+            url: "/api/main/getCount",
+            data: { 
+                upprRplyId:result.RPLY_ID        
+            },
+            success: function (response) {
+                console.log("대댓글 총 갯수 가져오기",response);
+                let li = `<li class="search_items comment_text" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
+                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
+                <div class="imgThumb_text">
+                    <div style="font-size: 18px;">${result.RPLY_CTT}</div>
+                    <div style="font-size: 14px;">${formattedDate} 💬${response.body}</div>
+                </div>
+                <input id="find" type="hidden" value="${result.RPLY_ID}">
                 </li>`;
-        ul.append(li);
+                ul.append(li);
+            },
+            error: function (error) {
+                console.error("대댓글 총 갯수 가져오기 실패",error);
+            }
+        });   
     });
 }
 
@@ -240,13 +252,12 @@ function displayReply(results) {
         ul.append(defined);
         return;
     }
-    console.log(results);
     results.body?.forEach(function(result) {
         var epochTime = result.REG_DTM;
         var date = new Date(epochTime);
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         var userNick = $('.imgThumb').attr("value");
-        
+                
         let li = `<li class="search_items" style="margin-left: 20px;">
                 👉<img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}" style="width: 30px; height: 30px;">
                 ${result.RPLY_CTT}  ${formattedDate}</li>`;
@@ -259,11 +270,10 @@ function displayReply(results) {
     function replyClick(result,poiId){
     // 상위댓글 넘버
     var rplyId = $(result).find('input[type="hidden"]').val();
-    console.log("상위댓글넘버:",rplyId);
     var currentTime = new Date();
     var date = currentTime.toISOString();
     var replyLength = $(result).next('.replyForm').length;
-    
+
     // 대댓글 창이 이미 열려있는지 확인
     if (replyLength === 0) {        
         //대댓글 loading
