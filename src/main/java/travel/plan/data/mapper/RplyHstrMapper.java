@@ -10,6 +10,7 @@ import travel.plan.data.dto.RplyHstrDTO;
 @Mapper
 public interface RplyHstrMapper {
     public RplyHstrDTO saveComment(RplyHstrDTO rplyHstrDTO);
+    public int getReplyCount(int uppr);
 
     public List<Map<String,Object>> getCommentsForPoi(String poiId);
     public List<Map<String,Object>> getCommentsContType(String contTypeId);

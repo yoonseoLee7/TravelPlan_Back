@@ -15,6 +15,13 @@
         )
     </insert>
 
+    <select id="getReplyCount" resultType="int" parameterType="int">
+        SELECT COUNT(p.UPPR_RPLY_ID)
+        FROM RPLY_HSTR AS p
+        LEFT JOIN RPLY_HSTR AS c ON p.UPPR_RPLY_ID = c.RPLY_ID
+        WHERE p.UPPR_RPLY_ID = #{upprRplyId}
+    </select>
+
     <select id="getCommentsForPoi" resultType="java.util.HashMap" parameterType="String">
         select RPLY_ID,RPLY_CTT,REG_DTM,POI_ID
         from RPLY_HSTR
@@ -36,6 +43,5 @@
         WHERE (p.POI_ID = #{poiId} OR p.CONT_TYPE_ID = #{contTypeId})
         AND p.UPPR_RPLY_ID = #{upprRplyId}
         ORDER BY p.REG_DTM DESC
-        LIMIT 5
     </select>
 </mapper>

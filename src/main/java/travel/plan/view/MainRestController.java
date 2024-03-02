@@ -72,6 +72,12 @@ public class MainRestController {
         
         return rplyHstrService.getReplyList(rplyHstrDTO);
     }
+
+    @PostMapping("/getCount")
+    public Map<String,Object> getReplyCount(@RequestParam Integer upprRplyId) throws Exception{
+        
+        return rplyHstrService.getReplyCount(upprRplyId);
+    }
     
     //댓글테이블 정보저장
     @PostMapping("/saveComment")

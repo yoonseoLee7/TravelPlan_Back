@@ -30,6 +30,14 @@ public class RplyHstrServiceImpl implements RplyHstrService{
         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,save);  
     }
 
+    @Override
+    public Map<String, Object> getReplyCount(int uppr) throws Exception {
+        RplyHstrDTO dto = new RplyHstrDTO();
+        dto.setUpprRplyId(uppr);
+        int id = rplyHstrMapper.getReplyCount(dto.getUpprRplyId());
+        return ApiResult.getHashMap(ApiStatus.AP_SUCCESS,id);
+    }
+
     //메인페이지 댓글 로딩
     @Override
     public Map<String, Object> getCommentsForPoi(String poiId){
