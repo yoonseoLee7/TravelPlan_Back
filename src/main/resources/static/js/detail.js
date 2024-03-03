@@ -194,15 +194,28 @@ function displayComments(results){
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         var userNick = $('.imgThumb').attr("value");
 
-        let li = `<li class="search_items comment_text" value='${json}' onclick='modalReplyClick(this,${result.CONT_TYPE_ID})'>
-                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
-                    <div class="imgThumb_text">
-                        <div style="font-size: 18px;">${result.RPLY_CTT}</div>
-                        <div style="font-size: 14px;">${formattedDate}</div>
-                    </div>
-                    <input id="find" type="hidden" value="${result.RPLY_ID}">
+        $.ajax({
+            type: "POST",
+            url: "/api/main/getCount",
+            data: { 
+                upprRplyId:result.RPLY_ID        
+            },
+            success: function (response) {
+                console.log("대댓글 총 갯수 가져오기",response);
+                let li = `<li class="search_items comment_text" value='${json}' onclick='modalReplyClick(this,${result.CONT_TYPE_ID})'>
+                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
+                <div class="imgThumb_text">
+                    <div style="font-size: 18px;">${result.RPLY_CTT}</div>
+                    <div style="font-size: 14px;">${formattedDate} | 💬${response.body}</div>
+                </div>
+                <input id="find" type="hidden" value="${result.RPLY_ID}">
                 </li>`;
-        ul.append(li);
+                ul.append(li);
+            },
+            error: function (error) {
+                console.error("대댓글 총 갯수 가져오기 실패",error);
+            }
+        });
     });
 }
 
@@ -222,9 +235,13 @@ function displayReply(results) {
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         var userNick = $('.imgThumb').attr("value");
         
-        let li = `<li class="search_items">
+        let li = `<li class="search_items" style="margin-left: 35px;">
                 <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}">
-                ${result.RPLY_CTT}  ${formattedDate}</li>`;
+                <div class="imgThumb_text">
+                    <div style="font-size: 18px;">${result.RPLY_CTT}</div>
+                    <div style="font-size: 14px;">${formattedDate}</div>
+                </div>
+                </li>`;
         ul.append(li);
         
     });
