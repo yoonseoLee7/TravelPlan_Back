@@ -262,7 +262,7 @@ function modalReplyClick(result,contTypeId){
 
         // 전송
         $(result).next('.replyForm').find('.submitReply').click(function() {
-            var userId = $('#submitBtn').attr("value");
+            var userId = $('#comment_input_box').attr("value");
             var upprRplyId = rplyId;
             var replyContent = $(this).siblings('#replyContent').val(); 
             var delYn = "N";
@@ -304,13 +304,17 @@ function modalReplyClick(result,contTypeId){
     }
 }
 
+function commentEnter(event){
+    if(event.key === "Enter"){modalCommentSave();}
+}
+
 //댓글 저장
 function modalCommentSave() {
     var currentTime = new Date();
     var date = currentTime.toISOString();
     var commentContent = $('.comment_input').val();
     var delYn = "N";
-    var userId = $('#submitBtn').attr("value");
+    var userId = $('#comment_input_box').attr("value");
     
     if (!userId || userId === 0) {
         alert("로그인 후 이용해주세요.");
@@ -348,7 +352,7 @@ function saveBookMark(result){
         let value = JSON.stringify(result);
         var currentTime = new Date();
         var date = currentTime.toISOString();
-        var userId = $('#submitBtn').attr("value");
+        var userId = $('#comment_input_box').attr("value");
         var delYN = "";
        
         if (!userId || userId === 0) {
