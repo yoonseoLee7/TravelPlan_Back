@@ -230,7 +230,7 @@ function displayinit(results) {
                 <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
                 <div class="imgThumb_text">
                     <div style="font-size: 18px;">${result.RPLY_CTT}</div>
-                    <div style="font-size: 14px;">${formattedDate} 💬${response.body}</div>
+                    <div style="font-size: 14px;">${formattedDate} | 💬${response.body}</div>
                 </div>
                 <input id="find" type="hidden" value="${result.RPLY_ID}">
                 </li>`;
@@ -258,9 +258,13 @@ function displayReply(results) {
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
         var userNick = $('.imgThumb').attr("value");
                 
-        let li = `<li class="search_items" style="margin-left: 20px;">
-                👉<img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}" style="width: 30px; height: 30px;">
-                ${result.RPLY_CTT}  ${formattedDate}</li>`;
+        let li = `<li class="search_items" style="margin-left: 35px;">
+                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}">
+                <div class="imgThumb_text">
+                    <div style="font-size: 18px;">${result.RPLY_CTT}</div>
+                    <div style="font-size: 14px;">${formattedDate}</div>
+                </div>
+                </li>`;
         ul.append(li);
         
     });
