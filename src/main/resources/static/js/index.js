@@ -181,6 +181,8 @@ function changeTitle(name){
     loadComments();
 
 }
+//대댓글 상위댓글의 id를 저장
+var replyNum = 0;
 
 //해당장소 댓글 로딩
 function loadComments() {
@@ -270,86 +272,101 @@ function displayReply(results) {
     });
 }
 
-//댓글 클릭시
-    function replyClick(result,poiId){
+//대댓글 창 여닫기
+function replyClick(result, poiId) {
     // 상위댓글 넘버
     var rplyId = $(result).find('input[type="hidden"]').val();
-    var currentTime = new Date();
-    var date = currentTime.toISOString();
-    var replyLength = $(result).next('.replyForm').length;
+    var userId = $('#comment_input_box').attr("value");
+    
+    if (!userId || userId === 0) {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
 
     // 대댓글 창이 이미 열려있는지 확인
-    if (replyLength === 0) {        
-        //대댓글 loading
+    var replyFormExist = $(result).next('.replyForm').length > 0;
+
+    if (replyFormExist) {
+        // 대댓글 창이 열려 있으면 닫기
+        $(result).next('.replyForm').remove();
+        replyNum = 0;
+    } else {
+        // 대댓글 loading
         $.ajax({
             type: "POST",
             url: "/api/main/getRepies",
-            data: { poiId,
-                    upprRplyId:rplyId        
+            data: {
+                poiId,
+                upprRplyId: rplyId
             },
-            success: function (response) {
-                console.log("대댓글 로딩 성공",response);
+            success: function(response) {
+                console.log("대댓글 로딩 성공", response);
                 displayReply(response);
             },
-            error: function (error) {
-                console.error("대댓글 로딩 오류",error);
+            error: function(error) {
+                console.error("대댓글 로딩 오류", error);
             }
         });
 
-        var replyFormHTML = `<div class="replyForm" style="margin-left: 20px;"><ul id="replies"></ul>
-        <input id="replyContent"/><button class="submitReply">전송</button><button class="cancelReply">취소</button></div>`;
+        var replyFormHTML = `<div class="replyForm" style="margin-left: 20px;">
+                            <ul id="replies"></ul>
+                            </div>`;
         $('.replyForm').remove();
         $(result).after(replyFormHTML);
 
-        // 전송 click
-        $(result).next('.replyForm').find('.submitReply').click(function() {
-            var upprRplyId = rplyId; // 상위댓글
-            var replyContent = $(this).siblings('#replyContent').val(); //댓글내용
-            var userId = $('#comment_input_box').attr("value");
-            console.log(userId);
-            var delYn = "N";
-            if (!userId || userId === 0) {
-                alert("로그인 후 이용해주세요.");
-                return;
-            }
-            if(replyContent === ""){
-                alert("내용을 적어주세요.");
-                return;
-            }
-            // ----------------------------------------------대댓 ajax 써서 전송시키기
-            $.ajax({
-                type: "POST",
-                url: "/api/main/saveComment",
-                data: { 
-                    rplyCtt: replyContent,
-                    delYn,
-                    regDtm: date,
-                    poiId,
-                    upprRplyId                    
-                 },
-                success: function (response) {
-                    console.log("대댓글 저장 성공",response);
-                    loadComments();
-                },
-                error: function (error) {
-                    console.error("대댓글 저장 오류",error);
-                }
-            });
-            
-            $(this).parent('.replyForm').remove();
-        });
-
-        // 대댓글 취소
-        $(result).next('.replyForm').find('.cancelReply').click(function() {
-            // 대댓글 창 삭제  
-            $(this).parent('.replyForm').remove();
-        });
-    }    
+        replyNum = rplyId; //초기화
+    }
 }
 
 function commentEnter(event){
-    if(event.key === "Enter"){submitComment();}
+    if(event.key === "Enter"){
+        if(replyNum === 0){
+            submitComment();
+        }
+        if(replyNum !== 0){
+            submitReply();
+        }
+    }
 }
+
+function submitReply(){
+    var currentTime = new Date();
+    var date = currentTime.toISOString();
+    var replyContent = $('#commentContent').val();
+    var userId = $('#comment_input_box').attr("value");
+    var delYn = "N";
+    
+    if (!userId || userId === 0) {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+    if(replyContent === ""){
+        alert("내용을 적어주세요.");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/api/main/saveComment",
+        data: {
+            rplyCtt: replyContent,
+            regDtm: date,
+            poiId: changePoiId,
+            upprRplyId: replyNum,
+            delYn: delYn
+        },
+        success: function (response) {
+            console.log("대댓글 저장 성공", response);
+            loadComments();
+            $('#commentContent').val('');
+            // 대댓글 작성 후 replyNum 초기화
+            replyNum = 0;
+        },
+        error: function (error) {
+            console.error("대댓글 저장 오류", error);
+        }
+    });
+}
+
 //댓글 작성 & 저장
 function submitComment(){
     var currentTime = new Date();
