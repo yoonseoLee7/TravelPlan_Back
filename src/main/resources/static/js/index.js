@@ -220,28 +220,16 @@ function displayinit(results) {
         var userNick = $('.imgThumb').attr("value");
         console.log(result);
 
-        $.ajax({
-            type: "POST",
-            url: "/api/main/getCount",
-            data: { 
-                upprRplyId:result.RPLY_ID        
-            },
-            success: function (response) {
-                console.log("대댓글 총 갯수 가져오기",response);
-                let li = `<li class="search_items comment_text" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
-                <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
-                <div class="imgThumb_text">
-                    <div style="font-size: 18px;">${result.RPLY_CTT}</div>
-                    <div style="font-size: 14px;">${formattedDate} | 💬${response.body}</div>
-                </div>
-                <input id="find" type="hidden" value="${result.RPLY_ID}">
-                </li>`;
-                ul.append(li);
-            },
-            error: function (error) {
-                console.error("대댓글 총 갯수 가져오기 실패",error);
-            }
-        });   
+
+        let li = `<li class="search_items comment_text" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
+        <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
+        <div class="imgThumb_text">
+            <div style="font-size: 18px;">${result.RPLY_CTT}</div>
+            <div style="font-size: 14px;">${formattedDate} | 💬${result.REPLY_COUNT}</div>
+        </div>
+        <input id="find" type="hidden" value="${result.RPLY_ID}">
+        </li>`;
+        ul.append(li);   
     });
 }
 
