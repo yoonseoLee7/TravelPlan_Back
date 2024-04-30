@@ -33,7 +33,7 @@
     </select>
 
     <select id="getCommentsContType" resultType="java.util.HashMap" parameterType="String">
-        select RPLY_ID,RPLY_CTT,REG_DTM,CONT_TYPE_ID,count(c.RPLY_ID) as REPLY_COUNT
+        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.CONT_TYPE_ID,count(c.RPLY_ID) as REPLY_COUNT
         from RPLY_HSTR as p
         left join RPLY_HSTR as c on p.RPLY_ID = c.UPPR_RPLY_ID
         where p.CONT_TYPE_ID = #{contTypeId} and p.UPPR_RPLY_ID = 0
