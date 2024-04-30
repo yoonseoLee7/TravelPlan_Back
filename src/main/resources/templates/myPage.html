@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MyPage</title>
 </head>
 <body>
+    <input type="button" value="로그아웃" onclick="logout();">
     
+    <script>
+        function logout(){
+            if(confirm("로그아웃 하시겠습니까?")){
+                location.href = "/logout";
+            }
+        }
+    </script>
+
 </body>
 </html>

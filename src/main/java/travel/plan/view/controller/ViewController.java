@@ -2,11 +2,15 @@ package travel.plan.view.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+
 
 @Slf4j
 @Tag(name = "화면 이동", description = "화면 이동 용 Controller")
@@ -32,4 +36,15 @@ public class ViewController {
     public String myPage() {
         return "myPage";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);//세션없으면 새로 생성 안함
+        if(session != null){
+            // session.removeAttribute("userId");
+            session.invalidate();
+        }
+        return "redirect:/";
+    }
+    
 }
