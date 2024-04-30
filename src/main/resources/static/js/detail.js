@@ -81,7 +81,10 @@ function showTmap(lat, lng, contentId, title) {
             noorLat: lat,
             noorLon: lng
         },
-        success: function(response){createRect(lat, lng, response.body);},
+        success: function(response){
+            // createRect(lat, lng, response.body);
+            console.log('showTmap!!',response);
+        },
         error: function(error){console.error('Error:',error);}
     });
 }
@@ -201,7 +204,7 @@ function displayComments(results){
         <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
         <div class="imgThumb_text">
             <div style="font-size: 18px;">${result.RPLY_CTT}</div>
-            <div style="font-size: 14px;">${formattedDate} | 💬${result.RPLY_COUNT}</div>
+            <div style="font-size: 14px;">${formattedDate} | 💬${result.REPLY_COUNT}</div>
         </div>
         <input id="find" type="hidden" value="${result.RPLY_ID}">
         </li>`;

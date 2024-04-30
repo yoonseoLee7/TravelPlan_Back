@@ -588,6 +588,7 @@ function showMyPage(result) {
     if(result != '' && result != null) {location.href = "/myPage";}  // 로그인 한 상태인 경우
 }
 
+
 function changeProfile() {
     let userId = $('.imgThumb').attr('value');                           //로그인됐는지확인하는거
     if(userId != undefined && userId != null && userId != '') {
