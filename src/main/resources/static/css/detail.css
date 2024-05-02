@@ -6,6 +6,7 @@ body {display: block; margin-top: 30px;}
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: flex-start;
     line-height: 0px;
     width: auto; height: 50px;
     margin-left: 20px;
