@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyPage</title>
-</head>
-<body>
-    <input type="button" value="로그아웃" onclick="logout();">
-    
-    <script>
-        function logout(){
-            if(confirm("로그아웃 하시겠습니까?")){
-                location.href = "/logout";
-            }
-        }
-    </script>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
+<head>
+  <div th:replace="~{fragments/header.html :: fragment-header}" />
+  <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/intervalTime.js}"></script>
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+  <!-- 공통 헤더 재사용 -->
+  <header th:replace="~{fragments/header :: header}"></header> 
+  <input type="button" value="로그아웃" onclick="logout();">
+
+  <script>
+    function logout() {
+      if (confirm("로그아웃 하시겠습니까?")) {
+        location.href = "/logout";
+      }
+    }
+  </script>
 </body>
 </html>
