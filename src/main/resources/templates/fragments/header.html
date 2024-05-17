@@ -1,15 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" 
-      xmlns:th="http://www.thymeleaf.org" 
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:fragment="fragment-header">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/header.css">
-    <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt"></script>
-    <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/header.css">
+  <script
+    src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=cm5DqAKbPy5a0cAgsLE9A9Yz1euxbeCCaxpY19Yt"></script>
+  <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
 </head>
+
+<body>
+  <header id="header">
+    <div id="h_inner">
+      <div id="title_box">
+        <div id="title" onclick="returnMain()">
+          <h1 class="h1_title">대국민 눈치게임</h1>
+          <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg">
+        </div>
+        <p class="p_title_current_time">2024-04-28 14:56:04</p>
+      </div>
+      <div id="search_box">
+        <input type="text" class="search_bar" placeholder="여행지를 입력해 주세요" id="searchText" autofocus
+          onkeydown="handleKeyDown(event)">
+        <img class="img_search" src="images/search.png">
+      </div>
+      <div id="util_box">
+        <div id="login_box" th:style="${userNick == null ? 'display: flex;' : 'display: none;'}">
+          <p class="p_bold" onclick="showModal()">로그인</p>
+          <p class="p_bold">&nbsp;|&nbsp;</p>
+          <p class="p_bold" onclick="showModal()">회원가입</p>
+        </div>
+        <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160"
+          th:value="${userNick}" th:onclick="showMyPage([[${userNick}]]);">
+      </div>
+    </div>
+  </header>
+</body>
 
 </html>
