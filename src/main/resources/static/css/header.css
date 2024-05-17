@@ -10,8 +10,8 @@
 #header #h_inner #util_box {align-items: center; display: flex; justify-content: end; flex-grow: 2; height: 70px; max-width: 22%; margin-right: 20px;}
 #header #h_inner #util_box #login_box {align-items: center; display: flex; width: 100%; height: inherit; justify-content: flex-end; padding-right: 20px;}
 
-.h1_title {font-size: 32px;}
-.p_title_current_time {font-size: 24px; padding-left: 15px;}
+.h1_title {font-size: 32px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+.p_title_current_time {font-size: 24px; padding-left: 15px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
 .p_bold{font-weight: bold;}
 .img_title {width: 40px; height: 40px; margin-left: 10px;}
 
