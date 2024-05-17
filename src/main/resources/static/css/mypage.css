@@ -1,1 +1,24 @@
 @charset "utf-8";
+.mypage_container {
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.m_container_div {
+  width: 80%;
+  height: 350px;
+  margin-top: 70px;
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+}
+
+.background_orange {
+  width: 100%;
+  height: 300px;
+  background-color: #FCCB87;
+  position: absolute;
+  z-index: 0;
+}
