@@ -15,10 +15,36 @@
   display: flex;
 }
 
+.m_container_div > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .background_orange {
   width: 100%;
   height: 300px;
   background-color: #FCCB87;
   position: absolute;
   z-index: 0;
+}
+
+.m_imgThumb {
+  width: 100px;
+  height: 100px;
+}
+
+.m_username {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 20px 0px;
+}
+
+.m_count_box {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 60%;
+  height: 200px;
+  display: flex;
+  padding: 20px 0px;
 }
