@@ -15,7 +15,7 @@ function commentCount() { // 사용자의 총 댓글 개수 조회
     type: "GET",
     url: `/api-docs/commentCount/${userInfo.userId}`,
     success: function(response) {
-      console.log(response);
+      $('.count_num.comment span').text(response.body);
     },
     error: function(error){console.error('Error:',error);}
   });
