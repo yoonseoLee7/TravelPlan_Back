@@ -5,6 +5,7 @@
 $(window).on('load', function () {
     initTmap();
     initSuggestPlace();
+    // showSuggestPlace(null);
     changeProfile();
     loadComments();
 });
@@ -432,7 +433,10 @@ function suggestPlace(vo) {
 }
 
 var listDetail;
-function showSuggestPlace(results) {
+function showSuggestPlace(results) { // 추천방문지 목록 보이기
+    // JSON test 문자열
+    // var sample = "[{\"addr1\":\"서울특별시송파구올림픽로240\",\"addr2\":\"\",\"areacode\":\"1\",\"booktour\":\"\",\"cat1\":\"A02\",\"cat2\":\"A0207\",\"cat3\":\"A02070200\",\"contentid\":\"650452\",\"contenttypeid\":\"15\",\"createdtime\":\"20081112012346\",\"dist\":\"1.1616193621295698\",\"firstimage\":\"http://tong.visitkorea.or.kr/cms/resource/04/2565704_image2_1.JPG\",\"firstimage2\":\"http://tong.visitkorea.or.kr/cms/resource/04/2565704_image2_1.JPG\",\"cpyrhtDivCd\":\"Type3\",\"mapx\":\"127.0981394766\",\"mapy\":\"37.5110683960\",\"mlevel\":\"6\",\"modifiedtime\":\"20240503140418\",\"sigungucode\":\"18\",\"tel\":\"1661-2000\",\"title\":\"롯데월드miraclewinter\"},{\"addr1\":\"서울특별시송파구올림픽로240,지하1층\",\"addr2\":\"\",\"areacode\":\"1\",\"booktour\":\"\",\"cat1\":\"A05\",\"cat2\":\"A0502\",\"cat3\":\"A05020200\",\"contentid\":\"2654454\",\"contenttypeid\":\"39\",\"createdtime\":\"20200427195531\",\"dist\":\"6.934312138944808\",\"firstimage\":\"http://tong.visitkorea.or.kr/cms/resource/68/2660168_image2_1.jpg\",\"firstimage2\":\"http://tong.visitkorea.or.kr/cms/resource/68/2660168_image2_1.jpg\",\"cpyrhtDivCd\":\"Type3\",\"mapx\":\"127.0981783602\",\"mapy\":\"37.5111322780\",\"mlevel\":\"6\",\"modifiedtime\":\"20220405144144\",\"sigungucode\":\"18\",\"tel\":\"070-1688-2810\",\"title\":\"브릭버거\"},{\"addr1\":\"서울특별시송파구올림픽로240\",\"addr2\":\"(잠실동)\",\"areacode\":\"1\",\"booktour\":\"0\",\"cat1\":\"A02\",\"cat2\":\"A0206\",\"cat3\":\"A02060600\",\"contentid\":\"129742\",\"contenttypeid\":\"14\",\"createdtime\":\"20071106102800\",\"dist\":\"25.503743070610128\",\"firstimage\":\"http://tong.visitkorea.or.kr/cms/resource/36/2540136_image2_1.JPG\",\"firstimage2\":\"http://tong.visitkorea.or.kr/cms/resource/36/2540136_image2_1.JPG\",\"cpyrhtDivCd\":\"Type3\",\"mapx\":\"127.0979394903\",\"mapy\":\"37.5112294847\",\"mlevel\":\"6\",\"modifiedtime\":\"20230525150129\",\"sigungucode\":\"18\",\"tel\":\"\",\"title\":\"롯데월드가든스테이지\"},{\"addr1\":\"서울특별시송파구올림픽로240\",\"addr2\":\"(잠실동)롯데월드쇼핑몰3층\",\"areacode\":\"1\",\"booktour\":\"0\",\"cat1\":\"A02\",\"cat2\":\"A0206\",\"cat3\":\"A02060100\",\"contentid\":\"130070\",\"contenttypeid\":\"14\",\"createdtime\":\"20071106104054\",\"dist\":\"25.503743070610128\",\"firstimage\":\"http://tong.visitkorea.or.kr/cms/resource/09/1570409_image2_1.jpg\",\"firstimage2\":\"http://tong.visitkorea.or.kr/cms/resource/09/1570409_image3_1.jpg\",\"cpyrhtDivCd\":\"Type3\",\"mapx\":\"127.0979394903\",\"mapy\":\"37.5112294847\",\"mlevel\":\"6\",\"modifiedtime\":\"20230726132838\",\"sigungucode\":\"18\",\"tel\":\"\",\"title\":\"롯데월드민속박물관\"},{\"addr1\":\"서울특별시송파구올림픽로240\",\"addr2\":\"\",\"areacode\":\"1\",\"booktour\":\"0\",\"cat1\":\"A02\",\"cat2\":\"A0202\",\"cat3\":\"A02020600\",\"contentid\":\"126498\",\"contenttypeid\":\"12\",\"createdtime\":\"20031105090000\",\"dist\":\"38.0091478750964\",\"firstimage\":\"\",\"firstimage2\":\"\",\"cpyrhtDivCd\":\"\",\"mapx\":\"127.0979006014\",\"mapy\":\"37.5113516917\",\"mlevel\":\"6\",\"modifiedtime\":\"20240307162918\",\"sigungucode\":\"18\",\"tel\":\"\",\"title\":\"롯데월드어드벤처\"},{\"addr1\":\"서울특별시송파구올림픽로240\",\"addr2\":\"(잠실동)\",\"areacode\":\"1\",\"booktour\":\"\",\"cat1\":\"A04\",\"cat2\":\"A0401\",\"cat3\":\"A04010600\",\"contentid\":\"132248\",\"contenttypeid\":\"38\",\"createdtime\":\"20031030090000\",\"dist\":\"84.4498641350795\",\"firstimage\":\"http://tong.visitkorea.or.kr/cms/resource/29/1920629_image2_1.jpg\",\"firstimage2\":\"http://tong.visitkorea.or.kr/cms/resource/29/1920629_image3_1.jpg\",\"cpyrhtDivCd\":\"Type3\",\"mapx\":\"127.0972006734\",\"mapy\":\"37.5110794886\",\"mlevel\":\"6\",\"modifiedtime\":\"20231211135251\",\"sigungucode\":\"18\",\"tel\":\"02-411-2000\",\"title\":\"롯데월드쇼핑몰\"},{\"addr1\":\"서울특별시송파구올림픽로240롯데월드\",\"addr2\":\"\",\"areacode\":\"1\",\"booktour\":\"0\",\"cat1\":\"A02\",\"cat2\":\"A0206\",\"cat3\":\"A02060600\",\"contentid\":\"130886\",\"contenttypeid\":\"14\",\"createdtime\":\"20070119090000\",\"dist\":\"152.37825895115012\",\"firstimage\":\"http://tong.visitkorea.or.kr/cms/resource/19/3109819_image2_1.JPG\",\"firstimage2\":\"http://tong.visitkorea.or.kr/cms/resource/19/3109819_image3_1.JPG\",\"cpyrhtDivCd\":\"Type3\",\"mapx\":\"127.0976311526\",\"mapy\":\"37.5123821225\",\"mlevel\":\"6\",\"modifiedtime\":\"20240318101424\",\"sigungucode\":\"18\",\"tel\":\"\",\"title\":\"샤롯데씨어터\"},{\"addr1\":\"서울특별시송파구올림픽로240롯데월드\",\"addr2\":\"\",\"areacode\":\"1\",\"booktour\":\"\",\"cat1\":\"A03\",\"cat2\":\"A0302\",\"cat3\":\"A03021300\",\"contentid\":\"131297\",\"contenttypeid\":\"28\",\"createdtime\":\"20040817090000\",\"dist\":\"152.37825895115012\",\"firstimage\":\"\",\"firstimage2\":\"\",\"cpyrhtDivCd\":\"\",\"mapx\":\"127.0976311526\",\"mapy\":\"37.5123821225\",\"mlevel\":\"6\",\"modifiedtime\":\"20231204171742\",\"sigungucode\":\"18\",\"tel\":\"\",\"title\":\"롯데월드아이스링크(실내)\"}]";
+    // results = JSON.parse(sample);
     window.listDetail = results;
     var resultDiv = $('#c_inner_suggestion');
     resultDiv.empty();
@@ -441,13 +445,13 @@ function showSuggestPlace(results) {
         let text = '<div class="suggest_error">추천방문지가 없습니다</div>';
         resultDiv.append(text);
         return;
-    } 
+    }
 
     var resultCount = 0;
     let defaultImage = "images/suggest_default.png";
     for(let result of results) {
-        let img = '<div class="place_image_box">'
-        + '<img class="place_image" src="' + result.firstimage + '" onclick="showDetailPage('+ resultCount +')" onerror="this.src=\'' + defaultImage + '\'">'
+        let img = '<div class="place_image_box" onclick="showDetailPage('+ resultCount +')">'
+        + '<img class="place_image" src="' + result.firstimage + '" onerror="this.src=\'' + defaultImage + '\'">'
         + '<span class="place_image_text">' + result.title + '</div>';
         
         resultCount++;
