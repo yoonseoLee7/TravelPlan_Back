@@ -557,8 +557,6 @@ function loginCheck() { // 사용자 로그인
                 $('#login_password').css('border', "2px solid #ff0000");
             }
             if(response.code == "Success") {
-                $('.modal').hide();
-                $('#login_box').hide();
                 $('.imgThumb').attr('value', $('#login_username').val());
                 $('#comment_input_box').attr('value', response.body.userId);
                 location.reload(true);

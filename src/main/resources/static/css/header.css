@@ -8,7 +8,7 @@
 #header #h_inner #title_box #title {display: flex; padding-left: 15px; cursor: pointer;}
 #header #h_inner #search_box {position: relative; flex-grow: 5; height: 80px; max-width: 56%; margin-left: 30px;}
 #header #h_inner #util_box {align-items: center; display: flex; justify-content: end; flex-grow: 2; height: 70px; max-width: 22%; margin-right: 20px;}
-#header #h_inner #util_box #login_box {align-items: center; display: flex; width: 100%; height: inherit; justify-content: flex-end; padding-right: 20px;}
+#header #h_inner #util_box #login_box {align-items: center; display: flex; height: inherit; justify-content: flex-end; padding-right: 20px;}
 
 .h1_title {font-size: 32px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
 .p_title_current_time {font-size: 24px; padding-left: 15px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
