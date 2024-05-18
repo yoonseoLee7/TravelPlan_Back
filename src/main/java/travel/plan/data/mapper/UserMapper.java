@@ -25,4 +25,5 @@ public interface UserMapper {
     public UserVO getUserInfo(Map<String, Object> map);
 
     public int commentCount(String userId); // 사용자의 총 댓글 개수 조회
+    public int bookmarkCount(String userId); // 사용자의 북마크 장소 총 개수 조회
 }

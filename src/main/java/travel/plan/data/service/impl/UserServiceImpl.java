@@ -83,4 +83,14 @@ public class UserServiceImpl implements UserService{
       return ApiResult.getHashMap(ApiStatus.AP_FAIL, "댓글 개수 조회에 실패했습니다.");
     }
   }
+
+  @Override // 사용자의 북마크 장소 총 개수 조회
+  public Map<String, Object> bookmarkCount(String userId) throws Exception {
+    Integer count = userMapper.bookmarkCount(userId);
+    if(count >= 0) {
+      return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, count);
+    } else {
+      return ApiResult.getHashMap(ApiStatus.AP_FAIL, "댓글 개수 조회에 실패했습니다.");
+    }
+  }
 }

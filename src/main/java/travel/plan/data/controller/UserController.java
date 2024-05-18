@@ -48,4 +48,9 @@ public class UserController {
   public Map<String, Object> commentCount(@PathVariable(value = "userId") String userId) throws Exception {
     return userService.commentCount(userId);
   }
+
+  @GetMapping("/bookmarkCount/{userId}") // 사용자의 북마크 장소 총 개수 조회
+  public Map<String, Object> bookmarkCount(@PathVariable(value = "userId") String userId) throws Exception {
+    return userService.bookmarkCount(userId);
+  }
 }

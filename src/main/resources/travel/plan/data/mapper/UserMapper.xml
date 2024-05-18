@@ -36,4 +36,14 @@
     WHERE
       REGR_ID = #{userId}
   </select>
+
+  <!-- 사용자의 북마크 장소 총 개수 조회 -->
+  <select id="bookmarkCount" parameterType="String" resultType="Integer">
+    SELECT
+      COUNT(*)
+    FROM
+      KOR_CONT
+    WHERE
+      REGR_ID = #{userId}
+  </select>
 </mapper>
