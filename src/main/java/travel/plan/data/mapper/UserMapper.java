@@ -23,4 +23,6 @@ public interface UserMapper {
     public int userJoin(Map<String, Object> map);
     public UserVO loginCheck(Map<String, Object> map); // 사용자 로그인
     public UserVO getUserInfo(Map<String, Object> map);
+
+    public int commentCount(String userId); // 사용자의 총 댓글 개수 조회
 }

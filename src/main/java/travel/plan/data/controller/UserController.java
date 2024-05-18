@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,5 +42,10 @@ public class UserController {
   @GetMapping("/getUserInfo")
   public Map<String, Object> changeProfile(@RequestParam Map<String, Object> map) throws Exception {
     return userService.getUserInfo(map);
+  }
+
+  @GetMapping("/commentCount/{userId}") // 사용자의 총 댓글 개수 조회
+  public Map<String, Object> commentCount(@PathVariable(value = "userId") String userId) throws Exception {
+    return userService.commentCount(userId);
   }
 }

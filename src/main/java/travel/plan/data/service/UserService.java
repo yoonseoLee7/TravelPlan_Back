@@ -9,4 +9,7 @@ public interface UserService {
     public Map<String, Object> userJoin(Map<String, Object> map) throws Exception; // 사용자 회원가입
     public Map<String, Object> loginCheck(Map<String, Object> map, HttpServletRequest request) throws Exception; // 사용자 로그인
     public Map<String, Object> getUserInfo(Map<String, Object> map) throws Exception;
+
+    // 사용자의 총 댓글 개수 조회
+    public Map<String, Object> commentCount(String userId) throws Exception;
 }

@@ -26,4 +26,14 @@
   <select id="getUserInfo" parameterType="hashMap" resultType="UserVO">
     select USER_ID, USER_NICK, USER_PWD, USER_IMG from USER where USER_NICK = #{username}
   </select>
+
+  <!-- 사용자의 총 댓글 개수 조회 -->
+  <select id="commentCount" parameterType="String" resultType="Integer">
+    SELECT
+      COUNT(*)
+    FROM
+      RPLY_HSTR
+    WHERE
+      REGR_ID = #{userId}
+  </select>
 </mapper>
