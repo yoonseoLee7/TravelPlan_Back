@@ -1,3 +1,5 @@
+var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+
 $(window).on('load', function () {
   commentCount();
 });
@@ -10,7 +12,6 @@ function logout() {
 }
 
 function commentCount() { // 사용자의 총 댓글 개수 조회
-  var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
   $.ajax({
     type: "GET",
     url: `/api-docs/commentCount/${userInfo.userId}`,
@@ -23,7 +24,6 @@ function commentCount() { // 사용자의 총 댓글 개수 조회
 }
 
 function bookmarkCount() { // 사용자의 북마크 장소 총 개수 조회
-  var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
   $.ajax({
     type: "GET",
     url: `/api-docs/bookmarkCount/${userInfo.userId}`,
