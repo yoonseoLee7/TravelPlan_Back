@@ -33,4 +33,10 @@ function changeHeader() {
   } else {
     $('#search_box').css('visibility', 'hidden');
   }
+
+  if(sessionStorage.getItem("userId") != null) { // 로그인 상태인 경우
+    $('#login_box').css('visibility', 'hidden');
+  } else {
+    $('#login_box').css('visibility', 'visible');
+  }
 }
