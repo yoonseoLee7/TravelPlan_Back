@@ -5,7 +5,7 @@
 
 <head>
   <div th:replace="~{fragments/header.html :: fragment-header}" />
-  <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/mypage.js}"></script>
   <script th:src="@{/js/intervalTime.js}"></script>
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/mypage.css">
@@ -51,15 +51,5 @@
       </div>
     </div>
   </div>
-  
-  
-  <script>
-    function logout() {
-      if (confirm("로그아웃 하시겠습니까?")) {
-        location.href = "/logout";
-        sessionStorage.clear();
-      }
-    }
-  </script>
 </body>
 </html>
