@@ -41,7 +41,16 @@ function getComments(count) { // 최신순 댓글 내역 조회
     url: `/api-docs/commentList/${userInfo.userId}`,
     data: {count: count},
     success: function(response) {
-      console.log(response.body);
+      $('.commentList').empty();
+      response.body.forEach(comment => {
+        console.log(comment);
+        var row = `<tr>
+          <td>${comment.RPLY_ID}</td>
+          <td>${comment.RPLY_CTT}</td>
+          <td>${comment.REG_DTM}</td>
+        </tr>`
+        $('.commentList').append(row);
+      });
     },
     error: function(error){console.error('Error:',error);}
   });
