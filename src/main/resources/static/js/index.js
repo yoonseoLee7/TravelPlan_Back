@@ -482,20 +482,6 @@ function showDetailPage(count) {
 
 // -----------------------------------------------------------------------------------------------------
 // 로그인|회원가입 모달창
-
-function showModal() {
-    var modal = $('.modal');
-    if(modal.is(':visible') == false) {
-        modal.show();
-
-        $('#tab_join').attr("class", "tab_unselected");
-        $('#tab_login').attr("class", "tab_selected");
-
-        $('#join').hide();
-        $('#login').show();
-    }
-}
-
 function closeModal(result) {
     var modal = $('.modal');
     if(result.target.classList.contains("modal") && modal.is(':visible') == true) {
@@ -583,11 +569,6 @@ function loginCheck() {
         }
     });
 }
-
-function showMyPage(result) {
-    if(result != '' && result != null) {location.href = "/myPage";}  // 로그인 한 상태인 경우
-}
-
 
 function changeProfile() {
     let userId = $('.imgThumb').attr('value'); //로그인됐는지확인
