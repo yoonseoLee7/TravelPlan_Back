@@ -575,7 +575,7 @@ function loginCheck() {
                 $('#login_box').hide();
                 $('.imgThumb').attr('value', $('#login_username').val());
                 $('#comment_input_box').attr('value', response.body.userId);
-                changeProfile();
+                location.reload(true);
             }
         },
         error: function(error){
@@ -590,7 +590,7 @@ function showMyPage(result) {
 
 
 function changeProfile() {
-    let userId = $('.imgThumb').attr('value');                           //로그인됐는지확인하는거
+    let userId = $('.imgThumb').attr('value'); //로그인됐는지확인
     if(userId != undefined && userId != null && userId != '') {
         $.ajax({
             url: '/api-docs/getUserInfo',
