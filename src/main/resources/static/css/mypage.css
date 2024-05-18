@@ -3,7 +3,9 @@
   width: 100%;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .m_container_div {
@@ -37,7 +39,8 @@
 .m_username {
   font-size: 24px;
   font-weight: 600;
-  margin: 20px 0px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .m_count_box {
@@ -49,7 +52,19 @@
   padding: 20px 0px;
 }
 
-.m_count_box > .count_box {display: flex; flex-direction: column; align-items: center;}
-.count_title {font-size: 20px;}
+.m_count_box > .count_box {display: flex; flex-direction: column; align-items: center; justify-content: center;}
+.count_title {font-size: 20px; margin-bottom: 20px;}
 .count_num {font-size: 20px;}
-.count_num > span {font-size: 30px; font-weight: bold;}
+.count_num > span {font-size: 30px; font-weight: bold; margin-right: 5px;}
+.btn_logout {
+  width: 160px;
+  height: 40px;
+  background: #FFFFFF;
+  border-radius: 15px;
+  border: 1px solid gray;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 10px;
+}
