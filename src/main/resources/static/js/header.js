@@ -34,8 +34,10 @@ function changeHeader() {
     $('#search_box').css('visibility', 'hidden');
   }
 
-  if(sessionStorage.getItem("userId") != null) { // 로그인 상태인 경우
+  if(sessionStorage.getItem("userInfo") != null) { // 로그인 상태인 경우
+    var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     $('#login_box').css('visibility', 'hidden');
+    $('.imgThumb').filter('[data-role="user"]').attr('src', userInfo.userImg);
   } else {
     $('#login_box').css('visibility', 'visible');
   }

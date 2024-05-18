@@ -559,7 +559,7 @@ function loginCheck() { // 사용자 로그인
             if(response.code == "Success") {
                 $('.imgThumb').attr('value', $('#login_username').val());
                 $('#comment_input_box').attr('value', response.body.userId);
-                sessionStorage.setItem("userId", response.body.userId);
+                sessionStorage.setItem("userInfo", JSON.stringify(response.body));
                 location.reload(true);
             }
         },
