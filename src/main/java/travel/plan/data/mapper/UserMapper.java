@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import jakarta.servlet.http.HttpServletRequest;
+import travel.plan.data.dto.RplyHstrDTO;
 import travel.plan.data.dto.UserDTO;
 import travel.plan.data.dto.UserVO;
 
@@ -26,4 +27,5 @@ public interface UserMapper {
 
     public int commentCount(String userId); // 사용자의 총 댓글 개수 조회
     public int bookmarkCount(String userId); // 사용자의 북마크 장소 총 개수 조회
+    public List<RplyHstrDTO> commentList(String userId); // 최신순 댓글 내역 조회
 }

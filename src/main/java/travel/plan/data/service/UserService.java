@@ -12,4 +12,5 @@ public interface UserService {
 
     public Map<String, Object> commentCount(String userId) throws Exception; // 사용자의 총 댓글 개수 조회
     public Map<String, Object> bookmarkCount(String userId) throws Exception; // 사용자의 북마크 장소 총 개수 조회
+    public Map<String, Object> commentList(String userId, String count) throws Exception; // 최신순 댓글 내역 조회
 }

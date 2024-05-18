@@ -46,4 +46,16 @@
     WHERE
       REGR_ID = #{userId}
   </select>
+
+  <!-- 최신순 댓글 내역 조회 -->
+  <select id="commentList" parameterType="String" resultType="HashMap">
+    SELECT
+      RPLY_ID, RPLY_CTT, REG_DTM, CONT_TYPE_ID
+    FROM
+      RPLY_HSTR
+    WHERE
+      DEL_YN = 'N'
+      AND REGR_ID = #{userId}
+    ORDER BY REG_DTM DESC
+  </select>
 </mapper>
