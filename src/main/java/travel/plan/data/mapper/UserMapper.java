@@ -21,6 +21,6 @@ public interface UserMapper {
 
     public int checkId(Map<String, Object> map);
     public int userJoin(Map<String, Object> map);
-    public int loginCheck(Map<String, Object> map);
+    public UserVO loginCheck(Map<String, Object> map); // 사용자 로그인
     public UserVO getUserInfo(Map<String, Object> map);
 }

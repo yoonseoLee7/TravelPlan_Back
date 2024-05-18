@@ -51,26 +51,9 @@ public class UserServiceImpl implements UserService{
     }
 
     // 로그인 시도한 정보와 동일한 사용자 정보가 있는지 확인
-    // @Override
-    // public Map<String, Object> loginCheck(Map<String, Object> map, HttpServletRequest request) {
-    //     int result = userMapper.loginCheck(map);
-    //     if(result >= 1) {
-    //         // 해당 계정이 존재함, 로그인 성공
-    //         HttpSession session = request.getSession(true); // 세션이 있으면 삭제 후 새로 생성
-    //         session.setAttribute("userId", map.get("username"));
-
-    //         return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, result);
-    //     } else {
-    //         // 해당 계정이 없음, 로그인 실패
-    //         return ApiResult.getHashMap(ApiStatus.AP_FAIL, "*닉네임 또는 비밀번호가 올바르지 않습니다");
-    //     }
-    // }
-
-    // 로그인 시도한 정보와 동일한 사용자 정보가 있는지 확인
     @Override
     public Map<String, Object> loginCheck(Map<String, Object> map, HttpServletRequest request) throws Exception {
-        // int result = userMapper.loginCheck(map);
-        UserVO dto = userMapper.getUserInfo(map);
+        UserVO dto = userMapper.loginCheck(map);
         if(dto != null) {
             // 해당 계정이 존재함, 로그인 성공
             HttpSession session = request.getSession(true); // 세션이 있으면 삭제 후 새로 생성

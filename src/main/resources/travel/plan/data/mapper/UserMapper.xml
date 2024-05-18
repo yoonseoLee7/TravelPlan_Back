@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.UserMapper">
-    <select id="checkId" parameterType="hashMap" resultType="Integer" >
-        select count(*) from USER where USER_NICK = #{username}
-    </select>
+  <select id="checkId" parameterType="hashMap" resultType="Integer" >
+    select count(*) from USER where USER_NICK = #{username}
+  </select>
 
-    <insert id="userJoin" parameterType="hashMap" keyProperty="USER_ID">
-        <selectKey resultType="Integer" keyProperty="USER_ID" order="BEFORE">
-            select MAX(USER_ID) +1 from USER
-        </selectKey>
-        insert into USER(USER_NICK, USER_PWD, REG_DTM, REGR_ID)
-         values(#{username}, #{password}, #{reg}, IFNULL(#{USER_ID}, 1))
-    </insert>
+  <insert id="userJoin" parameterType="hashMap" keyProperty="USER_ID">
+    <selectKey resultType="Integer" keyProperty="USER_ID" order="BEFORE">
+      select MAX(USER_ID) +1 from USER
+    </selectKey>
+    insert into USER(USER_NICK, USER_PWD, REG_DTM, REGR_ID) values(#{username}, #{password}, #{reg}, IFNULL(#{USER_ID}, 1))
+  </insert>
 
-    <!-- <select id="loginCheck" parameterType="hashMap" resultType="Integer">
-        select count(*) from USER where USER_NICK = #{username} and USER_PWD = #{password}
-    </select> -->
-    <select id="loginCheck" parameterType="hashMap" resultType="UserVO">
-        select USER_ID, USER_NICK, USER_PWD, USER_IMG from USER where USER_NICK = #{username} and USER_PWD = #{password}
-    </select>
-    
-    <select id="getUserInfo" parameterType="hashMap" resultType="UserVO">
-        select USER_ID, USER_NICK, USER_PWD, USER_IMG from USER where USER_NICK = #{username}
-    </select>
+  <!-- 사용자 로그인 -->
+  <select id="loginCheck" parameterType="hashMap" resultType="UserVO">
+    SELECT
+      USER_ID, USER_NICK, USER_PWD, USER_IMG
+    FROM
+      USER
+    WHERE
+      USER_NICK = #{username}
+      AND USER_PWD = #{password}
+  </select>
+
+  <select id="getUserInfo" parameterType="hashMap" resultType="UserVO">
+    select USER_ID, USER_NICK, USER_PWD, USER_IMG from USER where USER_NICK = #{username}
+  </select>
 </mapper>

@@ -544,7 +544,7 @@ function checkId() {
     });
 }
 
-function loginCheck() {
+function loginCheck() { // 사용자 로그인
     $.ajax({
         url: '/api-docs/loginCheck',
         type: 'GET',
