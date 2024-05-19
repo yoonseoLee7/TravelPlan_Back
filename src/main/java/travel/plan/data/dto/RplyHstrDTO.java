@@ -29,4 +29,7 @@ public class RplyHstrDTO {
 
     //관광지코드번호,장소통합번호
     private String contTypeId,poiId;
+
+    // 관광지명
+    private String title;
 }

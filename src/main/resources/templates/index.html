@@ -1,90 +1,90 @@
 <!DOCTYPE html>
 <html lang="en" 
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     
 <head>
-    <div th:replace="~{fragments/header.html :: fragment-header}" />
-    <script th:src="@{/js/index.js}"></script>
-    <script th:src="@{/js/intervalTime.js}"></script>
-    <link rel="stylesheet" href="css/index.css">
+  <div th:replace="~{fragments/header.html :: fragment-header}" />
+  <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/intervalTime.js}"></script>
+  <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-    <!-- 공통 헤더 재사용 -->
-    <header th:replace="~{fragments/header :: header}"></header>
-    <div id="container">
-        <!-- 지도영역 상자 -->
-        <div id="c_inner_map">
-            <div id="search_result_box">
-                <div class="p_search">Search Results</div>
-                <div id="result_list_box"></div>
-            </div>
-            <div id="tmap_box">
-                <div id="map_div"></div>
-                <div style='position :relative; bottom:155px; left:10px; width:95px;height:140px;text-align:center; background:#ffffff ;border: 1px solid #808080;border-radius: 3px;font-size:12px'>
-                    장소혼잡도 단계
-                    <div class="congestion_box" style='background:#9cf7bd;'>여유</div>
-                    <div class="congestion_box" style='background:#73b7ff;'>보통</div>
-                    <div class="congestion_box" style='background:#d9a8ed;'>혼잡</div>
-                    <div class="congestion_box" style='background:#ff96b4;'>매우 혼잡</div>
-                </div>  
-            </div>
-            <!-- 댓글 영역 -->
-            <div id="comment_box">
-                <p class="p_comment" id="commentList">Search Result</p>
-                <div id="comment_list_box">
-                    <ul id="comment_list"></ul>
-                </div>
-                <div id="comment_input_box" th:value="${userId}">
-                    <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" data-role="user" th:value="${userNick}">
-                    <input class="comment_input" type="text" placeholder="댓글을 입력해 주세요" id="commentContent" onkeydown="commentEnter(event)"/>
-                    <!-- <button class="userId" id="submitBtn"  th:onclick="submitComment()">↵</button> -->
-                </div>
-            </div>
+  <!-- 공통 헤더 재사용 -->
+  <header th:replace="~{fragments/header :: header}"></header>
+  <div id="container">
+    <!-- 지도영역 상자 -->
+    <div id="c_inner_map">
+      <div id="search_result_box">
+        <div class="p_search">Search Results</div>
+        <div id="result_list_box"></div>
+      </div>
+      <div id="tmap_box">
+        <div id="map_div"></div>
+        <div style='position :relative; bottom:155px; left:10px; width:95px;height:140px;text-align:center; background:#ffffff ;border: 1px solid #808080;border-radius: 3px;font-size:12px'>
+          장소혼잡도 단계
+          <div class="congestion_box" style='background:#9cf7bd;'>여유</div>
+          <div class="congestion_box" style='background:#73b7ff;'>보통</div>
+          <div class="congestion_box" style='background:#d9a8ed;'>혼잡</div>
+          <div class="congestion_box" style='background:#ff96b4;'>매우 혼잡</div>
+        </div>  
+      </div>
+      <!-- 댓글 영역 -->
+      <div id="comment_box">
+        <p class="p_comment" id="commentList">Search Result</p>
+        <div id="comment_list_box">
+          <ul id="comment_list"></ul>
         </div>
-        <!-- 추천 방문지 상자 -->
+        <div id="comment_input_box" th:value="${userId}">
+          <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" data-role="user" th:value="${userNick}">
+          <input class="comment_input" type="text" placeholder="댓글을 입력해 주세요" id="commentContent" onkeydown="commentEnter(event)"/>
+          <!-- <button class="userId" id="submitBtn"  th:onclick="submitComment()">↵</button> -->
+        </div>
+      </div>
+    </div>
+    <!-- 추천 방문지 상자 -->
+    <div>
+      <div>
+        <h2 style="padding: 30px 0px 0px 10px;">추천 방문지🚩</h2>
+      </div>
+      <div id="c_inner_suggestion"></div>
+    </div>
+  </div>
+  <div class="modal" onclick="closeModal(event)">
+    <div class="modal_main">
+      <div class="modal_tab">
+        <div id="tab_login" class="tab_selected" onclick="checkTabStatus(this)">로그인</div>
+        <div id="tab_join" class="tab_unselected" onclick="checkTabStatus(this)">회원가입</div>
+      </div>
+      <div class="modal_body" id="login">
+        <div id="title">
+          <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
+          <h1 class="h1_title">대국민 눈치게임</h1>
+        </div>
+        <input type="text" id="login_username" name="username" placeholder="닉네임">
+        <input type="password" id="login_password" name="password" placeholder="비밀번호">
+        <div class="error_message_login error_message"></div>
+        <button class="modal_button" type="submit" onclick="loginCheck()">로그인</button>
+      </div>
+      <div class="modal_body" id="join" style="display: none;">
+        <div id="title">
+          <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
+          <h1 class="h1_title">대국민 눈치게임</h1>
+        </div>
+        <input type="text" id="join_username" name="username" placeholder="닉네임">
+        <input type="password" id="join_password" name="password" placeholder="비밀번호">
+        <div class="error_message_join error_message"></div>
+        <button class="modal_button" type="submit" onclick="checkId()">회원가입</button>
         <div>
-            <div>
-                <h2 style="padding: 30px 0px 0px 10px;">추천 방문지🚩</h2>
-            </div>
-            <div id="c_inner_suggestion"></div>
+          <p>😥</p>
+          <p>닉네임과 비밀번호를 꼭 기억해주세요!</p>
+          <p>잊어버리실 경우 찾을 수 없습니다.</p>
         </div>
+      </div>
     </div>
-    <div class="modal" onclick="closeModal(event)">
-        <div class="modal_main">
-            <div class="modal_tab">
-                <div id="tab_login" class="tab_selected" onclick="checkTabStatus(this)">로그인</div>
-                <div id="tab_join" class="tab_unselected" onclick="checkTabStatus(this)">회원가입</div>
-            </div>
-            <div class="modal_body" id="login">
-                <div id="title">
-                    <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
-                    <h1 class="h1_title">대국민 눈치게임</h1>
-                </div>
-                <input type="text" id="login_username" name="username" placeholder="닉네임">
-                <input type="password" id="login_password" name="password" placeholder="비밀번호">
-                <div class="error_message_login error_message"></div>
-                <button class="modal_button" type="submit" onclick="loginCheck()">로그인</button>
-            </div>
-            <div class="modal_body" id="join" style="display: none;">
-                <div id="title">
-                    <img class="img_title" src="https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f440.svg" >
-                    <h1 class="h1_title">대국민 눈치게임</h1>
-                </div>
-                <input type="text" id="join_username" name="username" placeholder="닉네임">
-                <input type="password" id="join_password" name="password" placeholder="비밀번호">
-                <div class="error_message_join error_message"></div>
-                <button class="modal_button" type="submit" onclick="checkId()">회원가입</button>
-                <div>
-                    <p>😥</p>
-                    <p>닉네임과 비밀번호를 꼭 기억해주세요!</p>
-                    <p>잊어버리실 경우 찾을 수 없습니다.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 우린 footer가 필요 없음 -->
-    <footer></footer>
+  </div>
+  <!-- 우린 footer가 필요 없음 -->
+  <footer></footer>
 </body>
 </html>

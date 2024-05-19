@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
     <insert id="saveComment" parameterType="RplyHstrDTO">
-        insert into RPLY_HSTR(RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,POI_ID,CONT_TYPE_ID) values(
+        insert into RPLY_HSTR(RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,POI_ID,CONT_TYPE_ID, TITLE) values(
             #{rplyCtt},
             #{delYn},
             #{regDtm},
@@ -11,7 +11,8 @@
             #{corrId},
             #{upprRplyId},
             #{poiId},
-            #{contTypeId}
+            #{contTypeId},
+            #{title}
         )
     </insert>
 <!-- 
