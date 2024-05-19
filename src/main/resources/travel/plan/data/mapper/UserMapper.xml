@@ -50,7 +50,7 @@
   <!-- 최신순 댓글 내역 조회 -->
   <select id="commentList" parameterType="String" resultType="HashMap">
     SELECT
-      RPLY_ID, RPLY_CTT, REG_DTM, CONT_TYPE_ID
+      TITLE, RPLY_CTT, date_format(REG_DTM, '%Y.%m.%d') as REG_DTM
     FROM
       RPLY_HSTR
     WHERE
