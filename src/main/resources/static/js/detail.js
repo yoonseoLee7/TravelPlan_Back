@@ -372,6 +372,7 @@ function saveBookMark(result){
         var bookMarkDiv = document.getElementById("bookMark");
         var visible = bookMarkDiv.getAttribute("data-visible");
         let value = JSON.stringify(result);
+        value = JSON.parse(value);
         var currentTime = new Date();
         var date = currentTime.toISOString();
         var userId = $('#comment_input_box').attr("value");
@@ -400,7 +401,8 @@ function saveBookMark(result){
                 regDtm:date,
                 regrId:userId,
                 delYN,
-                title:value.title
+                title:value.title,
+                firstImg:value.firstimage
             },
             success:function(){
                 if(visible === "false"){

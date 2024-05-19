@@ -24,6 +24,7 @@
             REG_DTM = #{regDtm},
             REGR_ID = #{regrId},
             TITLE = #{title},
+            FIRST_IMG = #{firstImg},
             DEL_YN = #{delYN}
     </insert>
     <!-- <update id="updateBookMark" parameterType="KorContDTO">
