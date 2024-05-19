@@ -68,3 +68,7 @@
   cursor: pointer;
   margin-top: 10px;
 }
+
+.comment_tr {
+  font-size: 16px;
+}
