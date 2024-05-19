@@ -30,6 +30,7 @@ function bookmarkCount() { // 사용자의 북마크 장소 총 개수 조회
     url: `/api-docs/bookmarkCount/${userInfo.userId}`,
     success: function(response) {
       $('.count_num.bookmark span').text(response.body);
+      getBookmarks(response.body);
     },
     error: function(error){console.error('Error:',error);}
   });
@@ -67,7 +68,21 @@ function getBookmarks(count) { // 최신순 북마크 내역 조회
     url: `/api-docs/bookmarkList/${userInfo.userId}`,
     data: {count: count},
     success: function(response) {
-      console.log(response.body);
+      $('.bookmarkList').empty();
+
+      let row;
+      response.body.forEach((comment, index) => {
+        if(index % 3 == 0) {
+          row = document.createElement('tr');
+          row.classList.add('bookmark_tr');
+          $('.bookmarkList').append(row);
+        }
+
+        var td = document.createElement('td');
+        td.innerHTML = `<img src="${comment.FIRST_IMG}" onerror="this.src='images/suggest_default.png'">
+          <div>${setLengthTitle(comment.TITLE)}</div>`;
+        row.append(td);
+      });
     },
     error: function(error){console.error('Error:',error);}
   });
