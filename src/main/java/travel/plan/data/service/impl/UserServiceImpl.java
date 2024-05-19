@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import travel.common.ApiResult;
 import travel.exception.ApiStatus;
+import travel.plan.data.dto.KorContDTO;
 import travel.plan.data.dto.RplyHstrDTO;
 import travel.plan.data.dto.UserVO;
 import travel.plan.data.mapper.UserMapper;
@@ -103,6 +104,16 @@ public class UserServiceImpl implements UserService{
       return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, commentList);
     } else {
       return ApiResult.getHashMap(ApiStatus.AP_FAIL, "댓글 내역 조회에 실패했습니다.");
+    }
+  }
+
+  @Override // 최신순 북마크 내역 조회
+  public Map<String, Object> bookmarkList(String userId, String count) throws Exception {
+    List<KorContDTO> bookmarkList = userMapper.bookmarkList(userId);
+    if(bookmarkList.size() == Integer.parseInt(userId)) {
+      return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, bookmarkList);
+    } else {
+      return ApiResult.getHashMap(ApiStatus.AP_FAIL, "북마크 내역 조회에 실패했습니다.");
     }
   }
 }

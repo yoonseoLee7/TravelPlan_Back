@@ -34,7 +34,8 @@
     FROM
       RPLY_HSTR
     WHERE
-      REGR_ID = #{userId}
+      DEL_YN = 'N'
+      AND REGR_ID = #{userId}
   </select>
 
   <!-- 사용자의 북마크 장소 총 개수 조회 -->
@@ -44,7 +45,8 @@
     FROM
       KOR_CONT
     WHERE
-      REGR_ID = #{userId}
+      DEL_YN = 'N'
+      AND REGR_ID = #{userId}
   </select>
 
   <!-- 최신순 댓글 내역 조회 -->
@@ -53,6 +55,18 @@
       TITLE, RPLY_CTT, date_format(REG_DTM, '%Y.%m.%d') as REG_DTM
     FROM
       RPLY_HSTR
+    WHERE
+      DEL_YN = 'N'
+      AND REGR_ID = #{userId}
+    ORDER BY REG_DTM DESC
+  </select>
+
+  <!-- 최신순 북마크 내역 조회 -->
+  <select id="bookmarkList" parameterType="String" resultType="HashMap">
+    SELECT
+      TITLE, FIRST_IMG
+    FROM
+      KOR_CONT
     WHERE
       DEL_YN = 'N'
       AND REGR_ID = #{userId}

@@ -59,4 +59,9 @@ public class UserController {
     return userService.commentList(userId, count);
   }
   
+  @GetMapping("/bookmarkList/{userId}") // 최신순 북마크 내역 조회
+  public Map<String, Object> bookmarkList(@PathVariable(value = "userId") String userId, @RequestParam String count) throws Exception {
+    return userService.bookmarkList(userId, count);
+  }
+  
 }

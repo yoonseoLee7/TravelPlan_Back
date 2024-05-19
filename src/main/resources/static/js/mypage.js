@@ -61,6 +61,18 @@ function getComments(count) { // 최신순 댓글 내역 조회
   });
 }
 
+function getBookmarks(count) { // 최신순 북마크 내역 조회
+  $.ajax({
+    type: "GET",
+    url: `/api-docs/bookmarkList/${userInfo.userId}`,
+    data: {count: count},
+    success: function(response) {
+      console.log(response.body);
+    },
+    error: function(error){console.error('Error:',error);}
+  });
+}
+
 function setLengthTitle(title) {
   let maxLength = 10;
 
