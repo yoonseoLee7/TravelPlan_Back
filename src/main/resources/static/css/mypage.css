@@ -69,6 +69,4 @@
   margin-top: 10px;
 }
 
-.comment_tr {
-  font-size: 16px;
-}
+.comment_tr {font-size: 16px; height: 30px;}

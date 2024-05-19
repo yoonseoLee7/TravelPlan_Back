@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService{
   @Override // 최신순 북마크 내역 조회
   public Map<String, Object> bookmarkList(String userId, String count) throws Exception {
     List<KorContDTO> bookmarkList = userMapper.bookmarkList(userId);
-    if(bookmarkList.size() == Integer.parseInt(userId)) {
+    if(bookmarkList.size() == Integer.parseInt(count)) {
       return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, bookmarkList);
     } else {
       return ApiResult.getHashMap(ApiStatus.AP_FAIL, "북마크 내역 조회에 실패했습니다.");
