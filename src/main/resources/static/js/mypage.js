@@ -3,6 +3,8 @@ var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 $(window).on('load', function () {
   commentCount();
   bookmarkCount();
+
+  setUserName(); // 사용자 이름 적용
 });
 
 function logout() {
@@ -121,3 +123,7 @@ function showFileBox() {
 $('.input_file_box').click(function (e) { 
   e.preventDefault();
 });
+
+function setUserName() {
+  $('.m_username').text(`${userInfo.userNick} 님`);
+}
