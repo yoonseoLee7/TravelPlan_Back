@@ -21,7 +21,8 @@
         <div style="width: 40%; align-items: center;">
           <img class="imgThumb m_imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" data-role="user" th:value="${userNick}">
           <div class="m_username">사용자 이름</div>
-          <div style="font-size: 20px;">프로필 이미지 설정 ></div>
+          <div style="font-size: 20px; cursor: pointer;" onclick="showFileBox()">프로필 이미지 설정 ></div>
+          <input type="file" accept="image/*" class="input_file_box">
           <div class="btn_logout" onclick="logout();">로그아웃</div>
         </div>
         <div style="width: 60%;">

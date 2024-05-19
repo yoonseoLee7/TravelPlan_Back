@@ -113,3 +113,11 @@ function setLengthText(text) {
   }
   return text;
 }
+
+function showFileBox() {
+  $('.input_file_box').click();
+}
+
+$('.input_file_box').click(function (e) { 
+  e.preventDefault();
+});
