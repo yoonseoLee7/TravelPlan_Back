@@ -61,7 +61,7 @@
                         <ul id="comment_list"></ul>
                     </div>
                     <div id="comment_input_box" th:value="${userId}">
-                        <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" th:value="${userNick}">
+                        <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" data-role="user" th:value="${userNick}">
                         <input class="comment_input" type="text" placeholder="댓글을 입력해 주세요" id="commentContent" onkeydown="commentEnter(event)"/>
                     </div>
                 </div>

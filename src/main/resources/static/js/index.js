@@ -6,7 +6,6 @@ $(window).on('load', function () {
     initTmap();
     initSuggestPlace();
     // showSuggestPlace(null);
-    changeProfile();
     loadComments();
 });
 
@@ -468,24 +467,6 @@ function showDetailPage(count) {
     location.href = "/detail?contentId=" + window.listDetail[count].contentid;
 }
 
-// 메인화면 진입 시 첫 장소 근처에 위치한 관광명소의 추천 리스트 제공
-// function initSuggestPlace2() {
-//     var searchText = "잠실롯데월드";
-//     fetch(`/api/main/suggest?searchText=${searchText}`)
-//     .then(rsp => {
-//         if(!rsp.ok) {
-//             console.error("오류 발생");
-//         };
-//         return rsp.json();
-//     })
-//     .then(data => {
-//         console.debug("응답 body >>> ", data);
-//     })
-//     .catch(err => {
-//         // 오류 처리
-//     })
-// }
-
 // -----------------------------------------------------------------------------------------------------
 // 로그인|회원가입 모달창
 function closeModal(result) {
@@ -573,23 +554,4 @@ function loginCheck() { // 사용자 로그인
             console.error('Error:',error);
         }
     });
-}
-
-function changeProfile() {
-    let userId = $('.imgThumb').attr('value'); //로그인됐는지확인
-    if(userId != undefined && userId != null && userId != '') {
-        $.ajax({
-            url: '/api-docs/getUserInfo',
-            type: 'GET',
-            data: {username: userId},
-            success: function(response){
-                let result = response.body;
-                let img = result.userImg;
-                if(img != null && img != '' && img != undefined) {
-                    $('.imgThumb').attr("src", img);
-                }
-            },
-            error: function(error){console.error('Error:',error);}
-        });
-    }
 }
