@@ -10,7 +10,10 @@ function returnMain() {
 // 헤더 프로필 클릭 시 마이페이지 화면으로 이동
 function showMyPage(result) {
   // 로그인 한 상태인 경우
-  if(result != '' && result != null) {location.href = "/myPage";}  
+
+  if((result != '' && result != null) || sessionStorage.getItem("userInfo") != null) {
+    location.href = "/myPage";
+  }
 }
 
 function showModal() {

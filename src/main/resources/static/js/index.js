@@ -363,6 +363,7 @@ function submitComment(){
     var commentContent = $('#commentContent').val();
     var userId = $('#comment_input_box').attr("value");
     var delYn = "N";
+    var title = $('.p_comment#commentList').text();
     
     if (!userId || userId === 0) {
         alert("로그인 후 이용해주세요.");
@@ -379,7 +380,8 @@ function submitComment(){
             rplyCtt: commentContent,
             regDtm: date,
             poiId:changePoiId,
-            delYn
+            delYn,
+            title:title
         },
         success: function (response) {
             console.log("댓글저장성공",response);
