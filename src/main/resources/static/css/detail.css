@@ -29,9 +29,9 @@ body {display: block; margin-top: 30px;}
 
 #detail_title {margin-right: 10px; font-size: 24px; margin-bottom: 5px;}
 #detail_info_title {font-size: 24px; margin: 15px 0px;}
-#detail_comment {margin-right: 10px; line-height : 40px;}
+#detail_comment {margin-right: 10px; line-height : 40px; cursor: pointer;}
 #icon_homepage_box {line-height : 40px;}
-#bookMark {line-height : 40px;}
+#bookMark {line-height : 40px; cursor: pointer;}
 
 .modal{display: none; position:absolute; justify-content: center;
     top:0; left:0;
