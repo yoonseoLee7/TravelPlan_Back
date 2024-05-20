@@ -48,8 +48,10 @@ function showTmap(value) {
     var epsg3857 = new Tmapv2.Point(lonlat.x, lonlat.y);
 	var wgs84 = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(epsg3857);
     map.setCenter(wgs84); // 지도의 위치 변경
-    rect = null; // 사각형 삭제
-
+    if(rect != null) {
+        rect.setMap(null); // 사각형 삭제
+    }
+    
     $.ajax({
         url: '/api/main/congestion',
         type: 'GET',
