@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="travel.plan.data.mapper.RplyHstrMapper">
-    <insert id="saveComment" parameterType="RplyHstrDTO">
-        insert into RPLY_HSTR(RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,POI_ID,CONT_TYPE_ID, TITLE) values(
-            #{rplyCtt},
-            #{delYn},
-            #{regDtm},
-            #{regrId},
-            #{corcDtm},
-            #{corrId},
-            #{upprRplyId},
-            #{poiId},
-            #{contTypeId},
-            #{title}
-        )
-    </insert>
+  <insert id="saveComment" parameterType="RplyHstrDTO">
+    insert into RPLY_HSTR(RPLY_CTT,DEL_YN,REG_DTM,REGR_ID,CORC_DTM,CORR_ID,UPPR_RPLY_ID,POI_ID,CONT_TYPE_ID, TITLE) values(
+      #{rplyCtt},
+      #{delYn},
+      #{regDtm},
+      #{regrId},
+      #{corcDtm},
+      #{corrId},
+      #{upprRplyId},
+      #{poiId},
+      #{contTypeId},
+      #{title}
+    )
+  </insert>
 <!-- 
     <select id="getReplyCount" resultType="int" parameterType="int">
         SELECT COUNT(p.UPPR_RPLY_ID)
@@ -23,32 +23,45 @@
         WHERE p.UPPR_RPLY_ID = #{upprRplyId}
     </select> -->
 
-    <select id="getCommentsForPoi" resultType="java.util.HashMap" parameterType="String">
-        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.POI_ID,count(c.RPLY_ID) as REPLY_COUNT
-        from RPLY_HSTR as p
-        left join RPLY_HSTR as c on p.RPLY_ID = c.UPPR_RPLY_ID
-        where p.POI_ID = #{poiId} and p.UPPR_RPLY_ID = 0
-        group by p.RPLY_ID
-        order by p.REG_DTM desc
-        limit 5
-    </select>
+  <select id="getCommentsForPoi" resultType="java.util.HashMap" parameterType="String">
+    SELECT
+      p.RPLY_ID, p.RPLY_CTT, p.REG_DTM, p.POI_ID, p.REPLY_COUNT, u.USER_IMG, u.USER_NICK
+    FROM
+      (
+        SELECT
+          p.RPLY_ID, p.RPLY_CTT, p.REG_DTM, p.POI_ID, count(c.RPLY_ID) as REPLY_COUNT, p.regr_id
+        FROM
+          RPLY_HSTR as p
+        LEFT JOIN
+          RPLY_HSTR as c on p.RPLY_ID = c.UPPR_RPLY_ID
+        WHERE
+          p.POI_ID = #{poiId} and p.UPPR_RPLY_ID = 0
+        GROUP BY
+          p.RPLY_ID, p.RPLY_CTT, p.REG_DTM, p.POI_ID, p.regr_id
+        LIMIT 5
+      ) as p
+    LEFT JOIN
+      USER as u on p.regr_id = u.regr_id
+    ORDER BY
+      p.REG_DTM desc
+  </select>
 
-    <select id="getCommentsContType" resultType="java.util.HashMap" parameterType="String">
-        select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.CONT_TYPE_ID,count(c.RPLY_ID) as REPLY_COUNT
-        from RPLY_HSTR as p
-        left join RPLY_HSTR as c on p.RPLY_ID = c.UPPR_RPLY_ID
-        where p.CONT_TYPE_ID = #{contTypeId} and p.UPPR_RPLY_ID = 0
-        group by p.RPLY_ID
-        order by p.REG_DTM desc
-        limit 5
-    </select>
+  <select id="getCommentsContType" resultType="java.util.HashMap" parameterType="String">
+    select p.RPLY_ID,p.RPLY_CTT,p.REG_DTM,p.CONT_TYPE_ID,count(c.RPLY_ID) as REPLY_COUNT
+    from RPLY_HSTR as p
+    left join RPLY_HSTR as c on p.RPLY_ID = c.UPPR_RPLY_ID
+    where p.CONT_TYPE_ID = #{contTypeId} and p.UPPR_RPLY_ID = 0
+    group by p.RPLY_ID
+    order by p.REG_DTM desc
+    limit 5
+  </select>
 
-    <select id="getReplyList" resultType="java.util.HashMap" parameterType="RplyHstrDTO">
-        SELECT p.RPLY_CTT, p.REG_DTM
-        FROM RPLY_HSTR AS p
-        LEFT JOIN RPLY_HSTR AS c ON p.UPPR_RPLY_ID = c.RPLY_ID
-        WHERE (p.POI_ID = #{poiId} OR p.CONT_TYPE_ID = #{contTypeId})
-        AND p.UPPR_RPLY_ID = #{upprRplyId}
-        ORDER BY p.REG_DTM DESC
-    </select>
+  <select id="getReplyList" resultType="java.util.HashMap" parameterType="RplyHstrDTO">
+      SELECT p.RPLY_CTT, p.REG_DTM
+      FROM RPLY_HSTR AS p
+      LEFT JOIN RPLY_HSTR AS c ON p.UPPR_RPLY_ID = c.RPLY_ID
+      WHERE (p.POI_ID = #{poiId} OR p.CONT_TYPE_ID = #{contTypeId})
+      AND p.UPPR_RPLY_ID = #{upprRplyId}
+      ORDER BY p.REG_DTM DESC
+  </select>
 </mapper>
