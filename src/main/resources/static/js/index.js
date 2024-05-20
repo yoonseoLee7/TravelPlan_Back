@@ -31,7 +31,9 @@ function initTmap(){
 
     marker = new Tmapv2.Marker({
 		position: new Tmapv2.LatLng(lat, lng),
-		map: map
+		map: map,
+        icon: Tmapv3.asset.Icon.get(`b_m_1`),
+        iconSize: new Tmapv2.Size(24, 38)
 	});
     
     showTmap(initData);
@@ -130,15 +132,14 @@ function searchResults(results){
     results.body?.forEach(function (result, index) { // cf. 옵셔널체이닝
         let json = JSON.stringify(result);
 
-        window.marker = new Tmapv2.Marker({
+        marker = new Tmapv2.Marker({
             position: new Tmapv2.LatLng(result.noorLat, result.noorLon),
-            icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_" + index + ".png",
+            icon: Tmapv3.asset.Icon.get(`b_m_${index}`),
             iconSize : new Tmapv2.Size(24, 38),
             map: map
         });
-
         let li = `<li class="search_items" onclick="placeItem(this);" value='${json}'>
-        <img style="margin-right: 10px;" src="http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_${index}.png"/>${result.name}</li>`;
+        <img style="margin-right: 10px;" src="${Tmapv3.asset.Icon.get(`b_m_${index}`)}"/>${result.name}</li>`;
         ul.append(li);
     });
 
