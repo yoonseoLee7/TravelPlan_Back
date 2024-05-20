@@ -4,47 +4,40 @@
 // 화면이 처음 보여졌을 때 실행되어야 할 기능들
 $(window).on('load', function () {
     initTmap();
-    initSuggestPlace();
+    suggestPlace(initData);
     // showSuggestPlace(null);
     loadComments();
 });
 
 var map, marker, rect;
+// 잠실롯데월드의 위도, 경도
+var lat = 37.5110739;
+var lng = 127.09815059;
+var initData = {
+    "id": "187961",
+    "name": "롯데월드 잠실점",
+    "noorLat": 37.5110739,
+    "noorLon": 127.09815059
+}
 
 function initTmap(){
-    // 잠실롯데월드의 위도, 경도
-    let firstLat = 37.5110739;
-    let firstLng = 127.09815059;
-    
     map = new Tmapv2.Map("map_div",  
     {
-        center: new Tmapv2.LatLng(firstLat, firstLng), // 지도 초기 좌표(잠실 롯데월드)
+        center: new Tmapv2.LatLng(lat, lng),
         width: "inherit", 
         height: "inherit",
         zoom: 15
     });
 
     marker = new Tmapv2.Marker({
-		position: new Tmapv2.LatLng(firstLat, firstLng),
+		position: new Tmapv2.LatLng(lat, lng),
 		map: map
 	});
     
-    $.ajax({
-        url: '/api/main/congestion',
-        type: 'GET',
-        data: {
-            id: "187961",
-            name: "롯데월드 잠실점",
-            noorLat: 37.5110739,
-            noorLon: 127.09815059
-        },
-        success: function(response){createRect(firstLat, firstLng, response.body);},
-        error: function(error){console.error('Error:',error);}
-    });
+    showTmap(initData);
 }
 
-function showTmap(result) {
-    let value =JSON.parse($(result).attr('value'));
+function showTmap(value) {
     let lat = value.noorLat;
     let lng = value.noorLon;
     
@@ -53,7 +46,6 @@ function showTmap(result) {
     var epsg3857 = new Tmapv2.Point(lonlat.x, lonlat.y);
 	var wgs84 = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(epsg3857);
     map.setCenter(wgs84); // 지도의 위치 변경
-    // marker.setPosition(WGS84GEO); // 마커의 위치 변경
     rect.setMap(null); // 사각형 삭제
 
     $.ajax({
@@ -65,7 +57,7 @@ function showTmap(result) {
     });
 }
 
-function createRect(lat, lng, level) {
+function createRect(lat, lng, level) { // 지도에 사각형 선택 영역 표시
     rect = new Tmapv2.Rectangle({
         bounds: new Tmapv2.LatLngBounds(new Tmapv2.LatLng(Number(lat)+ 0.0014957,Number(lng)-0.0018867),
          new Tmapv2.LatLng(Number(lat)-0.0014957,Number(lng) +0.0018867)),// 사각형 영역 좌표
@@ -159,9 +151,9 @@ function placeItem(result) {
     var poiId = value.id;
     var name = value.name;
     // 추천방문지
-    suggestPlace(result);
+    suggestPlace(value);
     // 지도 혼잡도
-    showTmap(result);
+    showTmap(value);
     //poiId 변경
     updatePoiId(poiId);
     //name 변경
@@ -217,19 +209,19 @@ function displayinit(results) {
         var epochTime = result.REG_DTM;
         var date = new Date(epochTime);
         var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
-        var userNick = $('.imgThumb').attr("value");
+        // var userNick = $('.imgThumb').attr("value");
         console.log(result);
 
 
         let li = `<li class="search_items comment_text" value='${json}' onclick='replyClick(this,${result.POI_ID})'>
-        <img class="imgThumb" src="https://static.nid.naver.com/images/web/user/default.png?type=s160" value="${userNick}"/>
+        <img class="imgThumb" src="${result.USER_IMG}" onerror="this.src='https://static.nid.naver.com/images/web/user/default.png?type=s160'" value="${result.USER_NICK}"/>
         <div class="imgThumb_text">
             <div style="font-size: 18px;">${result.RPLY_CTT}</div>
             <div style="font-size: 14px;">${formattedDate} | 💬${result.REPLY_COUNT}</div>
         </div>
         <input id="find" type="hidden" value="${result.RPLY_ID}">
         </li>`;
-        ul.append(li);   
+        ul.append(li);
     });
 }
 
@@ -395,30 +387,7 @@ function submitComment(){
 
 // -----------------------------------------------------------------------------------------------------
 // 추천방문지 관련
-
-// 메인화면 진입 시 첫 장소 근처에 위치한 관광명소의 추천 리스트 제공
-function initSuggestPlace() {
-    // 잠실롯데월드의 위도, 경도
-    let firstLat = 37.5110739;
-    let firstLng = 127.09815059;
-
-    $.ajax({
-        url: '/api/main/suggest',
-        type: 'GET',
-        data: {
-            id: "187961",
-            name: "롯데월드 잠실점",
-            noorLat: firstLat,
-            noorLon: firstLng
-        },
-        success: function(response){showSuggestPlace(response.body);}, // 해당 데이터를 추천방문지에 뿌려줌
-        error: function(error){console.error('Error:',error);}
-    });
-}
-
-function suggestPlace(vo) {
-    let value = JSON.parse($(vo).attr('value'));
-
+function suggestPlace(value) {
     $.ajax({
         url: '/api/main/suggest',
         type: 'GET',
