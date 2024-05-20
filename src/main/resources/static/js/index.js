@@ -46,7 +46,7 @@ function showTmap(value) {
     var epsg3857 = new Tmapv2.Point(lonlat.x, lonlat.y);
 	var wgs84 = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(epsg3857);
     map.setCenter(wgs84); // 지도의 위치 변경
-    rect.setMap(null); // 사각형 삭제
+    rect = null; // 사각형 삭제
 
     $.ajax({
         url: '/api/main/congestion',
@@ -148,31 +148,21 @@ function searchResults(results){
 // 검색 리스트 아이템 클릭 시 이벤트
 function placeItem(result) {
     var value = JSON.parse($(result).attr('value'));
-    var poiId = value.id;
-    var name = value.name;
-    // 추천방문지
-    suggestPlace(value);
-    // 지도 혼잡도
-    showTmap(value);
-    //poiId 변경
-    updatePoiId(poiId);
-    //name 변경
-    changeTitle(name);
+    suggestPlace(value); // 추천방문지
+    showTmap(value); // 지도 혼잡도
+    updatePoiId(value); //poiId 변경, name 변경
 }
 
 //--------------------------------------댓글영역
 
 var changePoiId = "187961";
 var changeName = "롯데월드 잠실점";
-function updatePoiId(poiId){
-    changePoiId = poiId;
+function updatePoiId(value){
+    changePoiId = value.id;
+    changeName = value.name;
     loadComments();
 }
-function changeTitle(name){
-    changeName = name;
-    loadComments();
 
-}
 //대댓글 상위댓글의 id를 저장
 var replyNum = 0;
 
