@@ -509,11 +509,46 @@ function loginCheck() { // 사용자 로그인
                 $('.imgThumb').attr('value', $('#login_username').val());
                 $('#comment_input_box').attr('value', response.body.userId);
                 sessionStorage.setItem("userInfo", JSON.stringify(response.body));
-                location.reload(true);
+                setLoginLog(response.body.userId);  
+                location.reload(true);   
             }
         },
         error: function(error){
             console.error('Error:',error);
         }
     });
+}
+
+function setLoginLog(userId) { // 로그인 이력 저장
+    var currentTime = new Date();
+
+    var year = currentTime.getFullYear();
+    var month = plusZero(currentTime.getMonth() + 1);
+    var day = plusZero(currentTime.getDate());
+ 
+    var hours = plusZero(currentTime.getHours());
+    var minutes = plusZero(currentTime.getMinutes());
+    var seconds = plusZero(currentTime.getSeconds());
+
+    var resultString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+    $.ajax({
+        url: '/api-docs/loginLog',
+        type: 'POST',
+        data: {userId: userId,
+            currentTime: resultString
+        },
+        success: function(response) {
+            if(response.code == "Fail") {
+                console.error('Error:', response.message);
+            }
+            if(response.code == "Success") {
+                // 접속 시간에 대한 값 저장
+                sessionStorage.setItem("loginTime", JSON.stringify(response.body));
+            }
+        },
+        error: function(error) {
+            console.error('Error:',error);
+        }
+    })
 }
