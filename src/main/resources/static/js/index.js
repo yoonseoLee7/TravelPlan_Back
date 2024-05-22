@@ -544,7 +544,7 @@ function setLoginLog(userId) { // 로그인 이력 저장
             }
             if(response.code == "Success") {
                 // 접속 시간에 대한 값 저장
-                sessionStorage.setItem("loginTime", JSON.stringify(response.body));
+                sessionStorage.setItem("loginTime", resultString);
             }
         },
         error: function(error) {

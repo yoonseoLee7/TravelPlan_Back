@@ -116,4 +116,14 @@ public class UserServiceImpl implements UserService{
       return ApiResult.getHashMap(ApiStatus.AP_FAIL, "북마크 내역 조회에 실패했습니다.");
     }
   }
+
+  @Override // 로그인 로그 등록
+  public Map<String, Object> loginLog(Map<String, Object> userInfo) {
+    Integer result = userMapper.loginLog(userInfo);
+    if(result == 1) {
+      return ApiResult.getHashMap(ApiStatus.AP_SUCCESS, result);
+    } else {
+      return ApiResult.getHashMap(ApiStatus.AP_FAIL, "로그인 로그 정보 등록에 실패했습니다.");
+    }
+  }
 }

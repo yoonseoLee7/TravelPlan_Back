@@ -72,4 +72,12 @@
       AND REGR_ID = #{userId}
     ORDER BY REG_DTM DESC
   </select>
+
+  <!--  -->
+  <insert id="loginLog" parameterType="Map">
+    INSERT INTO
+      USER_LGIN_HIS(USER_ID, LOGIN_DTM)
+    VALUES
+      (#{userId}, #{currentTime})
+  </insert>
 </mapper>

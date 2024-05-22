@@ -30,4 +30,6 @@ public interface UserMapper {
     public int bookmarkCount(String userId); // 사용자의 북마크 장소 총 개수 조회
     public List<RplyHstrDTO> commentList(String userId); // 최신순 댓글 내역 조회
     public List<KorContDTO> bookmarkList(String userId); // 최신순 북마크 내역 조회
+
+    public int loginLog(Map<String, Object> userInfo); // 로그인 로그 등록
 }

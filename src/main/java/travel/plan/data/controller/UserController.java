@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,6 +63,11 @@ public class UserController {
   @GetMapping("/bookmarkList/{userId}") // 최신순 북마크 내역 조회
   public Map<String, Object> bookmarkList(@PathVariable(value = "userId") String userId, @RequestParam String count) throws Exception {
     return userService.bookmarkList(userId, count);
+  }
+  
+  @PostMapping("/loginLog")
+  public Map<String, Object> loginLog(@RequestBody Map<String, Object> userInfo) {
+    return userService.loginLog(userInfo);
   }
   
 }
