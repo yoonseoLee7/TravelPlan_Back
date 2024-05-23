@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import travel.plan.data.service.UserService;
+
 
 @Slf4j
 @Tag(name = "User", description = "User table 관련 API")
@@ -65,9 +67,13 @@ public class UserController {
     return userService.bookmarkList(userId, count);
   }
   
-  @PostMapping("/loginLog")
+  @PostMapping("/loginLog") // 로그인 로그 등록
   public Map<String, Object> loginLog(@RequestBody Map<String, Object> userInfo) {
     return userService.loginLog(userInfo);
   }
   
+  @PutMapping("/logoutLog") // 로그아웃 로그 등록
+  public Map<String, Object> logoutLog(@RequestBody Map<String, Object> userInfo) {
+    return userService.logoutLog(userInfo);
+  }
 }

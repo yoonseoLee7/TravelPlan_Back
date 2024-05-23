@@ -73,11 +73,22 @@
     ORDER BY REG_DTM DESC
   </select>
 
-  <!--  -->
+  <!-- 로그인 로그 등록 -->
   <insert id="loginLog" parameterType="Map">
     INSERT INTO
       USER_LGIN_HIS(USER_ID, LOGIN_DTM)
     VALUES
       (#{userId}, #{currentTime})
+  </insert>
+
+  <!-- 로그아웃 로그 등록 -->
+  <insert id="logoutLog" parameterType="Map">
+    UPDATE
+      USER_LGIN_HIS
+    SET
+      LGOUT_DTM = DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%S')
+    WHERE
+      USER_ID = #{userId}
+      AND LOGIN_DTM = #{loginTime}
   </insert>
 </mapper>

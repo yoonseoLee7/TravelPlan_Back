@@ -13,7 +13,7 @@ function logout() {
     let userInfo = sessionStorage.getItem("userInfo");
     userInfo = JSON.parse(userInfo);
 
-    $.ajax({
+    $.ajax({ // 로그아웃 정보 등록
       url: '/api-docs/logoutLog',
       type: 'PUT',
       data: {userId: userInfo.userId,

@@ -32,4 +32,5 @@ public interface UserMapper {
     public List<KorContDTO> bookmarkList(String userId); // 최신순 북마크 내역 조회
 
     public int loginLog(Map<String, Object> userInfo); // 로그인 로그 등록
+    public int logoutLog(Map<String, Object> userInfo); // 로그아웃 로그 등록
 }
