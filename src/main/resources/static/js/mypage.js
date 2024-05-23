@@ -9,8 +9,29 @@ $(window).on('load', function () {
 
 function logout() {
   if (confirm("로그아웃 하시겠습니까?")) {
-    location.href = "/logout";
-    sessionStorage.clear();
+    let loginTime = sessionStorage.getItem("loginTime");
+    let userInfo = sessionStorage.getItem("userInfo");
+    userInfo = JSON.parse(userInfo);
+
+    $.ajax({
+      url: '/api-docs/logoutLog',
+      type: 'PUT',
+      data: {userId: userInfo.userId,
+        loginTime: loginTime
+      },
+      success: function(response) {
+        if(response.code == "Fail") {
+          console.error('Error:', response.message);
+        }
+        if(response.code == "Success") {
+          location.href = "/logout";
+          sessionStorage.clear();
+        }
+      },
+      error: function(error) {
+        console.error('Error:',error);
+      }
+    });
   }
 }
 
