@@ -510,7 +510,6 @@ function loginCheck() { // 사용자 로그인
                 $('#comment_input_box').attr('value', response.body.userId);
                 sessionStorage.setItem("userInfo", JSON.stringify(response.body));
                 setLoginLog(response.body.userId);  
-                location.reload(true);   
             }
         },
         error: function(error){
@@ -531,13 +530,14 @@ function setLoginLog(userId) { // 로그인 이력 저장
     var seconds = plusZero(currentTime.getSeconds());
 
     var resultString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
     $.ajax({
         url: '/api-docs/loginLog',
         type: 'POST',
-        data: {userId: userId,
+        contentType: 'application/json',
+        data: JSON.stringify({
+            userId: userId,
             currentTime: resultString
-        },
+        }),
         success: function(response) {
             if(response.code == "Fail") {
                 console.error('Error:', response.message);
@@ -545,6 +545,7 @@ function setLoginLog(userId) { // 로그인 이력 저장
             if(response.code == "Success") {
                 // 접속 시간에 대한 값 저장
                 sessionStorage.setItem("loginTime", resultString);
+                location.reload(true);
             }
         },
         error: function(error) {
