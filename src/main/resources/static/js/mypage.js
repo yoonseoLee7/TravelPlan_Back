@@ -16,9 +16,11 @@ function logout() {
     $.ajax({ // 로그아웃 정보 등록
       url: '/api-docs/logoutLog',
       type: 'PUT',
-      data: {userId: userInfo.userId,
+      contentType: 'application/json',
+      data: JSON.stringify({
+        userId: userInfo.userId,
         loginTime: loginTime
-      },
+      }),
       success: function(response) {
         if(response.code == "Fail") {
           console.error('Error:', response.message);
